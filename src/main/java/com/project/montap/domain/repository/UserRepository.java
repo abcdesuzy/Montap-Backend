@@ -1,0 +1,16 @@
+package com.project.montap.domain.repository;
+
+import com.project.montap.domain.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+// JPA -> sql 자동 생성
+// query method
+public interface UserRepository extends JpaRepository<User, Long> {
+//    @Query(value = "select u from User u left join u.inventoryItemList i where u.userId = :userId")
+    public User findByUserId(String userId);
+
+    // select * from users where user_id = {user_id} and user_pwd = {user_pwd};
+    public Optional<User> findByUserIdAndUserPwd(String userId, String userPwd);
+}
