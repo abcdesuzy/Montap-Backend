@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.854s</div>
+<div class="counter">0.530s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,7 +79,7 @@
 </thead>
 <tr>
 <td class="success">createDummyItem()</td>
-<td class="success">0.854s</td>
+<td class="success">0.530s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -87,22 +87,22 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>18:58:26.872 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
-18:58:26.892 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
-18:58:26.972 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.project.montap.MontapApplicationTests] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
-18:58:26.997 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.project.montap.MontapApplicationTests], using SpringBootContextLoader
-18:58:27.005 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.project.montap.MontapApplicationTests]: class path resource [com/project/montap/MontapApplicationTests-context.xml] does not exist
-18:58:27.007 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.project.montap.MontapApplicationTests]: class path resource [com/project/montap/MontapApplicationTestsContext.groovy] does not exist
-18:58:27.007 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.project.montap.MontapApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
-18:58:27.009 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.project.montap.MontapApplicationTests]: MontapApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-18:58:27.092 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.project.montap.MontapApplicationTests]
-18:58:27.264 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [C:\Workspace\IJ-workspace\montap\build\classes\java\main\com\project\montap\MontapApplication.class]
-18:58:27.270 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.project.montap.MontapApplication for test class com.project.montap.MontapApplicationTests
-18:58:27.449 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [com.project.montap.MontapApplicationTests]: using defaults.
-18:58:27.450 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
-18:58:27.493 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@210386e0, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@3d4d3fe7, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@65f87a2c, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@51684e4a, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@6ce1f601, org.springframework.test.context.support.DirtiesContextTestExecutionListener@38875e7d, org.springframework.test.context.transaction.TransactionalTestExecutionListener@1e886a5b, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@d816dde, org.springframework.test.context.event.EventPublishingTestExecutionListener@6e33c391, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@6c451c9c, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@31c269fd, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@372b0d86, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@47747fb9, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@3113a37, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@213e3629]
-18:58:27.499 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@36ac8a63 testClass = MontapApplicationTests, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@4d9d1b69 testClass = MontapApplicationTests, locations = '{}', classes = '{class com.project.montap.MontapApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@655f7ea, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@abf688e, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@686449f9, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@4044fb95, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@6eeade6c, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@536dbea0], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true]], class annotated with @DirtiesContext [false] with mode [null].
-18:58:27.562 [Test worker] DEBUG org.springframework.test.context.support.TestPropertySourceUtils - Adding inlined properties to environment: {spring.jmx.enabled=false, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}
+<pre>00:20:30.196 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+00:20:30.211 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+00:20:30.258 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.project.montap.MontapApplicationTests] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+00:20:30.290 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.project.montap.MontapApplicationTests], using SpringBootContextLoader
+00:20:30.290 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.project.montap.MontapApplicationTests]: class path resource [com/project/montap/MontapApplicationTests-context.xml] does not exist
+00:20:30.290 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.project.montap.MontapApplicationTests]: class path resource [com/project/montap/MontapApplicationTestsContext.groovy] does not exist
+00:20:30.290 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.project.montap.MontapApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+00:20:30.290 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.project.montap.MontapApplicationTests]: MontapApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+00:20:30.379 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.project.montap.MontapApplicationTests]
+00:20:30.466 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [C:\Workspace\IJ-workspace\montap\build\classes\java\main\com\project\montap\MontapApplication.class]
+00:20:30.467 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.project.montap.MontapApplication for test class com.project.montap.MontapApplicationTests
+00:20:30.603 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [com.project.montap.MontapApplicationTests]: using defaults.
+00:20:30.603 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+00:20:30.650 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@31c269fd, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@372b0d86, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@47747fb9, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@3113a37, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@213e3629, org.springframework.test.context.support.DirtiesContextTestExecutionListener@4e9658b5, org.springframework.test.context.transaction.TransactionalTestExecutionListener@2a7b6f69, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@20312893, org.springframework.test.context.event.EventPublishingTestExecutionListener@70eecdc2, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@c41709a, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@7db0565c, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@54ec8cc9, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@52eacb4b, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@5528a42c, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@2a551a63]
+00:20:30.650 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@60d84f61 testClass = MontapApplicationTests, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@39c11e6c testClass = MontapApplicationTests, locations = '{}', classes = '{class com.project.montap.MontapApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@75b25825, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@36f48b4, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@3f792b9b, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@1cbf6e72, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@6cfcd46d, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@264f218], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true]], class annotated with @DirtiesContext [false] with mode [null].
+00:20:30.697 [Test worker] DEBUG org.springframework.test.context.support.TestPropertySourceUtils - Adding inlined properties to environment: {spring.jmx.enabled=false, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -112,26 +112,16 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v2.5.6)
 
-2021-10-27 18:58:28.130  INFO 6336 --- [    Test worker] c.project.montap.MontapApplicationTests  : Starting MontapApplicationTests using Java 11.0.12 on leemuru with PID 6336 (started by leemu in C:\Workspace\IJ-workspace\montap)
-2021-10-27 18:58:28.136  INFO 6336 --- [    Test worker] c.project.montap.MontapApplicationTests  : No active profile set, falling back to default profiles: default
-2021-10-27 18:58:29.800  INFO 6336 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-10-27 18:58:29.949  INFO 6336 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 132 ms. Found 4 JPA repository interfaces.
-2021-10-27 18:58:31.525  INFO 6336 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-10-27 18:58:31.692  INFO 6336 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
-2021-10-27 18:58:32.116  INFO 6336 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-10-27 18:58:32.630  INFO 6336 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2021-10-27 18:58:33.278  INFO 6336 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2021-10-27 18:58:33.413  INFO 6336 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-Hibernate: 
-    
-    alter table equipment 
-       drop 
-       foreign key FKps75jmfm8e76ifg8f7akgj0r1
-Hibernate: 
-    
-    alter table equipment 
-       drop 
-       foreign key FK74uesppvf974o3mdcj7k45ou6
+2021-10-29 00:20:31.188  INFO 7004 --- [    Test worker] c.project.montap.MontapApplicationTests  : Starting MontapApplicationTests using Java 11.0.12 on leemuru with PID 7004 (started by leemu in C:\Workspace\IJ-workspace\montap)
+2021-10-29 00:20:31.203  INFO 7004 --- [    Test worker] c.project.montap.MontapApplicationTests  : No active profile set, falling back to default profiles: default
+2021-10-29 00:20:32.712  INFO 7004 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-10-29 00:20:32.852  INFO 7004 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 119 ms. Found 3 JPA repository interfaces.
+2021-10-29 00:20:33.868  INFO 7004 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-10-29 00:20:33.977  INFO 7004 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-10-29 00:20:34.227  INFO 7004 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-10-29 00:20:34.399  INFO 7004 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-10-29 00:20:34.602  INFO 7004 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-10-29 00:20:34.664  INFO 7004 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
 Hibernate: 
     
     alter table inventory_item 
@@ -142,9 +132,6 @@ Hibernate:
     alter table inventory_item 
        drop 
        foreign key FKcy22psjpeklvuqjqxkuq9nde2
-Hibernate: 
-    
-    drop table if exists equipment
 Hibernate: 
     
     drop table if exists hibernate_sequence
@@ -159,14 +146,6 @@ Hibernate:
     drop table if exists users
 Hibernate: 
     
-    create table equipment (
-       equipment_idx bigint not null,
-        item_idx bigint,
-        user_idx bigint,
-        primary key (equipment_idx)
-    ) engine=InnoDB
-Hibernate: 
-    
     create table hibernate_sequence (
        next_val bigint
     ) engine=InnoDB
@@ -178,6 +157,7 @@ Hibernate:
     create table inventory_item (
        inventory_item_idx bigint not null,
         drop_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        equip_yn INTEGER NOT NULL DEFAULT 0,
         item_idx bigint,
         user_idx bigint,
         primary key (inventory_item_idx)
@@ -186,8 +166,6 @@ Hibernate:
     
     create table item (
        item_idx bigint not null,
-        cri_damage float not null,
-        cri_probability float not null,
         damage integer not null,
         defense integer not null,
         description varchar(255),
@@ -203,9 +181,7 @@ Hibernate:
     
     create table users (
        user_idx bigint not null,
-        cri_damage INTEGER NOT NULL DEFAULT 50,
-        cri_probability INTEGER NOT NULL DEFAULT 10,
-        damage INTEGER NOT NULL DEFAULT 0,
+        damage INTEGER NOT NULL DEFAULT 10,
         defense INTEGER NOT NULL DEFAULT 0,
         email varchar(255),
         hp INTEGER NOT NULL DEFAULT 100,
@@ -219,18 +195,6 @@ Hibernate:
     ) engine=InnoDB
 Hibernate: 
     
-    alter table equipment 
-       add constraint FKps75jmfm8e76ifg8f7akgj0r1 
-       foreign key (item_idx) 
-       references item (item_idx)
-Hibernate: 
-    
-    alter table equipment 
-       add constraint FK74uesppvf974o3mdcj7k45ou6 
-       foreign key (user_idx) 
-       references users (user_idx)
-Hibernate: 
-    
     alter table inventory_item 
        add constraint FKhydweeo01basg7axxm7o0oy3d 
        foreign key (item_idx) 
@@ -241,10 +205,271 @@ Hibernate:
        add constraint FKcy22psjpeklvuqjqxkuq9nde2 
        foreign key (user_idx) 
        references users (user_idx)
-2021-10-27 18:58:37.486  INFO 6336 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-10-27 18:58:37.532  INFO 6336 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-10-27 18:58:41.083  WARN 6336 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-10-27 18:58:43.206  INFO 6336 --- [    Test worker] c.project.montap.MontapApplicationTests  : Started MontapApplicationTests in 15.635 seconds (JVM running for 18.38)
+2021-10-29 00:20:36.165  INFO 7004 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-10-29 00:20:36.181  INFO 7004 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-10-29 00:20:36.900  WARN 7004 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-10-29 00:20:37.306  INFO 7004 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7ee9920a, org.springframework.security.web.context.SecurityContextPersistenceFilter@3435a4e5, org.springframework.security.web.header.HeaderWriterFilter@3f2ab6ec, org.springframework.security.web.authentication.logout.LogoutFilter@7e366c6f, com.project.montap.security.filter.AjaxLoginProcessingFilter@2689b752, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@24558113, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@48a21ea6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4154ecd3, org.springframework.security.web.session.SessionManagementFilter@1f235a0a, org.springframework.security.web.access.ExceptionTranslationFilter@3b80bb63, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3c4e17ea]
+2021-10-29 00:20:38.337  INFO 7004 --- [    Test worker] c.project.montap.MontapApplicationTests  : Started MontapApplicationTests in 7.642 seconds (JVM running for 9.526)
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
 Hibernate: 
     select
         next_val as id_val 
@@ -379,72 +604,212 @@ Hibernate:
     insert 
     into
         item
-        (cri_damage, cri_probability, damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Hibernate: 
     insert 
     into
         item
-        (cri_damage, cri_probability, damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Hibernate: 
     insert 
     into
         item
-        (cri_damage, cri_probability, damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Hibernate: 
     insert 
     into
         item
-        (cri_damage, cri_probability, damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Hibernate: 
     insert 
     into
         item
-        (cri_damage, cri_probability, damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Hibernate: 
     insert 
     into
         item
-        (cri_damage, cri_probability, damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Hibernate: 
     insert 
     into
         item
-        (cri_damage, cri_probability, damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Hibernate: 
     insert 
     into
         item
-        (cri_damage, cri_probability, damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Hibernate: 
     insert 
     into
         item
-        (cri_damage, cri_probability, damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Hibernate: 
     insert 
     into
         item
-        (cri_damage, cri_probability, damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        item
+        (damage, defense, description, hp, item_rank, item_type, item_url, name, price, item_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 </pre>
 </span>
 </div>
@@ -456,7 +821,7 @@ Hibernate:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 7.2</a> at 2021. 10. 27. 오후 6:58:44</p>
+<a href="http://www.gradle.org">Gradle 7.2</a> at 2021. 10. 29. 오전 12:20:39</p>
 </div>
 </div>
 </body>

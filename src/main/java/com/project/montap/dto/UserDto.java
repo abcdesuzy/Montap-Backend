@@ -1,6 +1,7 @@
 package com.project.montap.dto;
 
 import com.project.montap.domain.entity.InventoryItem;
+import com.project.montap.enums.UserType;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -23,8 +24,6 @@ public class UserDto {
     int hp;
     int defense;
     int damage;
-    float criDamage;
-    float criProbability;
     String role;
     List<InventoryItem> inventoryItemDtoList = new ArrayList<>();
 }

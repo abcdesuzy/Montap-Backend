@@ -1,14 +1,16 @@
 package com.project.montap.controller;
 
+import com.project.montap.domain.entity.Item;
+import com.project.montap.dto.AfterEquipDto;
 import com.project.montap.dto.EquipItemDto;
-import com.project.montap.dto.UserDto;
+import com.project.montap.exception.Error;
 import com.project.montap.service.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class EquipmentController {
@@ -16,9 +18,40 @@ public class EquipmentController {
     @Autowired
     EquipmentService equipmentService;
 
+    // 장비 장착하기
     @PostMapping("/equipment")
     public ResponseEntity equipItem(@RequestBody EquipItemDto equipItemDto) {
-        UserDto result = equipmentService.equipItem(equipItemDto);
+        try {
+            AfterEquipDto result = equipmentService.equipItem(equipItemDto);
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error(e.getMessage()));
+        }
+    }
+
+    // 장착한 장비 조회하기
+    @GetMapping("/equipment/{userIdx}")
+    public ResponseEntity getEquipment(@PathVariable Long userIdx) throws Exception {
+        // 서비스를 호출해서 장착한 장비 목록을 받아온다.
+        List<Item> result = equipmentService.getEquipment(userIdx);
+
+        // 클라이언트에게 장착한 장비 목록을 반환한다.
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
+    @DeleteMapping("/equipment/{itemIdx}")
+    public ResponseEntity deleteEquipment(@PathVariable Long itemIdx) {
+        try {
+            // 서비스를 호출해서 장착된 장비를 장착 해제 시킨다.
+            Long result = equipmentService.deleteEquipment(itemIdx);
+
+            // 클라이언트에게 장착 해제한 아이템의 인덱스를 반환한다.
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
+        }
+    }
+
 }

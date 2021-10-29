@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Error {
+
     private String errorMsg;
 
     public static Error unknownError() {

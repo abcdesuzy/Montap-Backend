@@ -26,13 +26,13 @@ public class InventoryService {
 
     public GetItemDto getItemToInventory(GetItemDto getItemDto) throws Exception {
 
-        // 1. 얻을 Item 을 찾는다.
+        // 1. 획득할 아이템을 찾는다.
         Optional<Item> optionalFindItem = itemRepository.findById(getItemDto.getItemIdx());
 
-        // 2. 현재 User 를 찾는다.
+        // 2. 현재 접속중인 유저를 찾는다.
         Optional<User> optionalFindUser = userRepository.findById(getItemDto.getUserIdx());
 
-        // 유저나 얻을 아이템이 없는 경우 -> 에러
+        // - 유저나 획득할 아이템이 없는 경우 -> 에러
         if (optionalFindItem.isEmpty() || optionalFindUser.isEmpty()) {
             throw new Exception("사용자 혹은 해당하는 아이템이 없습니다.");
         } else {

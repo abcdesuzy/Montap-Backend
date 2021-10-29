@@ -9,6 +9,7 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
+
     compileOnly {
         extendsFrom annotationProcessor
     }
@@ -27,6 +28,9 @@ dependencies {
 
     // mysql connector
     implementation 'mysql:mysql-connector-java'
+
+    // spring security
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.5.5'
 
     // lombok - https://projectlombok.org/setup/gradle
     compileOnly 'org.projectlombok:lombok:1.18.22'

@@ -33,7 +33,7 @@ public class UserService {
 //                .email(userDto.getEmail())
 //                .nickname(userDto.getNickname())
 //                .build();
-        User newUser = new User(userDto.getUserId(), userDto.getUserPwd(), userDto.getEmail(), userDto.getNickname());
+        User newUser = new User(userDto.getUserId(), userDto.getUserPwd(), userDto.getNickname(), userDto.getEmail());
         User user = userRepository.save(newUser);
 
         // 3. Entity -> DTO 전환 작업
@@ -43,17 +43,20 @@ public class UserService {
     }
 
     public UserDto getUser(String userId) {
+
         // 1. repository -> DB -> select 문으로 해당 유저를 찾음
         User user = userRepository.findByUserId(userId);
-//        System.out.println("user = " + user);
+        //  System.out.println("user = " + user);
 
         // 2. Entity -> DTO 변환 작업
         UserDto findUser = user.toUserDto();
         return findUser;
     }
 
+    // 정보 수정
     @Transactional
     public UserDto modifyUser(UserDto userDto) {
+
         // 1. 사용자를 찾는다.
         User findUser = userRepository.findByUserId(userDto.getUserId());
 
@@ -71,14 +74,16 @@ public class UserService {
         return newUser;
     }
 
+    // 로그인
     public InitialInfoDto login(UserDto userDto) throws Exception {
+
         // 1. 접속한 사용자의 userId, userPwd 확인
         Optional<User> optionalUser = userRepository.findByUserIdAndUserPwd(userDto.getUserId(), userDto.getUserPwd());
 
         // 2. 아이디, 비밀번호가 맞는지 확인
         if (optionalUser.isEmpty()) {
             // 로그인 실패
-            throw new Exception("올바른 아이디 혹은 비밀번호를 입력하세요");
+            throw new Exception("올바른 아이디 혹은 비밀번호를 입력하세요.");
         } else {
             // 로그인 성공
             User findUser = optionalUser.get();
@@ -86,7 +91,7 @@ public class UserService {
             // 3. InitialInfoDto 생성 후 리턴
             InitialInfoDto result = InitialInfoDto
                     .builder()
-                    .idx(findUser.getIdx())
+                    .userIdx(findUser.getIdx())
                     .userId(findUser.getUserId())
                     .nickname(findUser.getNickname())
                     .email(findUser.getEmail())
@@ -94,8 +99,6 @@ public class UserService {
                     .hp(findUser.getHp())
                     .damage(findUser.getDamage())
                     .defense(findUser.getDefense())
-                    .criDamage(findUser.getCriDamage())
-                    .criProbability(findUser.getCriProbability())
                     .role(findUser.getRole())
                     .stage(findUser.getStage())
                     .inventoryItemList(findUser.getInventoryItemList())

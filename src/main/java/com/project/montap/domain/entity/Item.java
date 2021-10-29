@@ -18,7 +18,7 @@ public class Item {
     @Id
     @GeneratedValue
     @Column(name = "ITEM_IDX")
-    Long id;
+    Long idx;
     String name;
     String description;
     ItemType itemType;
@@ -26,8 +26,6 @@ public class Item {
     int hp;
     int defense;
     int damage;
-    float criDamage;
-    float criProbability;
-    String itemUrl;
     int price;
+    String itemUrl;
 }

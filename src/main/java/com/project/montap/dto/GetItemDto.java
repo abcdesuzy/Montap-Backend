@@ -4,12 +4,11 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@ToString
 public class GetItemDto {
-
-    Long itemIdx;
     Long userIdx;
-
+    Long itemIdx;
 }

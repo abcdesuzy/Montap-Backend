@@ -35,6 +35,34 @@ class MontapApplicationTests {
 			newItemList.add(newItem);
 		}
 
+		for (int i = 0; i < 10; i ++) {
+			Item newItem = Item
+					.builder()
+					.name("Armor" + (i + 1))
+					.description("This is Armor" + (i + 1))
+					.itemType(ItemType.ARMOR)
+					.itemRank(i % 4)
+					.defense(i + 1)
+					.itemUrl(null)
+					.price((i + 1) * 1000)
+					.build();
+			newItemList.add(newItem);
+		}
+
+		for (int i = 0; i < 10; i ++) {
+			Item newItem = Item
+					.builder()
+					.name("Weapon" + (i + 1))
+					.description("This is Weapon" + (i + 1))
+					.itemType(ItemType.WEAPON)
+					.itemRank(i % 4)
+					.damage(i + 1)
+					.itemUrl(null)
+					.price((i + 1) * 1000)
+					.build();
+			newItemList.add(newItem);
+		}
+
 		itemRepository.saveAll(newItemList);
 
 	}

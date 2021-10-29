@@ -2,6 +2,7 @@ package com.project.montap.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.montap.dto.UserDto;
+import com.project.montap.enums.UserType;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -19,6 +20,7 @@ import java.util.List;
 @DynamicInsert
 @ToString
 public class User {
+
     @Id
     @GeneratedValue
     @Column(name = "USER_IDX")
@@ -33,19 +35,20 @@ public class User {
     int hp = 100;
     @Column(columnDefinition = "INTEGER NOT NULL DEFAULT 0")
     int defense = 0;
-    @Column(columnDefinition = "INTEGER NOT NULL DEFAULT 0")
-    int damage =0;
-    @Column(columnDefinition = "INTEGER NOT NULL DEFAULT 50")
-    int criDamage = 50;
     @Column(columnDefinition = "INTEGER NOT NULL DEFAULT 10")
-    int criProbability = 10;
+    int damage = 10;
     String role;
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     List<InventoryItem> inventoryItemList = new ArrayList<>();
 
+    // 장착한 Item List (보류)
+    //    @OneToMany(mappedBy = "user")
+    //    @JsonManagedReference
+    //    List<Equipment> equipmentList = new ArrayList<>();
 
+    // 회원가입 
     public User(String userId, String userPwd, String nickname, String email) {
         this.userId = userId;
         this.userPwd = userPwd;
@@ -53,6 +56,7 @@ public class User {
         this.email = email;
     }
 
+    // UserDto 창고
     public UserDto toUserDto() {
         return UserDto
                 .builder()
@@ -65,8 +69,6 @@ public class User {
                 .hp(hp)
                 .defense(defense)
                 .damage(damage)
-                .criDamage(criDamage)
-                .criProbability(criProbability)
                 .role(role)
                 .inventoryItemDtoList(inventoryItemList)
                 .build();

@@ -12,13 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 // 5. 서비스에서 정의된 로직이 수행된다. (repository 를 통한 디비 접속) - 핵심로직
 // 6. repository 에서 DB 로 부터 데이터를 가져온다.
 // 7. service -> controller -> 응답을 브라우저로 전달한다.
+
 @RestController
 public class HomeController {
 
     @GetMapping("/")
     public String index() {
-        return "hello";
+        return "hello MonTap [!]";
     }
+
+    // REST API 가장 많이 쓰는 것들
 
     // @GetMapping -> 리소스 얻기
     // @PostMapping -> 리소스 생성

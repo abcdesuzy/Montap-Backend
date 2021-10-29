@@ -4,9 +4,10 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@ToString
 public class InventoryItemDto {
     private Long idx;
     private Long itemIdx;
