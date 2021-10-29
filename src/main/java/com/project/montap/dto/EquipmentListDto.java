@@ -1,12 +1,17 @@
 package com.project.montap.dto;
 
-//@Getter
-//@Setter
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Builder
-//@ToString
+import com.project.montap.domain.entity.Item;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 public class EquipmentListDto {
-    // Item 목록들이 담겨있는 List (보류)
-    // List<Item> itemList = new ArrayList<>();
+    List<Item> equipmentItemList = new ArrayList<>();
 }

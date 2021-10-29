@@ -2,7 +2,6 @@ package com.project.montap.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.montap.dto.UserDto;
-import com.project.montap.enums.UserType;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -44,9 +43,9 @@ public class User {
     List<InventoryItem> inventoryItemList = new ArrayList<>();
 
     // 장착한 Item List (보류)
-    //    @OneToMany(mappedBy = "user")
-    //    @JsonManagedReference
-    //    List<Equipment> equipmentList = new ArrayList<>();
+//    @OneToMany(mappedBy = "user")
+//    @JsonManagedReference
+//    List<Item> equipItemList = new ArrayList<>();
 
     // 회원가입 
     public User(String userId, String userPwd, String nickname, String email) {

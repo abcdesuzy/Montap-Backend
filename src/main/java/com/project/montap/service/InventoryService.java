@@ -26,21 +26,23 @@ public class InventoryService {
 
     public GetItemDto getItemToInventory(GetItemDto getItemDto) throws Exception {
 
-        // 1. 획득할 아이템을 찾는다.
+        // 1. 현재 유저를 찾는다.
+        Optional<User> optionalFindUser = userRepository.findById(getItemDto.getUserIdx());
+        // 2. 획득할 아이템을 찾는다.
         Optional<Item> optionalFindItem = itemRepository.findById(getItemDto.getItemIdx());
 
-        // 2. 현재 접속중인 유저를 찾는다.
-        Optional<User> optionalFindUser = userRepository.findById(getItemDto.getUserIdx());
-
-        // - 유저나 획득할 아이템이 없는 경우 -> 에러
+        // 유저나 얻을 아이템이 없는 경우 >>> 에러
         if (optionalFindItem.isEmpty() || optionalFindUser.isEmpty()) {
             throw new Exception("사용자 혹은 해당하는 아이템이 없습니다.");
         } else {
             User findUser = optionalFindUser.get();
             Item findItem = optionalFindItem.get();
 
-            // 3. 찾은 아이템을 inventory_item 테이블에 넣는다.
-            InventoryItem newInventoryItem = new InventoryItem(findUser, findItem);
+            // 3. 찾은 아이템을 [inventory_item] 테이블에 넣는다.
+            InventoryItem newInventoryItem = new InventoryItem();
+            newInventoryItem.setUser(findUser);
+            newInventoryItem.setItem(findItem);
+            newInventoryItem.setEquipYn(0);
             inventoryItemRepository.save(newInventoryItem);
             return getItemDto;
         }

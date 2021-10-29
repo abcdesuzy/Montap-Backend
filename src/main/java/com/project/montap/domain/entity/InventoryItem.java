@@ -39,6 +39,5 @@ public class InventoryItem {
     public InventoryItem(User user, Item item) {
         this.user = user;
         this.item = item;
-
     }
 }

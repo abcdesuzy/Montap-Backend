@@ -1,6 +1,5 @@
 package com.project.montap.dto;
 
-import com.project.montap.enums.UserType;
 import lombok.*;
 
 @Getter
@@ -9,7 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class AuthUserDto {
-
     // 시큐리티 인증용 Dto
     Long userIdx;
     String userId;
@@ -22,5 +20,4 @@ public class AuthUserDto {
     int defense;
     int damage;
     String role;
-
 }
