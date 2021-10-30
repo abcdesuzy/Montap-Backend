@@ -1,7 +1,11 @@
 package com.project.montap;
 
 import com.project.montap.domain.entity.Item;
+import com.project.montap.domain.entity.Stage;
 import com.project.montap.domain.repository.ItemRepository;
+import com.project.montap.domain.repository.StageLogRepository;
+import com.project.montap.domain.repository.StageRepository;
+import com.project.montap.enums.IsBoss;
 import com.project.montap.enums.ItemType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,9 @@ class MontapApplicationTests {
 
 	@Autowired
 	ItemRepository itemRepository;
+
+	@Autowired
+	StageRepository stageRepository;
 
 	@Test
 	public void createDummyItem() {
@@ -64,6 +71,28 @@ class MontapApplicationTests {
 		}
 
 		itemRepository.saveAll(newItemList);
+
+	}
+
+	@Test
+	public void createDummyStage() {
+
+		List<Stage> newStageList = new ArrayList<>();
+
+		for (int i = 0; i < 20; i ++) {
+			Stage newStage = Stage
+					.builder()
+					.stageCount(i+1)
+					.monsterName("monster" + (i + 1))
+					.monsterHp(1*(i+1))
+					.monsterDamage(100*(i+1))
+					.isBoss(IsBoss.N)
+					.dropMoney(100*(i+1))
+					.monsterUrl(null)
+					.build();
+			newStageList.add(newStage);
+		}
+		stageRepository.saveAll(newStageList);
 
 	}
 }

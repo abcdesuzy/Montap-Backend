@@ -42,6 +42,10 @@ public class User {
     @JsonManagedReference
     List<InventoryItem> inventoryItemList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    List<StageLog> stageLogList = new ArrayList<>();
+
     // 장착한 Item List (보류)
 //    @OneToMany(mappedBy = "user")
 //    @JsonManagedReference

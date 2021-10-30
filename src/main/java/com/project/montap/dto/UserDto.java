@@ -2,6 +2,7 @@ package com.project.montap.dto;
 
 import com.project.montap.domain.entity.InventoryItem;
 import com.project.montap.domain.entity.Item;
+import com.project.montap.domain.entity.StageLog;
 import lombok.*;
 
 import java.util.ArrayList;
