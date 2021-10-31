@@ -7,6 +7,7 @@ import com.project.montap.domain.repository.InventoryItemRepository;
 import com.project.montap.domain.repository.ItemRepository;
 import com.project.montap.domain.repository.UserRepository;
 import com.project.montap.dto.GetItemDto;
+import com.project.montap.dto.SellingItemDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -72,5 +73,49 @@ public class InventoryService {
             }
         }
         return resultList;
+    }
+
+    // 아이템 판매
+    @Transactional
+    public Integer sellItem(SellingItemDto sellingItemDto) throws Exception {
+
+        // 1. 전달받은 userIdx 에 해당하는 user 를 찾는다.
+        List<Long> itemIdxList = sellingItemDto.getItemIdxList();
+        Long userIdx = sellingItemDto.getUserIdx();
+        Optional<User> optionalUser = userRepository.findById(userIdx);
+        if (optionalUser.isEmpty()) {
+            throw new Exception("해당하는 유저가 없습니다.");
+        }
+        User user = optionalUser.get();
+
+        // 2. 배열로 받은 아이템들이 이 유저의 인벤토리에 있는지 확인한다.
+        Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findByItemIdxInAndUserIdx(itemIdxList, userIdx);
+        if (optionalInventoryItemList.isEmpty()) {
+            throw new Exception("해당하는 아이템이 없습니다.");
+        }
+
+
+        List<InventoryItem> resultInventoryItemList = optionalInventoryItemList.get();
+        if (itemIdxList.size() != resultInventoryItemList.size()) {
+            throw new Exception("판매하려는 아이템이 없습니다.");
+        }
+        for (int i = 0; i < resultInventoryItemList.size(); i++) {
+            if (resultInventoryItemList.get(i).getEquipYn() == 1) {
+                throw new Exception("장착된 아이템은 판매할 수 없습니다.");
+            }
+        }
+
+        int total = 0;
+        for (int i = 0; i < resultInventoryItemList.size(); i++) {
+            int money = resultInventoryItemList.get(i).getItem().getPrice();
+            total = total + money;
+        }
+        user.setMoney(user.getMoney() + total);
+        userRepository.save(user);
+        inventoryItemRepository.deleteByItemIdxInAndUserIdx(itemIdxList, userIdx);
+
+        return user.getMoney();
+
+
     }
 }

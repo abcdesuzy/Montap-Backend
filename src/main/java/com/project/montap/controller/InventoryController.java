@@ -2,6 +2,7 @@ package com.project.montap.controller;
 
 import com.project.montap.domain.entity.Item;
 import com.project.montap.dto.GetItemDto;
+import com.project.montap.dto.SellingItemDto;
 import com.project.montap.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,12 +29,23 @@ public class InventoryController {
         }
     }
 
-    // 사용자 인벤토리 아이템 조회하기
+    // 사용자 인벤토리 아이템 중 장착 안한 아이템 조회하기
     @GetMapping("/inventory/item/{userIdx}")
     public ResponseEntity getItemInventoryList(@PathVariable Long userIdx) throws Exception {
         // 서비스를 호출해서 내 인벤토리 목록을 받아온다.
         List<Item> result = inventoryService.getItemInventoryList(userIdx);//
         // 클라이언트에게 내 인벤토리 목록을 반환한다.
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @PostMapping("/item/sell")
+    public ResponseEntity sellItem(@RequestBody SellingItemDto sellingItemDto) {
+        try {
+            int result = inventoryService.sellItem(sellingItemDto);
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error(e.getMessage()));
+        }
     }
 }
