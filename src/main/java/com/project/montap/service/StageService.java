@@ -12,12 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
-
 public class StageService {
 
     @Autowired
@@ -38,19 +35,23 @@ public class StageService {
         if (optionalFindUser.isEmpty() || optionalFindStage.isEmpty()) {
             throw new Exception("클리어한 스테이지가 없습니다.");
         } else {
-            //if (optionalFindStage.get().getMonsterHp() == 0) {
-            User findUser = optionalFindUser.get();
-            Stage findStage = optionalFindStage.get();
+            if (optionalFindStage.get().getMonsterHp() != 0 && optionalFindUser.get().getHp()==0) {
+                throw new Exception("게임에서 졌습니다");
+            }else {
+                User findUser = optionalFindUser.get();
+                Stage findStage = optionalFindStage.get();
 
-            StageLog newStageLog = new StageLog();
-            newStageLog.setUser(findUser);
-            newStageLog.setStage(findStage);
-            newStageLog.setIsClear(1);
-            stageLogRepository.save(newStageLog);
-            //}
-
-            return clearStageDto;
+                StageLog newStageLog = new StageLog();
+                newStageLog.setUser(findUser);
+                newStageLog.setStage(findStage);
+                newStageLog.setIsClear(1);
+                stageLogRepository.save(newStageLog);
+            }
         }
+        if(optionalFindUser.get().getStage() < optionalFindStage.get().getIdx()){
+            optionalFindUser.get().setStage(optionalFindStage.get().getStageCount());
+        }
+        return clearStageDto;
     }
 
     @Transactional
@@ -65,10 +66,15 @@ public class StageService {
         List<StageLog> stageLogList = user.getStageLogList();
 
         List<Stage> stageList = new ArrayList<>();
-
-        for (int i = 0; i < stageLogList.size(); i++) {
+        for (int i=0; i<stageLogList.size();i++){
             stageList.add(stageLogList.get(i).getStage());
         }
-        return stageList;
+
+        Set<Stage> set = new HashSet<>(stageList);
+        List<Stage> result = new ArrayList<>(set);
+
+         return result;
+        }
+
     }
-}
+

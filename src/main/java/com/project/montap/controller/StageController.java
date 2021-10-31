@@ -3,7 +3,6 @@ package com.project.montap.controller;
 import com.project.montap.domain.entity.Stage;
 import com.project.montap.domain.entity.StageLog;
 import com.project.montap.domain.repository.StageLogRepository;
-import com.project.montap.dto.AfterEquipDto;
 import com.project.montap.dto.ClearStageDto;
 import com.project.montap.dto.StageDto;
 import com.project.montap.exception.Error;
@@ -41,4 +40,5 @@ public class StageController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error(e.getMessage()));
         }
     }
+
 }
