@@ -16,7 +16,7 @@ public class InventoryController {
     @Autowired
     InventoryService inventoryService;
 
-    // 내가 획득한 아이템울 내 [inventory_item]에 넣어준다.
+    // 획득한 아이템을 [inventory_item] 에 넣어준다.
     @PostMapping("/inventory/item")
     public ResponseEntity getItemToMyInventory(@RequestBody GetItemDto getItemDto) {
         try {
@@ -28,23 +28,12 @@ public class InventoryController {
         }
     }
 
-//    // 내 인벤토리 아이템 조회하기
-//    @GetMapping("/inventoryitem/{userIdx}")
-//    public ResponseEntity getItemToMyInventoryList(@PathVariable Long userIdx) throws Exception {
-//        // 서비스를 호출해서 장착한 장비 목록을 받아온다.
-//        List<Item> result =
-//
-//        // 클라이언트에게 장착한 장비 목록을 반환한다.
-//        return ResponseEntity.status(HttpStatus.OK).body(result);
-//    }
+    // 사용자 인벤토리 아이템 조회하기
+    @GetMapping("/inventory/item/{userIdx}")
+    public ResponseEntity getItemInventoryList(@PathVariable Long userIdx) throws Exception {
+        // 서비스를 호출해서 내 인벤토리 목록을 받아온다.
+        List<Item> result = inventoryService.getItemInventoryList(userIdx);
+        // 클라이언트에게 내 인벤토리 목록을 반환한다.
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 }
-
-//    // 장착한 장비 조회하기
-//    @GetMapping("/equipment/{userIdx}")
-//    public ResponseEntity getEquipment(@PathVariable Long userIdx) throws Exception {
-//        // 서비스를 호출해서 장착한 장비 목록을 받아온다.
-//        List<Item> result = equipmentService.getEquipment(userIdx);
-//
-//        // 클라이언트에게 장착한 장비 목록을 반환한다.
-//        return ResponseEntity.status(HttpStatus.OK).body(result);
-//    }

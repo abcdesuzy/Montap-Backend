@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+// 회원관리
 @Service
 @Transactional(readOnly = true)
 public class UserService {
@@ -21,46 +22,49 @@ public class UserService {
     @Autowired
     InventoryItemRepository inventoryRepository;
 
-    // 회원 가입
+    // 회원가입
     @Transactional
     public UserDto saveUser(UserDto userDto) {
         // 1. service -> repository -> DB
-        // DTO -> Entity 전환 작업
-//        User newUser = User
-//                .builder()
-//                .userId(userDto.getUserId())
-//                .userPwd(userDto.getUserPwd())
-//                .email(userDto.getEmail())
-//                .nickname(userDto.getNickname())
-//                .build();
+        // 2. DTO >>> Entity 전환 작업
+        // User newUser = User
+        //  .builder()
+        //  .userId(userDto.getUserId())
+        //  .userPwd(userDto.getUserPwd())
+        //  .email(userDto.getEmail())
+        //  .nickname(userDto.getNickname())
+        //  .build();
         User newUser = new User(userDto.getUserId(), userDto.getUserPwd(), userDto.getNickname(), userDto.getEmail());
         User user = userRepository.save(newUser);
 
-        // 3. Entity -> DTO 전환 작업
+        // 3. Entity >>> DTO 전환 작업
         UserDto newUserDto = user.toUserDto();
 
         return newUserDto;
     }
 
+    // 회원조회
     public UserDto getUser(String userId) {
 
-        // 1. repository -> DB -> select 문으로 해당 유저를 찾음
+        // 1. Repository >> DB >> SELECT 문으로 해당 유저를 찾음
         User user = userRepository.findByUserId(userId);
         //  System.out.println("user = " + user);
 
-        // 2. Entity -> DTO 변환 작업
+        // 2. Entity >>> DTO 변환 작업
         UserDto findUser = user.toUserDto();
         return findUser;
     }
 
-    // 정보 수정
+    // 회원정보수정
     @Transactional
     public UserDto modifyUser(UserDto userDto) {
 
         // 1. 사용자를 찾는다.
         User findUser = userRepository.findByUserId(userDto.getUserId());
 
-        // 2. 찾은 Entity 에 사용자로부터 입력받는 패스워드로 변경한다.
+        // 2. 찾은 Entity 에 사용자로부터 입력 받은 닉네임, 패스워드로 변경한다.
+        String newNickname = userDto.getNickname();
+        findUser.setNickname(newNickname);
         String newPassword = userDto.getUserPwd();
         findUser.setUserPwd(newPassword);
 
@@ -68,7 +72,7 @@ public class UserService {
         // 4. 수정된 유저 Entity 를 받아온다.
         User user = userRepository.save(findUser);
 
-        // 5. Entity -> Dto 변환 작업을 수행한다.
+        // 5. Entity >>> Dto 변환 작업을 수행한다.
         UserDto newUser = user.toUserDto();
 
         return newUser;
