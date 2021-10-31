@@ -38,15 +38,15 @@ public class StageService {
         if (optionalFindUser.isEmpty() || optionalFindStage.isEmpty()) {
             throw new Exception("클리어한 스테이지가 없습니다.");
         } else {
-           //if (optionalFindStage.get().getMonsterHp() == 0) {
-                User findUser = optionalFindUser.get();
-                Stage findStage = optionalFindStage.get();
+            //if (optionalFindStage.get().getMonsterHp() == 0) {
+            User findUser = optionalFindUser.get();
+            Stage findStage = optionalFindStage.get();
 
-                StageLog newStageLog = new StageLog();
-                newStageLog.setUser(findUser);
-                newStageLog.setStage(findStage);
-                newStageLog.setIsClear(1);
-                stageLogRepository.save(newStageLog);
+            StageLog newStageLog = new StageLog();
+            newStageLog.setUser(findUser);
+            newStageLog.setStage(findStage);
+            newStageLog.setIsClear(1);
+            stageLogRepository.save(newStageLog);
             //}
 
             return clearStageDto;
@@ -61,15 +61,14 @@ public class StageService {
             throw new Exception("해당하는 유저가 없습니다.");
         }
 
-       User user = optionalUser.get();
-       List<StageLog> stageLogList = user.getStageLogList();
+        User user = optionalUser.get();
+        List<StageLog> stageLogList = user.getStageLogList();
 
-       List<Stage> stageList = new ArrayList<>();
+        List<Stage> stageList = new ArrayList<>();
 
-        for(int i=0;i<stageLogList.size();i++){
-           stageList.add(stageLogList.get(i).getStage());
+        for (int i = 0; i < stageLogList.size(); i++) {
+            stageList.add(stageLogList.get(i).getStage());
         }
-
         return stageList;
     }
 }

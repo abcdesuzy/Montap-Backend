@@ -26,7 +26,7 @@ public class StageLog {
     @JsonBackReference
     User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "STAGE_IDX")
     Stage stage;
 
