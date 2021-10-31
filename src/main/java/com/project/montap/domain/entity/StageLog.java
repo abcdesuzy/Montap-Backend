@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-@DynamicInsert
 public class StageLog {
 
     @Id
