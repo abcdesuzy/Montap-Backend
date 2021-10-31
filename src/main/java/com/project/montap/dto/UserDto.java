@@ -26,6 +26,6 @@ public class UserDto {
     int defense;
     int damage;
     String role;
-    List<InventoryItem> inventoryItemDtoList = new ArrayList<>();
-    List<Item> equipmentItemList = new ArrayList<>();
+    // List<InventoryItem> inventoryItemDtoList = new ArrayList<>();
+    // List<Item> equipmentItemList = new ArrayList<>();
 }

@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 @Getter
 @Setter
@@ -47,9 +46,9 @@ public class User {
     List<StageLog> stageLogList = new ArrayList<>();
 
     // 장착한 Item List (보류)
-//    @OneToMany(mappedBy = "user")
-//    @JsonManagedReference
-//    List<Item> equipItemList = new ArrayList<>();
+    //    @OneToMany(mappedBy = "user")
+    //    @JsonManagedReference
+    //    List<Item> equipItemList = new ArrayList<>();
 
     // 회원가입 
     public User(String userId, String userPwd, String nickname, String email) {
@@ -73,7 +72,6 @@ public class User {
                 .defense(defense)
                 .damage(damage)
                 .role(role)
-                .inventoryItemDtoList(inventoryItemList)
                 .build();
     }
 }

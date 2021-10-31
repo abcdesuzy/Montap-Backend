@@ -10,7 +10,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @ToString
 public class EquipmentListDto {
     List<Item> equipmentItemList = new ArrayList<>();

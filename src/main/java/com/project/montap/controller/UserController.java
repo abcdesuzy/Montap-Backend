@@ -21,7 +21,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(newUserDto);
     }
 
-    // 가입한 User Id 조회
+    // 회원조회
     @GetMapping("/user/{userId}")
     public ResponseEntity getUser(@PathVariable String userId) {
         System.out.println("userId = " + userId);
@@ -29,7 +29,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(findUser);
     }
 
-    // 정보 수정
+    // 회원정보수정
     @PutMapping("/user")
     public ResponseEntity modifyUser(@RequestBody UserDto userDto) {
         UserDto newUser = userService.modifyUser(userDto);

@@ -29,17 +29,16 @@ public class EquipmentService {
     @Autowired
     InventoryItemRepository inventoryItemRepository;
 
+    // 아이템 장착하기
     @Transactional
     public AfterEquipDto equipItem(EquipItemDto equipItemDto) throws Exception {
 
         // 1. 장착하려는 유저를 찾는다.
         Optional<User> optionalFindUser = userRepository.findById(equipItemDto.getUserIdx());
-
         // - 장착하려는 유저가 없는 경우 에러
         if (optionalFindUser.isEmpty()) {
             throw new Exception("장착하려는 User 가 없습니다.");
-        } else {
-            // 장착하려는 유저가 데이터베이스에 있는 경우
+        } else { // - 장착하려는 유저가 데이터베이스에 있는 경우
 
             // 2. 장착하려는 유저의. 인벤토리에 있는 아이템. 중에서 장착하려는 아이템. 을 찾는다.
             User findUser = optionalFindUser.get();
@@ -49,7 +48,6 @@ public class EquipmentService {
 
             InventoryItem findInventoryItem = null;
             Item findItem = null;
-
             for (int i = 0; i < inventoryItemList.size(); i++) {
                 if (inventoryItemList.get(i).getItem().getIdx() == equipItemDto.getItemIdx()) {
                     findInventoryItem = inventoryItemList.get(i);
@@ -63,11 +61,12 @@ public class EquipmentService {
                 throw new Exception("인벤토리에 해당 아이템이 없습니다.");
             }
 
+            // - 기존에 장착된 아이템과 교체
             for (int i = 0; i < inventoryItemList.size(); i++) {
                 InventoryItem current = inventoryItemList.get(i);
                 Item currentItem = current.getItem();
                 if (current.getEquipYn() == 1 && currentItem.getItemType() == findItem.getItemType()) {
-                    current.setEquipYn(0);
+                    current.setEquipYn(0); // 아이템 장착 여부를 1 > 0
                     ItemType itemType = currentItem.getItemType();
                     if (itemType == ItemType.HELMET) {
                         int hp = currentItem.getHp();
@@ -82,13 +81,21 @@ public class EquipmentService {
                 }
             }
 
-            // 3. 찾은 아이템을 장착 처리 하고, 스텟을 올린다.
+            // 3. 찾은 아이템을 장착 처리하고 능력치를 올린다.
             findInventoryItem.setEquipYn(1);
 
             ItemType itemType = findItem.getItemType();
             if (itemType == ItemType.HELMET) {
                 int hp = findItem.getHp();
                 findUser.setHp(findUser.getHp() + hp);
+                userRepository.save(findUser);
+            } else if (itemType == ItemType.ARMOR) {
+                int defense = findItem.getDefense();
+                findUser.setDefense(findUser.getDefense() + defense);
+                userRepository.save(findUser);
+            } else {
+                int damage = findItem.getDamage();
+                findUser.setDamage(findUser.getDamage() + damage);
                 userRepository.save(findUser);
             }
 
@@ -102,8 +109,10 @@ public class EquipmentService {
         }
     }
 
+    // 장착한 아이템 리스트
     @Transactional
     public List<Item> getEquipment(Long userIdx) throws Exception {
+
         // 1. 장착한 유저의 정보를 가져온다.
         Optional<User> optionalUser = userRepository.findById(userIdx);
         if (optionalUser.isEmpty()) {
@@ -121,14 +130,28 @@ public class EquipmentService {
         return resultList;
     }
 
+    // 아이템 장착 해제
     @Transactional
     public Long deleteEquipment(Long itemIdx) throws Exception {
+        // Optional<User> optionalUser = userRepository.findById(userIdx);
         Optional<InventoryItem> optionalInventoryItem = inventoryItemRepository.findByItemIdx(itemIdx);
         if (optionalInventoryItem.isEmpty()) {
             throw new Exception("인벤토리에 해당 아이템이 없습니다.");
         }
+
         InventoryItem inventoryItem = optionalInventoryItem.get();
-        inventoryItem.setEquipYn(0);
+        inventoryItem.setEquipYn(0); // 아이템 장착 여부를 1 > 0
+        ItemType itemType = inventoryItem.getItem().getItemType();
+//        if (itemType == ItemType.HELMET) {
+//            int hp =
+//            findUser.setHp(findUser.getHp() - hp);
+//        } else if (itemType == ItemType.ARMOR) {
+//            int defense = currentItem.getDefense();
+//            findUser.setDefense(findUser.getDefense() - defense);
+//        } else {
+//            int damage = currentItem.getDamage();
+//            findUser.setDamage(findUser.getDamage() - damage);
+//        }
         return itemIdx;
     }
 }
