@@ -7,6 +7,7 @@ import com.project.montap.domain.repository.InventoryItemRepository;
 import com.project.montap.domain.repository.ItemRepository;
 import com.project.montap.domain.repository.UserRepository;
 import com.project.montap.dto.GetItemDto;
+import com.project.montap.dto.ItemDto;
 import com.project.montap.dto.SellingItemDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -115,7 +116,27 @@ public class InventoryService {
         inventoryItemRepository.deleteByItemIdxInAndUserIdx(itemIdxList, userIdx);
 
         return user.getMoney();
+    }
 
-
+    // 아이템 상세정보
+    @Transactional
+    public ItemDto getItemInfo(Long itemIdx) throws Exception {
+      Optional<Item> optionalItem = itemRepository.findById(itemIdx);
+      if (optionalItem.isEmpty()){
+          throw new Exception("없는 아이템 입니다.");
+      }
+        Item item = optionalItem.get();
+        ItemDto itemDto = new ItemDto();
+        itemDto.setIdx(item.getIdx());
+        itemDto.setName(item.getName());
+        itemDto.setItemRank(item.getItemRank());
+        itemDto.setItemType(item.getItemType());
+        itemDto.setDamage(item.getDamage());
+        itemDto.setDefense(item.getDefense());
+        itemDto.setDescription(item.getDescription());
+        itemDto.setHp(item.getHp());
+        itemDto.setPrice(item.getPrice());
+        itemDto.setItemUrl(item.getItemUrl());
+        return itemDto;
     }
 }

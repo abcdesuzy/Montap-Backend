@@ -2,6 +2,7 @@ package com.project.montap.controller;
 
 import com.project.montap.domain.entity.Item;
 import com.project.montap.dto.GetItemDto;
+import com.project.montap.dto.ItemDto;
 import com.project.montap.dto.SellingItemDto;
 import com.project.montap.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,18 @@ public class InventoryController {
         try {
             int result = inventoryService.sellItem(sellingItemDto);
             return ResponseEntity.status(HttpStatus.OK).body(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error(e.getMessage()));
+        }
+    }
+
+    // 아이템 상세정보
+    @GetMapping("/item/{itemIdx}")
+    public ResponseEntity getItemInfo(@PathVariable Long itemIdx) {
+        try {
+           ItemDto itemDto = inventoryService.getItemInfo(itemIdx);
+            return ResponseEntity.status(HttpStatus.OK).body(itemDto);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error(e.getMessage()));
