@@ -1,12 +1,6 @@
 package com.project.montap.dto;
 
-import com.project.montap.domain.entity.InventoryItem;
-import com.project.montap.domain.entity.Item;
-import com.project.montap.domain.entity.StageLog;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -26,6 +20,4 @@ public class UserDto {
     int defense;
     int damage;
     String role;
-    // List<InventoryItem> inventoryItemDtoList = new ArrayList<>();
-    // List<Item> equipmentItemList = new ArrayList<>();
 }

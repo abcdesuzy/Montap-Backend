@@ -29,8 +29,10 @@ public class InventoryController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
         }
     }
+    
+    // 내 인벤토리 전체 아이템 리스트
 
-    // 사용자 인벤토리 아이템 중 장착 안한 아이템 조회하기
+    // 인벤토리 미장착 아이템 리스트
     @GetMapping("/inventory/item/{userIdx}")
     public ResponseEntity getItemInventoryList(@PathVariable Long userIdx) throws Exception {
         // 서비스를 호출해서 내 인벤토리 목록을 받아온다.
@@ -39,6 +41,8 @@ public class InventoryController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    
+    // 아이템 판매
     @PostMapping("/item/sell")
     public ResponseEntity sellItem(@RequestBody SellingItemDto sellingItemDto) {
         try {

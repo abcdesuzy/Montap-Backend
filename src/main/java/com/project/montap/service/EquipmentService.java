@@ -132,26 +132,66 @@ public class EquipmentService {
 
     // 아이템 장착 해제
     @Transactional
-    public Long deleteEquipment(Long itemIdx) throws Exception {
-        // Optional<User> optionalUser = userRepository.findById(userIdx);
-        Optional<InventoryItem> optionalInventoryItem = inventoryItemRepository.findByItemIdx(itemIdx);
-        if (optionalInventoryItem.isEmpty()) {
-            throw new Exception("인벤토리에 해당 아이템이 없습니다.");
-        }
+    public AfterEquipDto deleteEquipment(EquipItemDto equipItemDto) throws Exception {
 
-        InventoryItem inventoryItem = optionalInventoryItem.get();
-        inventoryItem.setEquipYn(0); // 아이템 장착 여부를 1 > 0
-        ItemType itemType = inventoryItem.getItem().getItemType();
-//        if (itemType == ItemType.HELMET) {
-//            int hp =
-//            findUser.setHp(findUser.getHp() - hp);
-//        } else if (itemType == ItemType.ARMOR) {
-//            int defense = currentItem.getDefense();
-//            findUser.setDefense(findUser.getDefense() - defense);
-//        } else {
-//            int damage = currentItem.getDamage();
-//            findUser.setDamage(findUser.getDamage() - damage);
-//        }
-        return itemIdx;
+        // 1. 장착 해제하려는 유저 찾기
+        Optional<User> optionalFindUser = userRepository.findById(equipItemDto.getUserIdx());
+        // - 유저가 없는 경우
+        if (optionalFindUser.isEmpty()) {
+            throw new Exception("장착해제 하려는 User가 없습니다.");
+        } else { // - 유저가 DB에 있는 경우
+
+            // 유저 꺼내기
+            User findUser = optionalFindUser.get();
+
+            // 2. 그 유저의 인벤토리에 있는 아이템 중에서 장착해제 하려는 아이템을 찾는다.
+            List<InventoryItem> inventoryItemList = findUser.getInventoryItemList();
+
+            InventoryItem findInventoryItem = null;
+            Item findItem = null;
+            for (int i = 0; i < inventoryItemList.size(); i++) {
+                if (inventoryItemList.get(i).getItem().getIdx() == equipItemDto.getItemIdx()) {
+                    findInventoryItem = inventoryItemList.get(i);
+                    findItem = inventoryItemList.get(i).getItem();
+                    break;
+                }
+            }
+            // - 장착하려는 아이템이 없는 경우 에러
+            if (findInventoryItem == null || findItem == null) {
+                throw new Exception("인벤토리에 해당 아이템이 없습니다.");
+            }
+
+            // - 기존에 장착된 아이템 해제
+            for (int i = 0; i < inventoryItemList.size(); i++) {
+                InventoryItem current = inventoryItemList.get(i);
+                Item currentItem = current.getItem();
+                if (current.getEquipYn() == 1) { // 아이템장착여부가 1(장착)인 경우 
+                    current.setEquipYn(0); // 0으로 바꾸기
+
+                    ItemType itemType = currentItem.getItemType();
+                    if (itemType == ItemType.HELMET) {
+                        int hp = currentItem.getHp();
+                        findUser.setHp(findUser.getHp() - hp);
+                        userRepository.save(findUser);
+                    } else if (itemType == ItemType.ARMOR) {
+                        int defense = currentItem.getDefense();
+                        findUser.setDefense(findUser.getDefense() - defense);
+                        userRepository.save(findUser);
+                    } else {
+                        int damage = currentItem.getDamage();
+                        findUser.setDamage(findUser.getDamage() - damage);
+                        userRepository.save(findUser);
+                    }
+                }
+            }
+            // 아이템 장착 후 유저의 상태만 보내주는 DTO
+            AfterEquipDto result = new AfterEquipDto();
+            result.setItemIdx(findInventoryItem.getIdx());
+            result.setHp(findUser.getHp());
+            result.setDefense(findUser.getDefense());
+            result.setDamage(findUser.getDamage());
+
+            return result;
+        }
     }
 }
