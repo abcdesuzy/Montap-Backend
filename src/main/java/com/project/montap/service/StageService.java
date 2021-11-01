@@ -8,12 +8,11 @@ import com.project.montap.domain.repository.StageLogRepository;
 import com.project.montap.domain.repository.UserRepository;
 import com.project.montap.dto.ClearStageDto;
 import com.project.montap.dto.MyStageDto;
-import com.project.montap.dto.StageDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -37,20 +36,24 @@ public class StageService {
         if (optionalFindUser.isEmpty() || optionalFindStage.isEmpty()) {
             throw new Exception("클리어한 스테이지가 없습니다.");
         } else {
-            if (optionalFindStage.get().getMonsterHp() != 0 && optionalFindUser.get().getHp()==0) {
+            if (optionalFindStage.get().getMonsterHp() != 0 && optionalFindUser.get().getHp() == 0) {
                 throw new Exception("게임에서 졌습니다");
-            }else {
+            } else {
                 User findUser = optionalFindUser.get();
                 Stage findStage = optionalFindStage.get();
 
                 StageLog newStageLog = new StageLog();
                 newStageLog.setUser(findUser);
                 newStageLog.setStage(findStage);
+                newStageLog.setClearDate(LocalDateTime.now());
                 newStageLog.setIsClear(1);
                 stageLogRepository.save(newStageLog);
+
+                int clearMoney = optionalFindUser.get().getMoney() + optionalFindStage.get().getDropMoney();
+                optionalFindUser.get().setMoney(clearMoney);
             }
         }
-        if(optionalFindUser.get().getStage() < optionalFindStage.get().getIdx()){
+        if (optionalFindUser.get().getStage() < optionalFindStage.get().getIdx()) {
             optionalFindUser.get().setStage(optionalFindStage.get().getStageCount());
         }
         return clearStageDto;
@@ -63,24 +66,13 @@ public class StageService {
         if (optionalUser.isEmpty()) {
             throw new Exception("해당하는 유저가 없습니다.");
         }
- /*
         User user = optionalUser.get();
-        List<StageLog> stageLogList = user.getStageLogList();
+        List<MyStageDto> myStage = stageRepository.findByMyStage(user.getIdx());
 
-        List<Stage> stageList = new ArrayList<>();
-        for (int i=0; i<stageLogList.size();i++){
-            stageList.add(stageLogList.get(i).getStage());
-        }
-
-        Set<Stage> set = new HashSet<>(stageList);
-        List<Stage> result = new ArrayList<>(set);
-
-         return result;
-        }*/
-
-      return stageRepository.findByMyStage(userIdx);
-
+        return myStage;
     }
+}
 
-    }
+
+
 
