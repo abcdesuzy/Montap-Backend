@@ -165,7 +165,7 @@ public class EquipmentService {
             for (int i = 0; i < inventoryItemList.size(); i++) {
                 InventoryItem current = inventoryItemList.get(i);
                 Item currentItem = current.getItem();
-                if (current.getEquipYn() == 1) { // 아이템장착여부가 1(장착)인 경우 
+                if (current.getEquipYn() == 1 && currentItem.getItemType() == findItem.getItemType()) { // 아이템장착여부가 1(장착)인 경우
                     current.setEquipYn(0); // 0으로 바꾸기
 
                     ItemType itemType = currentItem.getItemType();
@@ -184,7 +184,7 @@ public class EquipmentService {
                     }
                 }
             }
-            // 아이템 장착 후 유저의 상태만 보내주는 DTO
+            // 유저의 상태만 보내주는 DTO
             AfterEquipDto result = new AfterEquipDto();
             result.setItemIdx(findInventoryItem.getIdx());
             result.setHp(findUser.getHp());
