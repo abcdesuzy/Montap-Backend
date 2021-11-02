@@ -111,7 +111,7 @@ public class UserService {
             // 현재 로그인 한 유저의 정보 찾기
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
-            System.out.println("테스트 : " + authUserDto);
+            System.out.println("테스트 : " + authUserDto); // 은지바보
 
             // 3. InitialInfoDto 생성 후 리턴
             AuthUserDto result = AuthUserDto
