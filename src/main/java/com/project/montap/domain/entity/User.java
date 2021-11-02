@@ -67,8 +67,8 @@ public class User {
                 .hp(hp)
                 .defense(defense)
                 .damage(damage)
-                .role(role)
                 .userProfileUrl(userProfileUrl)
+                .role(role)
                 .build();
     }
 }
