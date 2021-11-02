@@ -33,12 +33,15 @@ public class CustomUserDetailsService implements UserDetailsService {
         authUserDto.setUserIdx(user.getIdx());
         authUserDto.setUserId(user.getUserId());
         authUserDto.setUserPwd(user.getUserPwd());
+        authUserDto.setNickname(user.getNickname());
         authUserDto.setEmail(user.getEmail());
         authUserDto.setMoney(user.getMoney());
-        authUserDto.setNickname(user.getNickname());
+        authUserDto.setStage(user.getStage());
         authUserDto.setHp(user.getHp());
         authUserDto.setDefense(user.getDefense());
         authUserDto.setDamage(user.getDamage());
+        authUserDto.setUserProfileUrl(user.getUserProfileUrl());
+
         System.out.println("authUserDto = " + authUserDto);
 
         List<GrantedAuthority> roles = new ArrayList<>();

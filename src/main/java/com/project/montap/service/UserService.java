@@ -71,7 +71,10 @@ public class UserService {
     public UserDto modifyUser(UserDto userDto) {
 
         // 1. 사용자를 찾는다.
-        User findUser = userRepository.findByUserId(userDto.getUserId());
+        // 현재 로그인 한 유저의 정보 찾기
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
+        User findUser = userRepository.findByUserId(authUserDto.getUserId());
 
         // 2. 찾은 Entity 에 사용자로부터 패스워드로 변경한다.
         String newPassword = passwordEncoder.encode(userDto.getUserPwd());
@@ -111,7 +114,7 @@ public class UserService {
             // 현재 로그인 한 유저의 정보 찾기
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
-            System.out.println("테스트 : " + authUserDto); // 은지바보
+            System.out.println("테스트 : " + authUserDto);
 
             // 3. InitialInfoDto 생성 후 리턴
             AuthUserDto result = AuthUserDto
@@ -121,10 +124,10 @@ public class UserService {
                     .nickname(findUser.getNickname())
                     .email(findUser.getEmail())
                     .money(findUser.getMoney())
+                    .stage(findUser.getStage())
                     .hp(findUser.getHp())
                     .damage(findUser.getDamage())
                     .defense(findUser.getDefense())
-                    .stage(findUser.getStage())
                     .userProfileUrl(findUser.getUserProfileUrl())
                     .build();
 
