@@ -1,5 +1,6 @@
 package com.project.montap.controller;
 
+import com.project.montap.domain.entity.User;
 import com.project.montap.dto.AuthUserDto;
 import com.project.montap.dto.UserDto;
 import com.project.montap.exception.Error;
@@ -8,6 +9,7 @@ import com.project.montap.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,12 +43,12 @@ public class UserController {
     }
 
     // 회원조회
-    @GetMapping("/user/{userId}")
-    public ResponseEntity getUser(@PathVariable String userId) {
+    @GetMapping("/user")
+    public ResponseEntity getUser(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
         try {
-            System.out.println("userId = " + userId);
-            UserDto findUser = userService.getUser(userId);
-            return ResponseEntity.status(HttpStatus.OK).body(findUser);
+            System.out.println("userId = " + authUserDto);
+            User result = userService.getUser(authUserDto.getUserIdx());
+            return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
@@ -55,7 +57,7 @@ public class UserController {
 
     // 회원정보수정
     @PutMapping("/user")
-    public ResponseEntity modifyUser(@RequestBody UserDto userDto) {
+    public ResponseEntity modifyUser(@RequestBody UserDto userDto) throws Exception {
         try {
             UserDto newUser = userService.modifyUser(userDto);
             System.out.println("newUser = " + newUser);

@@ -91,16 +91,24 @@ public class UserService {
     }
 
     // 회원조회
-    public UserDto getUser(String userId) {
+    public User getUser(Long userIdx) throws Exception {
 
         // 1. Repository >> DB >> SELECT 문으로 해당 유저를 찾음
-        User user = userRepository.findByUserId(userId);
-        System.out.println("user = " + user);
+        Optional<User> optionalUser = userRepository.findById(userIdx);
+       // User user = userRepository.findByUserId(userId);
+        System.out.println("user = " + optionalUser);
 
-        // 2. Entity >>> DTO 변환 작업
-        UserDto findUser = user.toUserDto();
+        if (optionalUser.isEmpty()) {
+            throw new Exception("해당하는 유저가 없습니다.");
+        }
+        User user = optionalUser.get();
+        User result = userRepository.findByUserId(user.getUserId());
 
-        return findUser;
+
+//        // 2. Entity >>> DTO 변환 작업
+//        UserDto findUser = user.toUserDto();
+
+        return result;
     }
 
     // 회원정보수정
