@@ -42,6 +42,39 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(newUser);
     }
 
+    // 아이디 중복확인
+    @GetMapping("/user/idcheck/{userId}")
+    public ResponseEntity userIdCheck(@PathVariable String userId) {
+        try {
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null; //ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error (e.getMessage()));
+        }
+    }
+
+    // 닉네임 중복확인
+    @GetMapping("/user/nickcheck/{userId}")
+    public ResponseEntity userNickCheck(@PathVariable String userId) {
+        try {
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null; //ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error (e.getMessage()));
+        }
+    }
+
+    // 이메일 중복확인
+    @GetMapping("/user/emailcheck/{userId}")
+    public ResponseEntity userEmailCheck(@PathVariable String userId) {
+        try {
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null; //ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error (e.getMessage()));
+        }
+    }
+
     // 로그인
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody UserDto userDto) {

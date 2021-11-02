@@ -31,7 +31,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
         AccountContext accountContext = (AccountContext) customUserDetailsService.loadUserByUsername(userId);
 
         // passwordEncoder.matchers 메소드 사용해서 처리
-        if (!passwordEncoder.matches(userPwd,accountContext.getPassword())) {
+        if (!userPwd.equals(accountContext.getPassword())) {
             throw new BadCredentialsException("Invalid password 비밀번호가 일치하지 않습니다.");
         }
 
