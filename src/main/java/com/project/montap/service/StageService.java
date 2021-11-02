@@ -8,6 +8,7 @@ import com.project.montap.domain.repository.StageLogRepository;
 import com.project.montap.domain.repository.UserRepository;
 import com.project.montap.dto.ClearStageDto;
 import com.project.montap.dto.MyStageDto;
+import com.project.montap.dto.StageDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +72,25 @@ public class StageService {
 
         return myStage;
     }
+
+    @Transactional
+    public StageDto getStage(Long stageIdx) throws Exception {
+        Optional<Stage> optionalStage = stageRepository.findById(stageIdx);
+        if(optionalStage.isEmpty()){
+            throw new Exception("해당 스테이지가 없습니다.");
+        }
+        Stage stage = optionalStage.get();
+        StageDto stageDto = new StageDto();
+        stageDto.setIdx(stage.getIdx());
+        stageDto.setStageCount(stage.getStageCount());
+        stageDto.setMonsterName(stage.getMonsterName());
+        stageDto.setMonsterDamage(stage.getMonsterDamage());
+        stageDto.setIsBoss(stage.getIsBoss());
+        stageDto.setDropMoney(stage.getDropMoney());
+        stageDto.setMonsterUrl(stage.getMonsterUrl());
+        return stageDto;
+    }
+
 }
 
 

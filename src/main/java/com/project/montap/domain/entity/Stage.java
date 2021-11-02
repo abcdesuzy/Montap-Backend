@@ -3,6 +3,7 @@ package com.project.montap.domain.entity;
 
 import com.project.montap.dto.MyStageDto;
 
+import com.project.montap.dto.StageDto;
 import com.project.montap.enums.IsBoss;
 import lombok.*;
 
@@ -44,5 +45,19 @@ public class Stage {
 
     int dropMoney;
     String monsterUrl;
+
+     public StageDto toStageDto(){
+         return StageDto
+                 .builder()
+                 .idx(idx)
+                 .stageCount(stageCount)
+                 .monsterName(monsterName)
+                 .monsterHp(monsterHp)
+                 .monsterDamage(monsterDamage)
+                 .isBoss(isBoss)
+                 .dropMoney(dropMoney)
+                 .monsterUrl(monsterUrl)
+                 .build();
+    }
 
 }

@@ -14,6 +14,7 @@ import java.util.List;
 @Builder
 @ToString
 public class StageDto {
+    Long idx;
     int stageCount;
     String monsterName;
     int monsterHp;
