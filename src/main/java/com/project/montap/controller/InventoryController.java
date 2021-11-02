@@ -1,9 +1,11 @@
 package com.project.montap.controller;
 
 import com.project.montap.domain.entity.Item;
+import com.project.montap.dto.DrawingItemDto;
 import com.project.montap.dto.GetItemDto;
 import com.project.montap.dto.ItemDto;
 import com.project.montap.dto.SellingItemDto;
+import com.project.montap.exception.Error;
 import com.project.montap.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +31,8 @@ public class InventoryController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
         }
     }
-    
-    // 내 인벤토리 전체 아이템 리스트
+
+    // 내 인벤토리 전체 아이템 리스트(X)
 
     // 인벤토리 미장착 아이템 리스트
     @GetMapping("/inventory/item/{userIdx}")
@@ -41,7 +43,6 @@ public class InventoryController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    
     // 아이템 판매
     @PostMapping("/item/sell")
     public ResponseEntity sellItem(@RequestBody SellingItemDto sellingItemDto) {
@@ -58,8 +59,20 @@ public class InventoryController {
     @GetMapping("/item/{itemIdx}")
     public ResponseEntity getItemInfo(@PathVariable Long itemIdx) {
         try {
-           ItemDto itemDto = inventoryService.getItemInfo(itemIdx);
+            ItemDto itemDto = inventoryService.getItemInfo(itemIdx);
             return ResponseEntity.status(HttpStatus.OK).body(itemDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error(e.getMessage()));
+        }
+    }
+
+    // 아이템 뽑기
+    @PostMapping("/draw")
+    public ResponseEntity drawItem(@RequestBody DrawingItemDto drawingItemDto) {
+        try {
+            List<Item> resultList = inventoryService.drawItem(drawingItemDto);
+            return ResponseEntity.status(HttpStatus.OK).body(resultList);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error(e.getMessage()));

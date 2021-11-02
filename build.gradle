@@ -32,6 +32,9 @@ dependencies {
     // mysql connector
     implementation 'mysql:mysql-connector-java'
 
+    // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-aws
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.5.RELEASE'
+
     // lombok - https://projectlombok.org/setup/gradle
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'

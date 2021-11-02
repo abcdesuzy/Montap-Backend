@@ -2,17 +2,22 @@ package com.project.montap.controller;
 
 import com.project.montap.dto.InitialInfoDto;
 import com.project.montap.dto.UserDto;
+import com.project.montap.service.S3Service;
 import com.project.montap.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    S3Service s3Service;
 
     // 회원가입
     @PostMapping("/user")
@@ -44,6 +49,18 @@ public class UserController {
         try {
             InitialInfoDto result = userService.login(userDto);
             return ResponseEntity.status(HttpStatus.OK).body(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
+        }
+    }
+
+    // 프로필 사진 변경
+    @PostMapping("/user/profile") // 이미지는 param // key 값은 upload 로
+    public ResponseEntity uploadProfile(@RequestParam("upload") MultipartFile file) {
+        try {
+            String url = s3Service.upload(file);
+            return ResponseEntity.status(HttpStatus.OK).body(url);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));

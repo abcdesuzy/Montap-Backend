@@ -36,6 +36,7 @@ public class User {
     @Column(columnDefinition = "INTEGER NOT NULL DEFAULT 10")
     int damage = 10;
     String role;
+    String userProfileUrl;
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
@@ -44,11 +45,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     List<StageLog> stageLogList = new ArrayList<>();
-
-    // 장착한 Item List (보류)
-    //    @OneToMany(mappedBy = "user")
-    //    @JsonManagedReference
-    //    List<Item> equipItemList = new ArrayList<>();
 
     // 회원가입 
     public User(String userId, String userPwd, String nickname, String email) {
@@ -72,6 +68,7 @@ public class User {
                 .defense(defense)
                 .damage(damage)
                 .role(role)
+                .userProfileUrl(userProfileUrl)
                 .build();
     }
 }

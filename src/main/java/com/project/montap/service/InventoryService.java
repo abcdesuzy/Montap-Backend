@@ -6,10 +6,13 @@ import com.project.montap.domain.entity.User;
 import com.project.montap.domain.repository.InventoryItemRepository;
 import com.project.montap.domain.repository.ItemRepository;
 import com.project.montap.domain.repository.UserRepository;
+import com.project.montap.dto.DrawingItemDto;
 import com.project.montap.dto.GetItemDto;
 import com.project.montap.dto.ItemDto;
 import com.project.montap.dto.SellingItemDto;
+import com.project.montap.enums.ItemType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.server.authorization.AuthorizationWebFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -17,6 +20,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalLong;
 
 @Service
 public class InventoryService {
@@ -38,6 +42,8 @@ public class InventoryService {
         // 2. 획득할 아이템을 찾는다.
         Optional<Item> optionalFindItem = itemRepository.findById(getItemDto.getItemIdx());
 
+        // 2-1
+
         // - 유저나 얻을 아이템이 없는 경우 >>> 에러
         if (optionalFindItem.isEmpty() || optionalFindUser.isEmpty()) {
             throw new Exception("사용자 혹은 해당하는 아이템이 없습니다.");
@@ -55,7 +61,7 @@ public class InventoryService {
         }
     }
 
-    // 획득한 아이템 리스트
+    // 내 인벤토리 미장착 아이템 리스트
     @Transactional
     public List<Item> getItemInventoryList(Long userIdx) throws Exception {
 
@@ -121,10 +127,10 @@ public class InventoryService {
     // 아이템 상세정보
     @Transactional
     public ItemDto getItemInfo(Long itemIdx) throws Exception {
-      Optional<Item> optionalItem = itemRepository.findById(itemIdx);
-      if (optionalItem.isEmpty()){
-          throw new Exception("없는 아이템 입니다.");
-      }
+        Optional<Item> optionalItem = itemRepository.findById(itemIdx);
+        if (optionalItem.isEmpty()) {
+            throw new Exception("없는 아이템 입니다.");
+        }
         Item item = optionalItem.get();
         ItemDto itemDto = new ItemDto();
         itemDto.setIdx(item.getIdx());
@@ -138,5 +144,70 @@ public class InventoryService {
         itemDto.setPrice(item.getPrice());
         itemDto.setItemUrl(item.getItemUrl());
         return itemDto;
+    }
+
+    // 아이템 뽑기
+    @Transactional
+    public List<Item> drawItem(DrawingItemDto drawingItemDto) throws Exception {
+        Long userIdx = drawingItemDto.getUserIdx();
+        int count = drawingItemDto.getCount();
+        List<Item> resultList = new ArrayList<>();
+        if (count != 1 && count != 10) {
+            throw new Exception("1회 또는 10회만 가능합니다.");
+        }
+
+        // 유저 찾기
+        Optional<User> optionalUser = userRepository.findById(userIdx);
+        if (optionalUser.isEmpty()) {
+            throw new Exception("해당하는 유저가 없습니다.");
+        }
+
+        // 유저와 유저의 재화 꺼내기
+        User user = optionalUser.get();
+        int money = user.getMoney();
+        int drawMoney = 0;
+
+        // 뽑기 금액
+        if (count == 1) drawMoney = 1000;
+        else drawMoney = 9000;
+
+        if (money < drawMoney) {
+            throw new Exception("재화가 부족합니다.");
+        }
+
+        // 뽑기 확률
+        for (int i = 0; i < count; i++) {
+            ItemType itemType = null;
+            int itemRank = 0;
+            // 아이템 타입 33% 0,1,2
+            int number = (int) (Math.random() * 10) % 3;
+            if (number == 0) itemType = ItemType.HELMET;
+            if (number == 1) itemType = ItemType.ARMOR;
+            if (number == 2) itemType = ItemType.WEAPON;
+            // 아이템 등급 0,1,2,3
+            number = (int) (Math.random() * 100);
+            if (0 <= number && number < 5) itemRank = 0;
+            if (5 <= number && number < 21) itemRank = 1;
+            if (21 <= number && number < 51) itemRank = 2;
+            if (51 <= number && number < 100) itemRank = 3;
+
+            Optional<Item> optionalItem = itemRepository.findByItemTypeAndItemRank(itemType, itemRank);
+            if (optionalItem.isEmpty()) {
+                throw new Exception("해당하는 아이템이 없습니다.");
+            }
+            Item item = optionalItem.get();
+
+            InventoryItem inventoryItem = new InventoryItem();
+            inventoryItem.setUser(user);
+            inventoryItem.setItem(item);
+            inventoryItemRepository.save(inventoryItem);
+
+            resultList.add(item);
+        }
+
+        user.setMoney(user.getMoney() - drawMoney);
+        userRepository.save(user);
+
+        return resultList;
     }
 }

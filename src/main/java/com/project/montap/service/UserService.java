@@ -105,7 +105,7 @@ public class UserService {
                     .defense(findUser.getDefense())
                     .role(findUser.getRole())
                     .stage(findUser.getStage())
-                    .inventoryItemList(findUser.getInventoryItemList())
+                    .userProfileUrl(findUser.getUserProfileUrl())
                     .build();
 
             return result;

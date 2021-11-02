@@ -20,4 +20,5 @@ public class UserDto {
     int defense;
     int damage;
     String role;
+    String userProfileUrl;
 }

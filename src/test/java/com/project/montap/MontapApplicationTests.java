@@ -28,46 +28,38 @@ class MontapApplicationTests {
 
         List<Item> newItemList = new ArrayList<>();
 
-        for (int i = 0; i < 5; i++) {
-            Item newItem = Item
-                    .builder()
-                    .name("helmet" + (i + 1))
-                    .description("This is helmet" + (i + 1))
-                    .itemType(ItemType.HELMET)
-                    .itemRank(i % 4)
-                    .hp(i + 1)
-                    .itemUrl(null)
-                    .price((i + 1) * 1000)
-                    .build();
-            newItemList.add(newItem);
-        }
-
-        for (int i = 0; i < 5; i++) {
-            Item newItem = Item
-                    .builder()
-                    .name("Armor" + (i + 1))
-                    .description("This is Armor" + (i + 1))
-                    .itemType(ItemType.ARMOR)
-                    .itemRank(i % 4)
-                    .defense(i + 1)
-                    .itemUrl(null)
-                    .price((i + 1) * 1000)
-                    .build();
-            newItemList.add(newItem);
-        }
-
-        for (int i = 0; i < 5; i++) {
-            Item newItem = Item
-                    .builder()
-                    .name("Weapon" + (i + 1))
-                    .description("This is Weapon" + (i + 1))
-                    .itemType(ItemType.WEAPON)
-                    .itemRank(i % 4)
-                    .damage(i + 1)
-                    .itemUrl(null)
-                    .price((i + 1) * 1000)
-                    .build();
-            newItemList.add(newItem);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                Item item = new Item();
+                if (i == 0) {
+                    item.setName("helmet" + (i + 1));
+                    item.setDescription("This is helmet" + (i + 1));
+                    item.setItemType(ItemType.HELMET);
+                    item.setItemRank(j % 4);
+                    item.setHp(i + 1);
+                    item.setItemUrl(null);
+                    item.setPrice((i + 1) * 1000);
+                }
+                if (i == 1) {
+                    item.setName("armor" + (i + 1));
+                    item.setDescription("This is armor" + (i + 1));
+                    item.setItemType(ItemType.ARMOR);
+                    item.setItemRank(j % 4);
+                    item.setDefense(i + 1);
+                    item.setItemUrl(null);
+                    item.setPrice((i + 1) * 1000);
+                }
+                if (i == 2) {
+                    item.setName("weapon" + (i + 1));
+                    item.setDescription("This is weapon" + (i + 1));
+                    item.setItemType(ItemType.WEAPON);
+                    item.setItemRank(j % 4);
+                    item.setDamage(i + 1);
+                    item.setItemUrl(null);
+                    item.setPrice((i + 1) * 1000);
+                }
+                newItemList.add(item);
+            }
         }
 
         itemRepository.saveAll(newItemList);
