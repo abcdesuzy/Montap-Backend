@@ -6,6 +6,8 @@ import com.project.montap.domain.repository.UserRepository;
 import com.project.montap.dto.InitialInfoDto;
 import com.project.montap.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,9 @@ public class UserService {
     @Autowired
     InventoryItemRepository inventoryRepository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     // 회원가입
     @Transactional
     public UserDto saveUser(UserDto userDto) {
@@ -34,7 +39,7 @@ public class UserService {
         //  .email(userDto.getEmail())
         //  .nickname(userDto.getNickname())
         //  .build();
-        User newUser = new User(userDto.getUserId(), userDto.getUserPwd(), userDto.getNickname(), userDto.getEmail());
+        User newUser = new User(userDto.getUserId(), passwordEncoder.encode(userDto.getUserPwd()), userDto.getNickname(), userDto.getEmail());
         User user = userRepository.save(newUser);
 
         // 3. Entity >>> DTO 전환 작업
@@ -65,7 +70,7 @@ public class UserService {
         // 2. 찾은 Entity 에 사용자로부터 입력 받은 닉네임, 패스워드로 변경한다.
         String newNickname = userDto.getNickname();
         findUser.setNickname(newNickname);
-        String newPassword = userDto.getUserPwd();
+        String newPassword = passwordEncoder.encode(userDto.getUserPwd());
         findUser.setUserPwd(newPassword);
 
         // 3. DB 에 수정된 유저 정보를 저장한다. (update)
