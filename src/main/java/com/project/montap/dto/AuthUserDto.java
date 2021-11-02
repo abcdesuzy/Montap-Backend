@@ -7,6 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 public class AuthUserDto {
     // 시큐리티 인증용 Dto
     Long userIdx;
@@ -19,5 +20,6 @@ public class AuthUserDto {
     int hp;
     int defense;
     int damage;
+    String userProfileUrl;
     String role;
 }

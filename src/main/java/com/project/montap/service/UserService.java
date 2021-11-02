@@ -3,9 +3,11 @@ package com.project.montap.service;
 import com.project.montap.domain.entity.User;
 import com.project.montap.domain.repository.InventoryItemRepository;
 import com.project.montap.domain.repository.UserRepository;
-import com.project.montap.dto.InitialInfoDto;
+import com.project.montap.dto.AuthUserDto;
 import com.project.montap.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +58,11 @@ public class UserService {
 
         // 2. Entity >>> DTO 변환 작업
         UserDto findUser = user.toUserDto();
+
+        // 현재 로그인 한 유저의 정보 찾기
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
+        System.out.println("테스트 : " + authUserDto.getUserIdx() + ", " + authUserDto);
         return findUser;
     }
 
@@ -81,13 +88,14 @@ public class UserService {
     }
 
     // 아이디 중복 확인
-    
+
     // 닉네임 중복 확인
 
     // 이메일 중복 확인
 
     // 로그인
-    public InitialInfoDto login(UserDto userDto) throws Exception {
+    public AuthUserDto login(UserDto userDto) throws Exception {
+
 
         // 1. 접속한 사용자의 userId, userPwd 확인
         Optional<User> optionalUser = userRepository.findByUserIdAndUserPwd(userDto.getUserId(), userDto.getUserPwd());
@@ -100,8 +108,13 @@ public class UserService {
             // 로그인 성공
             User findUser = optionalUser.get();
 
+            // 현재 로그인 한 유저의 정보 찾기
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
+            System.out.println("테스트 : " + authUserDto);
+
             // 3. InitialInfoDto 생성 후 리턴
-            InitialInfoDto result = InitialInfoDto
+            AuthUserDto result = AuthUserDto
                     .builder()
                     .userIdx(findUser.getIdx())
                     .userId(findUser.getUserId())
@@ -111,7 +124,6 @@ public class UserService {
                     .hp(findUser.getHp())
                     .damage(findUser.getDamage())
                     .defense(findUser.getDefense())
-                    .role(findUser.getRole())
                     .stage(findUser.getStage())
                     .userProfileUrl(findUser.getUserProfileUrl())
                     .build();

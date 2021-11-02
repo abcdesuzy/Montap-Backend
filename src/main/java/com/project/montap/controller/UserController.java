@@ -1,5 +1,6 @@
 package com.project.montap.controller;
 
+import com.project.montap.dto.AuthUserDto;
 import com.project.montap.dto.InitialInfoDto;
 import com.project.montap.dto.UserDto;
 import com.project.montap.service.S3Service;
@@ -80,7 +81,7 @@ public class UserController {
     public ResponseEntity login(@RequestBody UserDto userDto) {
         System.out.println("userDto = " + userDto);
         try {
-            InitialInfoDto result = userService.login(userDto);
+            AuthUserDto result = userService.login(userDto);
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();
