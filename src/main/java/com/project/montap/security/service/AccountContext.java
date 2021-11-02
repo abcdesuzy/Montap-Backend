@@ -8,7 +8,6 @@ import java.util.Collection;
 
 public class AccountContext extends User {
 
-
     private final AuthUserDto user;
 
     public AccountContext(AuthUserDto user, Collection<? extends GrantedAuthority> authorities) {

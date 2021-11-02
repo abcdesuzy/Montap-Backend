@@ -6,10 +6,14 @@ import com.project.montap.domain.entity.User;
 import com.project.montap.domain.repository.StageRepository;
 import com.project.montap.domain.repository.StageLogRepository;
 import com.project.montap.domain.repository.UserRepository;
+import com.project.montap.dto.AuthUserDto;
 import com.project.montap.dto.ClearStageDto;
 import com.project.montap.dto.MyStageDto;
 import com.project.montap.dto.StageDto;
+import com.project.montap.security.service.AccountContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +31,7 @@ public class StageService {
 
     @Autowired
     StageLogRepository stageLogRepository;
+
 
     @Transactional
     public ClearStageDto clearStage(ClearStageDto clearStageDto) throws Exception {
@@ -64,6 +69,7 @@ public class StageService {
     public List<MyStageDto> getMyStage(Long userIdx) throws Exception {
 
         Optional<User> optionalUser = userRepository.findById(userIdx);
+
         if (optionalUser.isEmpty()) {
             throw new Exception("해당하는 유저가 없습니다.");
         }

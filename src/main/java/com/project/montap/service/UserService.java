@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-// 회원관리
+// 회원관리 서비스
 @Service
 @Transactional(readOnly = true)
 public class UserService {
@@ -40,7 +40,10 @@ public class UserService {
         //  .email(userDto.getEmail())
         //  .nickname(userDto.getNickname())
         //  .build();
-        User newUser = new User(userDto.getUserId(), passwordEncoder.encode(userDto.getUserPwd()), userDto.getNickname(), userDto.getEmail());
+        User newUser = new User(
+                userDto.getUserId(), // 5~15 글자 이내
+                passwordEncoder.encode(userDto.getUserPwd()), // 5~20 글자 이내
+                userDto.getNickname(), userDto.getEmail()); // 2~8 글자 이내
         User user = userRepository.save(newUser);
 
         // 3. Entity >>> DTO 전환 작업
@@ -49,20 +52,54 @@ public class UserService {
         return newUserDto;
     }
 
+    // 로그인
+    public AuthUserDto login(UserDto userDto) throws Exception {
+
+        // 1. 접속한 사용자의 userId, userPwd 확인
+        Optional<User> optionalUser = userRepository.findByUserIdAndUserPwd(userDto.getUserId(), userDto.getUserPwd());
+
+        // 2. 아이디, 비밀번호가 맞는지 확인
+        if (optionalUser.isEmpty()) {
+            // 로그인 실패
+            throw new Exception("아이디 혹은 비밀번호를 다시 입력하세요.");
+        } else {
+            // 로그인 성공하면 유저 가져오기
+            User findUser = optionalUser.get();
+
+            // 현재 로그인 한 유저의 정보 찾기
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
+            System.out.println("테스트 : " + authUserDto);
+
+            // 3. InitialInfoDto 생성 후 리턴
+            AuthUserDto result = AuthUserDto
+                    .builder()
+                    .userIdx(findUser.getIdx())
+                    .userId(findUser.getUserId())
+                    .nickname(findUser.getNickname())
+                    .email(findUser.getEmail())
+                    .money(findUser.getMoney())
+                    .stage(findUser.getStage())
+                    .hp(findUser.getHp())
+                    .damage(findUser.getDamage())
+                    .defense(findUser.getDefense())
+                    .userProfileUrl(findUser.getUserProfileUrl())
+                    .build();
+
+            return result;
+        }
+    }
+
     // 회원조회
     public UserDto getUser(String userId) {
 
         // 1. Repository >> DB >> SELECT 문으로 해당 유저를 찾음
         User user = userRepository.findByUserId(userId);
-        //  System.out.println("user = " + user);
+        System.out.println("user = " + user);
 
         // 2. Entity >>> DTO 변환 작업
         UserDto findUser = user.toUserDto();
 
-        // 현재 로그인 한 유저의 정보 찾기
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
-        System.out.println("테스트 : " + authUserDto.getUserIdx() + ", " + authUserDto);
         return findUser;
     }
 
@@ -71,9 +108,10 @@ public class UserService {
     public UserDto modifyUser(UserDto userDto) {
 
         // 1. 사용자를 찾는다.
+        // 현재 로그인 한 유저의 정보 찾기
         User findUser = userRepository.findByUserId(userDto.getUserId());
 
-        // 2. 찾은 Entity 에 사용자로부터 패스워드로 변경한다.
+        // 2. 찾은 Entity 에 사용자로부터 패스워드로 변경한다. 5~20 글자 이내
         String newPassword = passwordEncoder.encode(userDto.getUserPwd());
         findUser.setUserPwd(newPassword);
 
@@ -87,48 +125,12 @@ public class UserService {
         return newUser;
     }
 
+
     // 아이디 중복 확인
 
     // 닉네임 중복 확인
 
     // 이메일 중복 확인
 
-    // 로그인
-    public AuthUserDto login(UserDto userDto) throws Exception {
 
-
-        // 1. 접속한 사용자의 userId, userPwd 확인
-        Optional<User> optionalUser = userRepository.findByUserIdAndUserPwd(userDto.getUserId(), userDto.getUserPwd());
-
-        // 2. 아이디, 비밀번호가 맞는지 확인
-        if (optionalUser.isEmpty()) {
-            // 로그인 실패
-            throw new Exception("올바른 아이디 혹은 비밀번호를 입력하세요.");
-        } else {
-            // 로그인 성공
-            User findUser = optionalUser.get();
-
-            // 현재 로그인 한 유저의 정보 찾기
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
-            System.out.println("테스트 : " + authUserDto); // 은지바보
-
-            // 3. InitialInfoDto 생성 후 리턴
-            AuthUserDto result = AuthUserDto
-                    .builder()
-                    .userIdx(findUser.getIdx())
-                    .userId(findUser.getUserId())
-                    .nickname(findUser.getNickname())
-                    .email(findUser.getEmail())
-                    .money(findUser.getMoney())
-                    .hp(findUser.getHp())
-                    .damage(findUser.getDamage())
-                    .defense(findUser.getDefense())
-                    .stage(findUser.getStage())
-                    .userProfileUrl(findUser.getUserProfileUrl())
-                    .build();
-
-            return result;
-        }
-    }
 }

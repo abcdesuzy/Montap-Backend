@@ -1,16 +1,14 @@
 package com.project.montap.controller;
 
-import com.project.montap.domain.entity.Stage;
 import com.project.montap.domain.repository.StageLogRepository;
-import com.project.montap.dto.ClearStageDto;
-import com.project.montap.dto.ItemDto;
-import com.project.montap.dto.MyStageDto;
-import com.project.montap.dto.StageDto;
+import com.project.montap.dto.*;
 import com.project.montap.exception.Error;
+import com.project.montap.security.service.AccountContext;
 import com.project.montap.service.StageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,10 +23,12 @@ public class StageController {
     @Autowired
     StageLogRepository stageLogRepository;
 
-    @GetMapping("/mystage/{userIdx}")
-    public ResponseEntity getMyStage(@PathVariable Long userIdx) throws Exception{
-        List<MyStageDto> result = stageService.getMyStage(userIdx);
+    @GetMapping("/mystage")
+    public ResponseEntity getMyStage(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception{
+        List<MyStageDto> result = stageService.getMyStage(authUserDto.getUserIdx());
+        System.out.println("확인" + authUserDto);
         return ResponseEntity.status(HttpStatus.OK).body(result);
+
     }
 
     @GetMapping("/stage/{stageIdx}")
