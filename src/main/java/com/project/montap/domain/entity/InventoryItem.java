@@ -1,6 +1,7 @@
 package com.project.montap.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.project.montap.enums.ItemType;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
