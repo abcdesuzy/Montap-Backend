@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
 
 import java.util.Optional;
 
@@ -52,61 +53,22 @@ public class UserService {
         return newUserDto;
     }
 
-    // 로그인
-    public AuthUserDto login(UserDto userDto) throws Exception {
-
-        // 1. 접속한 사용자의 userId, userPwd 확인
-        Optional<User> optionalUser = userRepository.findByUserIdAndUserPwd(userDto.getUserId(), userDto.getUserPwd());
-
-        // 2. 아이디, 비밀번호가 맞는지 확인
-        if (optionalUser.isEmpty()) {
-            // 로그인 실패
-            throw new Exception("아이디 혹은 비밀번호를 다시 입력하세요.");
-        } else {
-            // 로그인 성공하면 유저 가져오기
-            User findUser = optionalUser.get();
-
-            // 현재 로그인 한 유저의 정보 찾기
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
-            System.out.println("테스트 : " + authUserDto);
-
-            // 3. InitialInfoDto 생성 후 리턴
-            AuthUserDto result = AuthUserDto
-                    .builder()
-                    .userIdx(findUser.getIdx())
-                    .userId(findUser.getUserId())
-                    .nickname(findUser.getNickname())
-                    .email(findUser.getEmail())
-                    .money(findUser.getMoney())
-                    .stage(findUser.getStage())
-                    .hp(findUser.getHp())
-                    .damage(findUser.getDamage())
-                    .defense(findUser.getDefense())
-                    .userProfileUrl(findUser.getUserProfileUrl())
-                    .build();
-
-            return result;
-        }
-    }
-
     // 회원조회
-    public User getUser(Long userIdx) throws Exception {
+    public UserDto getUser() throws Exception {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
 
-        // 1. Repository >> DB >> SELECT 문으로 해당 유저를 찾음
-        Optional<User> optionalUser = userRepository.findById(userIdx);
-        // User user = userRepository.findByUserId(userId);
-        System.out.println("user = " + optionalUser);
-
-        if (optionalUser.isEmpty()) {
-            throw new Exception("해당하는 유저가 없습니다.");
-        }
-        User user = optionalUser.get();
-        User result = userRepository.findByUserId(user.getUserId());
-
-
-//        // 2. Entity >>> DTO 변환 작업
-//        UserDto findUser = user.toUserDto();
+        UserDto result = new UserDto();
+        result.setIdx(authUserDto.getUserIdx());
+        result.setUserId(authUserDto.getUserId());
+        result.setNickname(authUserDto.getNickname());
+        result.setEmail(authUserDto.getEmail());
+        result.setMoney(authUserDto.getMoney());
+        result.setStage(authUserDto.getStage());
+        result.setHp(authUserDto.getHp());
+        result.setDefense(authUserDto.getDefense());
+        result.setDamage(authUserDto.getDamage());
+        result.setUserProfileUrl(authUserDto.getUserProfileUrl());
 
         return result;
     }

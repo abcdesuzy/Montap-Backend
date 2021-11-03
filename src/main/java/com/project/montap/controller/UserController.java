@@ -10,8 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -24,30 +30,16 @@ public class UserController {
 
     // 회원가입
     @PostMapping( "/user" )
-    public ResponseEntity saveUser(@RequestBody UserDto userDto) {
+    public ResponseEntity saveUser(@RequestBody @Valid UserDto userDto) {
         UserDto newUserDto = userService.saveUser(userDto);
         return ResponseEntity.status(HttpStatus.OK).body(newUserDto);
     }
 
-    // 로그인
-    @PostMapping( "/login" )
-    public ResponseEntity login(@RequestBody UserDto userDto) {
-        System.out.println("userDto = " + userDto);
-        try {
-            AuthUserDto result = userService.login(userDto);
-            return ResponseEntity.status(HttpStatus.OK).body(result);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
-        }
-    }
-
     // 회원조회
     @GetMapping( "/user" )
-    public ResponseEntity getUser(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
+    public ResponseEntity getUser() throws Exception {
         try {
-            System.out.println("userId = " + authUserDto);
-            User result = userService.getUser(authUserDto.getUserIdx());
+            UserDto result = userService.getUser();
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,5 +104,18 @@ public class UserController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
         }
+    }
+
+    // [공통] 유효성 검사 Error 처리
+    @ExceptionHandler( MethodArgumentNotValidException.class )
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(
+            MethodArgumentNotValidException exception) {
+        Map<String, String> errors = new HashMap<>();
+        exception.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return ResponseEntity.badRequest().body(errors);
     }
 }
