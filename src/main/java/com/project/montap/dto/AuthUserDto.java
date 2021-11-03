@@ -4,10 +4,10 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@NoArgsConstructor
 @Builder
+@ToString
 public class AuthUserDto {
     // 시큐리티 인증용 Dto
     Long userIdx;

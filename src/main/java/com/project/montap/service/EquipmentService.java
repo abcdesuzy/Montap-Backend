@@ -7,9 +7,12 @@ import com.project.montap.domain.repository.InventoryItemRepository;
 import com.project.montap.domain.repository.ItemRepository;
 import com.project.montap.domain.repository.UserRepository;
 import com.project.montap.dto.AfterEquipDto;
+import com.project.montap.dto.AuthUserDto;
 import com.project.montap.dto.EquipItemDto;
 import com.project.montap.enums.ItemType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -135,10 +138,12 @@ public class EquipmentService {
     public AfterEquipDto deleteEquipment(EquipItemDto equipItemDto) throws Exception {
 
         // 1. 장착 해제하려는 유저 찾기
-        Optional<User> optionalFindUser = userRepository.findById(equipItemDto.getUserIdx());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
+        Optional<User> optionalFindUser = userRepository.findById(authUserDto.getUserIdx());
         // - 유저가 없는 경우
         if (optionalFindUser.isEmpty()) {
-            throw new Exception("장착해제 하려는 User가 없습니다.");
+            throw new Exception("장착해제 하려는 유저가 없습니다.");
         } else { // - 유저가 DB에 있는 경우
 
             // 유저 꺼내기

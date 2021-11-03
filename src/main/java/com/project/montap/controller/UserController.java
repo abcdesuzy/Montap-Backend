@@ -73,23 +73,21 @@ public class UserController {
     @GetMapping("/user/idcheck/{userId}")
     public ResponseEntity userIdCheck(@PathVariable String userId) {
         try {
-            boolean userIdCheck = userService.getIdCheck(userId);
-            return ResponseEntity.status(HttpStatus.OK).body(userIdCheck);
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error (e.getMessage()));
+            return null; //ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error (e.getMessage()));
         }
     }
 
     // 닉네임 중복확인
-    @GetMapping("/user/nickcheck/{nickname}")
-    public ResponseEntity userNickCheck(@PathVariable String nickname) {
+    @GetMapping("/user/nickcheck/{userId}")
+    public ResponseEntity userNickCheck(@PathVariable String userId) {
         try {
-            boolean userIdCheck = userService.getNickCheck(nickname);
-            return ResponseEntity.status(HttpStatus.OK).body(userIdCheck);
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error (e.getMessage()));
+            return null; //ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error (e.getMessage()));
         }
     }
 

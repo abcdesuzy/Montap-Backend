@@ -6,21 +6,18 @@ import com.project.montap.domain.entity.User;
 import com.project.montap.domain.repository.InventoryItemRepository;
 import com.project.montap.domain.repository.ItemRepository;
 import com.project.montap.domain.repository.UserRepository;
-import com.project.montap.dto.DrawingItemDto;
-import com.project.montap.dto.GetItemDto;
-import com.project.montap.dto.ItemDto;
-import com.project.montap.dto.SellingItemDto;
+import com.project.montap.dto.*;
 import com.project.montap.enums.ItemType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.server.authorization.AuthorizationWebFilter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalLong;
 
 @Service
 public class InventoryService {
@@ -61,11 +58,30 @@ public class InventoryService {
         }
     }
 
+    // 내 인벤토리 아이템 전체 리스트
+    //    @Transactional
+    //    public List<Item> getItemInventoryAllList(Long userIdx) throws Exception {
+    //
+    //        // 1. 사용자를 가져온다.
+    //        Optional<User> optionalUser = userRepository.findById(userIdx);
+    //        if (optionalUser.isEmpty()) {
+    //            throw new Exception("해당하는 유저가 없습니다.");
+    //        }
+    //
+    //        User user = optionalUser.get();
+    //        List<InventoryItem> inventoryItemList = user.getInventoryItemList();
+    //        List<Item> resultList = new ArrayList<>();
+    //        for (int i = 0; i < inventoryItemList.size(); i++) {
+    //            resultList.add(inventoryItemList.get(i).getItem());
+    //        }
+    //        return resultList;
+    //}
+
     // 내 인벤토리 미장착 아이템 리스트
     @Transactional
     public List<Item> getItemInventoryList(Long userIdx) throws Exception {
 
-        // 1. 장착한 유저의 정보를 가져온다.
+        // 1. 사용자를 가져온다.
         Optional<User> optionalUser = userRepository.findById(userIdx);
         if (optionalUser.isEmpty()) {
             throw new Exception("해당하는 유저가 없습니다.");
@@ -86,10 +102,15 @@ public class InventoryService {
     @Transactional
     public Integer sellItem(SellingItemDto sellingItemDto) throws Exception {
 
+
         // 1. 전달받은 userIdx 에 해당하는 user 를 찾는다.
         List<Long> itemIdxList = sellingItemDto.getItemIdxList();
         Long userIdx = sellingItemDto.getUserIdx();
-        Optional<User> optionalUser = userRepository.findById(userIdx);
+
+        // 현재 로그인 한 유저의 정보 찾기
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
+        Optional<User> optionalUser = userRepository.findById(authUserDto.getUserIdx());
         if (optionalUser.isEmpty()) {
             throw new Exception("해당하는 유저가 없습니다.");
         }
@@ -157,7 +178,10 @@ public class InventoryService {
         }
 
         // 유저 찾기
-        Optional<User> optionalUser = userRepository.findById(userIdx);
+        // 현재 로그인 한 유저의 정보 찾기
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
+        Optional<User> optionalUser = userRepository.findById(authUserDto.getUserIdx());
         if (optionalUser.isEmpty()) {
             throw new Exception("해당하는 유저가 없습니다.");
         }

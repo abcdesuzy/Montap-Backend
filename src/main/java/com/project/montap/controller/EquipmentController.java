@@ -2,12 +2,14 @@ package com.project.montap.controller;
 
 import com.project.montap.domain.entity.Item;
 import com.project.montap.dto.AfterEquipDto;
+import com.project.montap.dto.AuthUserDto;
 import com.project.montap.dto.EquipItemDto;
 import com.project.montap.exception.Error;
 import com.project.montap.service.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,11 +33,11 @@ public class EquipmentController {
     }
 
     // 장착한 아이템 조회
-    @GetMapping("/equipment/{userIdx}")
-    public ResponseEntity getEquipment(@PathVariable Long userIdx) throws Exception {
+    @GetMapping("/equipment")
+    public ResponseEntity getEquipment(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
         try {
             // 서비스를 호출해서 장착한 장비 목록을 받아온다.
-            List<Item> result = equipmentService.getEquipment(userIdx);
+            List<Item> result = equipmentService.getEquipment(authUserDto.getUserIdx());
             // 클라이언트에게 장착한 장비 목록을 반환한다.
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
@@ -45,7 +47,7 @@ public class EquipmentController {
     }
 
     // 아이템 장착 해제
-    @DeleteMapping("/equipment/{userIdx}")
+    @DeleteMapping("/equipment")
     public ResponseEntity deleteEquipment(@RequestBody EquipItemDto equipItemDto) {
         try {
             // 서비스를 호출해서 장착된 장비를 장착 해제 시킨다.

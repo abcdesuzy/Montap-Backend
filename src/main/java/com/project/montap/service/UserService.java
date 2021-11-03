@@ -16,7 +16,7 @@ import java.util.Optional;
 
 // 회원관리 서비스
 @Service
-@Transactional(readOnly = true)
+@Transactional( readOnly = true )
 public class UserService {
 
     @Autowired
@@ -41,9 +41,9 @@ public class UserService {
         //  .nickname(userDto.getNickname())
         //  .build();
         User newUser = new User(
-                userDto.getUserId(), // 5~15 글자 이내
-                passwordEncoder.encode(userDto.getUserPwd()), // 5~20 글자 이내
-                userDto.getNickname(), userDto.getEmail()); // 2~8 글자 이내
+                userDto.getUserId(),
+                passwordEncoder.encode(userDto.getUserPwd()),
+                userDto.getNickname(), userDto.getEmail());
         User user = userRepository.save(newUser);
 
         // 3. Entity >>> DTO 전환 작업
@@ -95,7 +95,7 @@ public class UserService {
 
         // 1. Repository >> DB >> SELECT 문으로 해당 유저를 찾음
         Optional<User> optionalUser = userRepository.findById(userIdx);
-       // User user = userRepository.findByUserId(userId);
+        // User user = userRepository.findByUserId(userId);
         System.out.println("user = " + optionalUser);
 
         if (optionalUser.isEmpty()) {
@@ -135,11 +135,11 @@ public class UserService {
 
     // 아이디 중복 확인
     @Transactional
-    public boolean getIdCheck(String userId) throws Exception{
+    public boolean getIdCheck(String userId) throws Exception {
         User findUserId = userRepository.findByUserId(userId);
         boolean checkId = false;
 
-        if(findUserId == null) {
+        if (findUserId == null) {
             checkId = true;
         }
         return checkId;
@@ -147,11 +147,11 @@ public class UserService {
 
     // 닉네임 중복 확인
     @Transactional
-    public boolean getNickCheck(String nickname) throws Exception{
+    public boolean getNickCheck(String nickname) throws Exception {
         User findUserId = userRepository.findByNickname(nickname);
         boolean checkId = false;
 
-        if(findUserId == null) {
+        if (findUserId == null) {
             checkId = true;
         }
         return checkId;
