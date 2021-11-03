@@ -21,4 +21,5 @@ public class UserDto {
     int damage;
     String userProfileUrl;
     String role;
+    String userProfileUrl;
 }

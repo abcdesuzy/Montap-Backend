@@ -2,6 +2,11 @@ package com.project.montap.controller;
 
 import com.project.montap.domain.entity.Item;
 import com.project.montap.dto.*;
+import com.project.montap.dto.DrawingItemDto;
+import com.project.montap.dto.GetItemDto;
+import com.project.montap.dto.ItemDto;
+import com.project.montap.dto.SellingItemDto;
+
 import com.project.montap.exception.Error;
 import com.project.montap.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +24,7 @@ public class InventoryController {
     InventoryService inventoryService;
 
     // 획득한 아이템을 [inventory_item] 에 넣어준다.
-    @PostMapping("/inventory/item")
+    @PostMapping( "/inventory/item" )
     public ResponseEntity getItemToMyInventory(@RequestBody GetItemDto getItemDto) throws Exception {
         try {
             GetItemDto result = inventoryService.getItemToInventory(getItemDto);
@@ -30,8 +35,8 @@ public class InventoryController {
         }
     }
 
-    // 인벤토리 미장착 아이템 리스트
-    @GetMapping("/inventory/iterall")
+    // 내 인벤토리 전체 아이템 리스트
+    @GetMapping( "/inventory/iterall" )
     public ResponseEntity getItemInventoryAllList(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
         // 서비스를 호출해서 내 인벤토리 목록을 받아온다.
         List<Item> result = inventoryService.getItemInventoryList(authUserDto.getUserIdx());//
@@ -40,7 +45,7 @@ public class InventoryController {
     }
 
     // 인벤토리 미장착 아이템 리스트
-    @GetMapping("/inventory/item")
+    @GetMapping( "/inventory/item" )
     public ResponseEntity getItemInventoryList(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
         // 서비스를 호출해서 내 인벤토리 목록을 받아온다.
         List<Item> result = inventoryService.getItemInventoryList(authUserDto.getUserIdx());//
@@ -49,7 +54,7 @@ public class InventoryController {
     }
 
     // 아이템 판매
-    @PostMapping("/item/sell")
+    @PostMapping( "/item/sell" )
     public ResponseEntity sellItem(@RequestBody SellingItemDto sellingItemDto) {
         try {
             int result = inventoryService.sellItem(sellingItemDto);
@@ -61,7 +66,7 @@ public class InventoryController {
     }
 
     // 아이템 상세정보
-    @GetMapping("/item/{itemIdx}")
+    @GetMapping( "/item/{itemIdx}" )
     public ResponseEntity getItemInfo(@PathVariable Long itemIdx) {
         try {
             ItemDto itemDto = inventoryService.getItemInfo(itemIdx);
@@ -73,7 +78,7 @@ public class InventoryController {
     }
 
     // 아이템 뽑기
-    @PostMapping("/draw")
+    @PostMapping( "/draw" )
     public ResponseEntity drawItem(@RequestBody DrawingItemDto drawingItemDto) {
         try {
             List<Item> resultList = inventoryService.drawItem(drawingItemDto);

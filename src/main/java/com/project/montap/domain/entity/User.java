@@ -57,6 +57,7 @@ public class User {
 
     String userProfileUrl;
     String role;
+    String userProfileUrl;
 
     @OneToMany( mappedBy = "user" )
     @JsonManagedReference
@@ -89,6 +90,7 @@ public class User {
                 .damage(damage)
                 .userProfileUrl(userProfileUrl)
                 .role(role)
+                .userProfileUrl(userProfileUrl)
                 .build();
     }
 }

@@ -23,14 +23,14 @@ public class UserController {
     S3Service s3Service;
 
     // 회원가입
-    @PostMapping("/user")
+    @PostMapping( "/user" )
     public ResponseEntity saveUser(@RequestBody UserDto userDto) {
         UserDto newUserDto = userService.saveUser(userDto);
         return ResponseEntity.status(HttpStatus.OK).body(newUserDto);
     }
 
     // 로그인
-    @PostMapping("/login")
+    @PostMapping( "/login" )
     public ResponseEntity login(@RequestBody UserDto userDto) {
         System.out.println("userDto = " + userDto);
         try {
@@ -43,7 +43,7 @@ public class UserController {
     }
 
     // 회원조회
-    @GetMapping("/user")
+    @GetMapping( "/user" )
     public ResponseEntity getUser(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
         try {
             System.out.println("userId = " + authUserDto);
@@ -56,7 +56,7 @@ public class UserController {
     }
 
     // 회원정보수정
-    @PutMapping("/user")
+    @PutMapping( "/user" )
     public ResponseEntity modifyUser(@RequestBody UserDto userDto) throws Exception {
         try {
             UserDto newUser = userService.modifyUser(userDto);
@@ -70,7 +70,7 @@ public class UserController {
     }
 
     // 아이디 중복확인
-    @GetMapping("/user/idcheck/{userId}")
+    @GetMapping( "/user/idcheck/{userId}" )
     public ResponseEntity userIdCheck(@PathVariable String userId) {
         try {
             return null;
@@ -81,7 +81,7 @@ public class UserController {
     }
 
     // 닉네임 중복확인
-    @GetMapping("/user/nickcheck/{userId}")
+    @GetMapping( "/user/nickcheck/{userId}" )
     public ResponseEntity userNickCheck(@PathVariable String userId) {
         try {
             return null;
@@ -92,7 +92,7 @@ public class UserController {
     }
 
     // 이메일 중복확인
-    @GetMapping("/user/emailcheck/{userId}")
+    @GetMapping( "/user/emailcheck/{userId}" )
     public ResponseEntity userEmailCheck(@PathVariable String userId) {
         try {
             return null;
@@ -103,8 +103,8 @@ public class UserController {
     }
 
     // 프로필 사진 변경
-    @PostMapping("/user/profile") // 이미지는 param // key 값은 upload 로
-    public ResponseEntity uploadProfile(@RequestParam("upload") MultipartFile file) {
+    @PostMapping( "/user/profile" ) // 이미지는 param // key 값은 upload 로
+    public ResponseEntity uploadProfile(@RequestParam( "upload" ) MultipartFile file) {
         try {
             String url = s3Service.upload(file);
             return ResponseEntity.status(HttpStatus.OK).body(url);
