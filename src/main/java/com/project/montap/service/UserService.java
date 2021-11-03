@@ -120,5 +120,14 @@ public class UserService {
     }
 
     // 이메일 중복 확인
+    @Transactional
+    public boolean isValidEmail(String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }

@@ -36,7 +36,7 @@ public class InventoryController {
     }
 
     // 내 인벤토리 전체 아이템 리스트
-    @GetMapping( "/inventory/iterall" )
+    @GetMapping( "/inventory/item/all" )
     public ResponseEntity getItemInventoryAllList(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
         // 서비스를 호출해서 내 인벤토리 목록을 받아온다.
         List<Item> result = inventoryService.getItemInventoryList(authUserDto.getUserIdx());//

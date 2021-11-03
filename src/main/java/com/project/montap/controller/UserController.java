@@ -37,7 +37,7 @@ public class UserController {
 
     // 회원조회
     @GetMapping( "/user" )
-    public ResponseEntity getUser() throws Exception {
+    public ResponseEntity getUser() {
         try {
             UserDto result = userService.getUser();
             return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -49,7 +49,7 @@ public class UserController {
 
     // 회원정보수정
     @PutMapping( "/user" )
-    public ResponseEntity modifyUser(@RequestBody UserDto userDto) throws Exception {
+    public ResponseEntity modifyUser(@RequestBody @Valid UserDto userDto) {
         try {
             UserDto newUser = userService.modifyUser(userDto);
             System.out.println("newUser = " + newUser);
@@ -84,13 +84,16 @@ public class UserController {
     }
 
     // 이메일 중복확인
-    @GetMapping( "/user/emailcheck/{userId}" )
-    public ResponseEntity userEmailCheck(@PathVariable String userId) {
+    @PostMapping ( "/user/valid/email")
+    public ResponseEntity isValidEmail(@RequestBody Map<String, String> param) { // KEY, VALUE
         try {
-            return null;
+            String email = param.get("email");
+            System.out.println("email = " + email);
+            boolean result = userService.isValidEmail(email);
+            return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();
-            return null; //ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error (e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
         }
     }
 
