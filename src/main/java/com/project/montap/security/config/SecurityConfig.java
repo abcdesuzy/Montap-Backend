@@ -28,8 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/user").permitAll() // 회원가입 모두 허용
                 .antMatchers(HttpMethod.POST, "/user/valid/userid").permitAll() // 아이디 중복 체크 모두 허용
                 .antMatchers(HttpMethod.POST, "/user/valid/nickname").permitAll() // 닉네임 중복 체크 모두 허용
-                .antMatchers(HttpMethod.POST, "/login").permitAll() // 로그인 모두 허용\
-                .antMatchers(HttpMethod.POST, "/user/valid/email").permitAll() // 로그인 모두 허용
+                .antMatchers(HttpMethod.POST, "/user/valid/email").permitAll() // 이메일 중복 체크 모두 허용
+                .antMatchers(HttpMethod.POST, "/login").permitAll() // 로그인 모두 허용
                 .antMatchers("/").permitAll()// 초기화면 모두 허용
                 .anyRequest().authenticated() // 위에  3개 외에 모든 요청들은 인증이 필요하다.
                 .and()

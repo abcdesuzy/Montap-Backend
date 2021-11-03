@@ -63,21 +63,21 @@ public class UserController {
 
     // 아이디 중복확인
     @PostMapping( "/user/valid/userid" )
-    public ResponseEntity userIdCheck(@RequestBody Map<String, String> param) {
+    public ResponseEntity isValidUserId(@RequestBody Map<String, String> param) {
         try {
-            String userid = param.get("userid");
-            System.out.println("userid = " + userid);
-            boolean result = userService.isValidId(userid);
+            String userId = param.get("userId");
+            System.out.println("userId = " + userId);
+            boolean result = userService.isValidUserId(userId);
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error (e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
         }
     }
 
     // 닉네임 중복확인
     @PostMapping( "/user/valid/nickname" )
-    public ResponseEntity userNickCheck(@RequestBody Map<String, String> param) {
+    public ResponseEntity isValidNick(@RequestBody Map<String, String> param) {
         try {
             String nickname = param.get("nickname");
             System.out.println("nickname = " + nickname);
@@ -85,12 +85,12 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error (e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
         }
     }
 
     // 이메일 중복확인
-    @PostMapping ( "/user/valid/email")
+    @PostMapping( "/user/valid/email" )
     public ResponseEntity isValidEmail(@RequestBody Map<String, String> param) { // KEY, VALUE
         try {
             String email = param.get("email");

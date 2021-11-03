@@ -24,7 +24,7 @@ public class InventoryController {
     @Autowired
     InventoryService inventoryService;
 
-    // 획득한 아이템을 [inventory_item] 에 넣어준다.
+    // 아이템 획득하기
     @PostMapping( "/inventory/item" )
     public ResponseEntity getItemToMyInventory(@RequestBody GetItemDto getItemDto) throws Exception {
         try {

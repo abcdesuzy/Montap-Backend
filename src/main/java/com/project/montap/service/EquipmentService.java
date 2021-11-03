@@ -37,7 +37,10 @@ public class EquipmentService {
     public AfterEquipDto equipItem(EquipItemDto equipItemDto) throws Exception {
 
         // 1. 장착하려는 유저를 찾는다.
-        Optional<User> optionalFindUser = userRepository.findById(equipItemDto.getUserIdx());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
+        Long userIdx = authUserDto.getUserIdx();
+        Optional<User> optionalFindUser = userRepository.findById(userIdx);
         // - 장착하려는 유저가 없는 경우 에러
         if (optionalFindUser.isEmpty()) {
             throw new Exception("장착하려는 User 가 없습니다.");
@@ -47,7 +50,9 @@ public class EquipmentService {
             User findUser = optionalFindUser.get();
 
             // - 장착하려는 유저의 인벤토리 아이템 목록
-            List<InventoryItem> inventoryItemList = findUser.getInventoryItemList();
+            Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findByUserIdx(userIdx);
+            List<InventoryItem> inventoryItemList = optionalInventoryItemList.get();
+            //List<InventoryItem> inventoryItemList = findUser.getInventoryItemList();
 
             InventoryItem findInventoryItem = null;
             Item findItem = null;
@@ -115,9 +120,12 @@ public class EquipmentService {
     // 장착한 아이템 리스트
     @Transactional
     public List<Item> getEquipment() throws Exception {
+
+        // 인증된 사용자
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
         Long userIdx = authUserDto.getUserIdx();
+        // inventoryItemRepository 의 List
         Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findByUserIdx(userIdx);
 
         if (optionalInventoryItemList.isEmpty()) {

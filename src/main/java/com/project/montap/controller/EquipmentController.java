@@ -2,14 +2,12 @@ package com.project.montap.controller;
 
 import com.project.montap.domain.entity.Item;
 import com.project.montap.dto.AfterEquipDto;
-import com.project.montap.dto.AuthUserDto;
 import com.project.montap.dto.EquipItemDto;
 import com.project.montap.exception.Error;
 import com.project.montap.service.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +30,7 @@ public class EquipmentController {
         }
     }
 
-    // 장착한 아이템 조회
+    // 장착한 아이템 리스트
     @GetMapping("/equipment")
     public ResponseEntity getEquipment() throws Exception {
         try {

@@ -11,7 +11,6 @@ import com.project.montap.enums.ItemType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import com.project.montap.dto.DrawingItemDto;
 import com.project.montap.dto.GetItemDto;
 import com.project.montap.dto.ItemDto;
 import com.project.montap.dto.SellingItemDto;
@@ -38,7 +37,9 @@ public class InventoryService {
     public GetItemDto getItemToInventory(GetItemDto getItemDto) throws Exception {
 
         // 1. 현재 유저를 찾는다.
-        Optional<User> optionalFindUser = userRepository.findById(getItemDto.getUserIdx());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
+        Optional<User> optionalFindUser = userRepository.findById(authUserDto.getUserIdx());
         // 2. 획득할 아이템을 찾는다.
         Optional<Item> optionalFindItem = itemRepository.findById(getItemDto.getItemIdx());
 
@@ -127,7 +128,6 @@ public class InventoryService {
         if (optionalInventoryItemList.isEmpty()) {
             throw new Exception("해당하는 아이템이 없습니다.");
         }
-
 
         List<InventoryItem> resultInventoryItemList = optionalInventoryItemList.get();
         if (itemIdxList.size() != resultInventoryItemList.size()) {

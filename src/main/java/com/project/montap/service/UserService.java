@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ResourceUtils;
 
 import java.util.Optional;
 
@@ -56,7 +55,7 @@ public class UserService {
     // 회원조회 - 비밀번호 빼고
     public UserDto getUser() throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
 
         UserDto result = new UserDto();
         result.setIdx(authUserDto.getUserIdx());
@@ -81,7 +80,10 @@ public class UserService {
         // 현재 로그인 한 유저의 정보 찾기
         User findUser = userRepository.findByUserId(userDto.getUserId());
 
-        // 2. 찾은 Entity 에 사용자로부터 패스워드로 변경한다. 5~20 글자 이내
+        // 2. 찾은 Entity 에 사용자로부터 받은 닉네임, 패스워드로 변경한다.
+        String newNickname = userDto.getNickname();
+        findUser.setNickname(newNickname);
+
         String newPassword = passwordEncoder.encode(userDto.getUserPwd());
         findUser.setUserPwd(newPassword);
 
@@ -95,29 +97,30 @@ public class UserService {
         return newUser;
     }
 
-    // 아이디 중복 확인
+    // 아이디 중복 확인 isValidUserId
     @Transactional
-    public boolean isValidId(String userId) throws Exception {
+    public boolean isValidUserId(String userId) {
         User user = userRepository.findByUserId(userId);
-        if (user == null) {
+        String result = user.getUserId();
+        if (result.isEmpty()) {
             return true;
         } else {
             return false;
         }
     }
 
-    // 닉네임 중복 확인
+    // 닉네임 중복 확인 isValidNick
     @Transactional
-    public boolean isValidNick(String nickname) throws Exception {
+    public boolean isValidNick(String nickname) {
         Optional<User> optionalUser = userRepository.findByNickname(nickname);
-        if (optionalUser == null) {
+        if (optionalUser.isEmpty()) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-    // 이메일 중복 확인
+    // 이메일 중복 확인 isValidEmail
     @Transactional
     public boolean isValidEmail(String email) {
         Optional<User> optionalUser = userRepository.findByEmail(email);
