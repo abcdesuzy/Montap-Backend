@@ -34,10 +34,10 @@ public class EquipmentController {
 
     // 장착한 아이템 조회
     @GetMapping("/equipment")
-    public ResponseEntity getEquipment(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
+    public ResponseEntity getEquipment() throws Exception {
         try {
             // 서비스를 호출해서 장착한 장비 목록을 받아온다.
-            List<Item> result = equipmentService.getEquipment(authUserDto.getUserIdx());
+            List<Item> result = equipmentService.getEquipment();
             // 클라이언트에게 장착한 장비 목록을 반환한다.
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {

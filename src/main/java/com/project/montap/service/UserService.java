@@ -53,7 +53,7 @@ public class UserService {
         return newUserDto;
     }
 
-    // 회원조회
+    // 회원조회 - 비밀번호 빼고
     public UserDto getUser() throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
@@ -130,4 +130,6 @@ public class UserService {
         }
     }
 
+
+    // 회원 탈퇴
 }

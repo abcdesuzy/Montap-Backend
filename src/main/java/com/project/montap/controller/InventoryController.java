@@ -16,6 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class InventoryController {
@@ -79,9 +80,10 @@ public class InventoryController {
 
     // 아이템 뽑기
     @PostMapping( "/draw" )
-    public ResponseEntity drawItem(@RequestBody DrawingItemDto drawingItemDto) {
+    public ResponseEntity drawItem(@RequestBody Map<String, Integer> param) {
         try {
-            List<Item> resultList = inventoryService.drawItem(drawingItemDto);
+            Integer count = param.get("count");
+            List<Item> resultList = inventoryService.drawItem(count);
             return ResponseEntity.status(HttpStatus.OK).body(resultList);
         } catch (Exception e) {
             e.printStackTrace();

@@ -82,7 +82,7 @@ public class StageService {
     @Transactional
     public StageDto getStage(Long stageIdx) throws Exception {
         Optional<Stage> optionalStage = stageRepository.findById(stageIdx);
-        if(optionalStage.isEmpty()){
+        if (optionalStage.isEmpty()) {
             throw new Exception("해당 스테이지가 없습니다.");
         }
         Stage stage = optionalStage.get();

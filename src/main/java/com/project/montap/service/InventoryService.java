@@ -51,6 +51,10 @@ public class InventoryService {
             User findUser = optionalFindUser.get();
             Item findItem = optionalFindItem.get();
 
+            if (findUser.getInventoryItemList().size() >= 300) {
+                throw new Exception("인벤토리가 꽉찼습니다.");
+            }
+
             // 3. 찾은 아이템을 [inventory_item] 테이블에 넣는다.
             InventoryItem newInventoryItem = new InventoryItem();
             newInventoryItem.setUser(findUser);
@@ -62,21 +66,21 @@ public class InventoryService {
     }
 
     // 내 인벤토리 아이템 전체 리스트
-        @Transactional
-        public List<Item> getItemInventoryAllList(Long userIdx) throws Exception {
+    @Transactional
+    public List<Item> getItemInventoryAllList(Long userIdx) throws Exception {
 
-            // 1. 사용자를 가져온다.
-            Optional<User> optionalUser = userRepository.findById(userIdx);
-            if (optionalUser.isEmpty()) {
-                throw new Exception("해당하는 유저가 없습니다.");
-            }
-            User user = optionalUser.get();
-            List<InventoryItem> inventoryItemList = user.getInventoryItemList();
-            List<Item> resultList = new ArrayList<>();
-            for (int i = 0; i < inventoryItemList.size(); i++) {
-                resultList.add(inventoryItemList.get(i).getItem());
-            }
-            return resultList;
+        // 1. 사용자를 가져온다.
+        Optional<User> optionalUser = userRepository.findById(userIdx);
+        if (optionalUser.isEmpty()) {
+            throw new Exception("해당하는 유저가 없습니다.");
+        }
+        User user = optionalUser.get();
+        List<InventoryItem> inventoryItemList = user.getInventoryItemList();
+        List<Item> resultList = new ArrayList<>();
+        for (int i = 0; i < inventoryItemList.size(); i++) {
+            resultList.add(inventoryItemList.get(i).getItem());
+        }
+        return resultList;
     }
 
     // 내 인벤토리 미장착 아이템 리스트
@@ -171,9 +175,7 @@ public class InventoryService {
 
     // 아이템 뽑기
     @Transactional
-    public List<Item> drawItem(DrawingItemDto drawingItemDto) throws Exception {
-        Long userIdx = drawingItemDto.getUserIdx();
-        int count = drawingItemDto.getCount();
+    public List<Item> drawItem(int count) throws Exception {
         List<Item> resultList = new ArrayList<>();
         if (count != 1 && count != 10) {
             throw new Exception("1회 또는 10회만 가능합니다.");
@@ -190,6 +192,14 @@ public class InventoryService {
 
         // 유저와 유저의 재화 꺼내기
         User user = optionalUser.get();
+
+        // 인벤토리 한도 체크
+        List<InventoryItem> inventoryItemList = user.getInventoryItemList();
+        if (inventoryItemList.size() + count > 300) {
+            throw new Exception("인벤토리가 가득 찼습니다.");
+        }
+
+        // 뽑기 금액 계산
         int money = user.getMoney();
         int drawMoney = 0;
 

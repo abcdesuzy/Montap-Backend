@@ -114,16 +114,16 @@ public class EquipmentService {
 
     // 장착한 아이템 리스트
     @Transactional
-    public List<Item> getEquipment(Long userIdx) throws Exception {
+    public List<Item> getEquipment() throws Exception {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
+        Long userIdx = authUserDto.getUserIdx();
+        Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findByUserIdx(userIdx);
 
-        // 1. 장착한 유저의 정보를 가져온다.
-        Optional<User> optionalUser = userRepository.findById(userIdx);
-        if (optionalUser.isEmpty()) {
-            throw new Exception("해당하는 유저가 없습니다.");
+        if (optionalInventoryItemList.isEmpty()) {
+            throw new Exception("인벤토리에 아이템이 없습니다.");
         }
-
-        User user = optionalUser.get();
-        List<InventoryItem> inventoryItemList = user.getInventoryItemList();
+        List<InventoryItem> inventoryItemList = optionalInventoryItemList.get();
         List<Item> resultList = new ArrayList<>();
         for (int i = 0; i < inventoryItemList.size(); i++) {
             if (inventoryItemList.get(i).getEquipYn() == 1) {
@@ -149,9 +149,13 @@ public class EquipmentService {
             // 유저 꺼내기
             User findUser = optionalFindUser.get();
 
-            // 2. 그 유저의 인벤토리에 있는 아이템 중에서 장착해제 하려는 아이템을 찾는다.
+            // 인벤토리 한도 체크
             List<InventoryItem> inventoryItemList = findUser.getInventoryItemList();
+            if (inventoryItemList.size() >= 300) {
+                throw new Exception("인벤토리가 가득 찼습니다.");
+            }
 
+            // 2. 그 유저의 인벤토리에 있는 아이템 중에서 장착해제 하려는 아이템을 찾는다.
             InventoryItem findInventoryItem = null;
             Item findItem = null;
             for (int i = 0; i < inventoryItemList.size(); i++) {
