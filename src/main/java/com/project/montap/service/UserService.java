@@ -97,26 +97,24 @@ public class UserService {
 
     // 아이디 중복 확인
     @Transactional
-    public boolean getIdCheck(String userId) throws Exception {
-        User findUserId = userRepository.findByUserId(userId);
-        boolean checkId = false;
-
-        if (findUserId == null) {
-            checkId = true;
+    public boolean isValidId(String userId) throws Exception {
+        User user = userRepository.findByUserId(userId);
+        if (user == null) {
+            return true;
+        } else {
+            return false;
         }
-        return checkId;
     }
 
     // 닉네임 중복 확인
     @Transactional
-    public boolean getNickCheck(String nickname) throws Exception {
-        User findUserId = userRepository.findByNickname(nickname);
-        boolean checkId = false;
-
-        if (findUserId == null) {
-            checkId = true;
+    public boolean isValidNick(String nickname) throws Exception {
+        Optional<User> optionalUser = userRepository.findByNickname(nickname);
+        if (optionalUser == null) {
+            return true;
+        }else {
+            return false;
         }
-        return checkId;
     }
 
     // 이메일 중복 확인

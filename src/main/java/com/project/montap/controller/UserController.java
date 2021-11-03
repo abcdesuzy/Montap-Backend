@@ -62,24 +62,30 @@ public class UserController {
     }
 
     // 아이디 중복확인
-    @GetMapping( "/user/idcheck/{userId}" )
-    public ResponseEntity userIdCheck(@PathVariable String userId) {
+    @PostMapping( "/user/valid/userid" )
+    public ResponseEntity userIdCheck(@RequestBody Map<String, String> param) {
         try {
-            return null;
+            String userid = param.get("userid");
+            System.out.println("userid = " + userid);
+            boolean result = userService.isValidId(userid);
+            return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();
-            return null; //ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error (e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error (e.getMessage()));
         }
     }
 
     // 닉네임 중복확인
-    @GetMapping( "/user/nickcheck/{userId}" )
-    public ResponseEntity userNickCheck(@PathVariable String userId) {
+    @PostMapping( "/user/valid/nickname" )
+    public ResponseEntity userNickCheck(@RequestBody Map<String, String> param) {
         try {
-            return null;
+            String nickname = param.get("nickname");
+            System.out.println("nickname = " + nickname);
+            boolean result = userService.isValidNick(nickname);
+            return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();
-            return null; //ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error (e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error (e.getMessage()));
         }
     }
 

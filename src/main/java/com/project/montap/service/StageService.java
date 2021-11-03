@@ -36,7 +36,11 @@ public class StageService {
     @Transactional
     public ClearStageDto clearStage(ClearStageDto clearStageDto) throws Exception {
 
-        Optional<User> optionalFindUser = userRepository.findById(clearStageDto.getUserIdx());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
+        Long userIdx = authUserDto.getUserIdx();
+
+        Optional<User> optionalFindUser = userRepository.findById(userIdx);
         Optional<Stage> optionalFindStage = stageRepository.findById(clearStageDto.getStageIdx());
 
         if (optionalFindUser.isEmpty() || optionalFindStage.isEmpty()) {
@@ -57,11 +61,14 @@ public class StageService {
 
                 int clearMoney = optionalFindUser.get().getMoney() + optionalFindStage.get().getDropMoney();
                 optionalFindUser.get().setMoney(clearMoney);
+
+                if (optionalFindUser.get().getStage() < optionalFindStage.get().getStageCount()) {
+                    optionalFindUser.get().setStage(optionalFindStage.get().getStageCount());
+                }
             }
         }
-        if (optionalFindUser.get().getStage() < optionalFindStage.get().getIdx()) {
-            optionalFindUser.get().setStage(optionalFindStage.get().getStageCount());
-        }
+
+
         return clearStageDto;
     }
 
