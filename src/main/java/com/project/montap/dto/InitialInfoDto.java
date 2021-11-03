@@ -25,7 +25,6 @@ public class InitialInfoDto {
     int defense;
     int damage;
     String userProfileUrl;
-    String role;
     // List<InventoryItem> inventoryItemList = new ArrayList<>();
 
     // 2. 프론트개발자랑 이야기한 후에, 필요할 때마다 추가

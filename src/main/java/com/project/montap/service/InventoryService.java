@@ -11,9 +11,6 @@ import com.project.montap.enums.ItemType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import com.project.montap.dto.GetItemDto;
-import com.project.montap.dto.ItemDto;
-import com.project.montap.dto.SellingItemDto;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -175,7 +172,11 @@ public class InventoryService {
 
     // 아이템 뽑기
     @Transactional
-    public List<Item> drawItem(int count) throws Exception {
+    public List<Item> drawItem(DrawingItemDto drawingItemDto) throws Exception {
+
+        Long userIdx = drawingItemDto.getUserIdx();
+        int count = drawingItemDto.getCount();
+
         List<Item> resultList = new ArrayList<>();
         if (count != 1 && count != 10) {
             throw new Exception("1회 또는 10회만 가능합니다.");
@@ -186,6 +187,9 @@ public class InventoryService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
         Optional<User> optionalUser = userRepository.findById(authUserDto.getUserIdx());
+
+        // Optional<User> optionalUser = userRepository.findById(userIdx);
+
         if (optionalUser.isEmpty()) {
             throw new Exception("해당하는 유저가 없습니다.");
         }
@@ -246,4 +250,5 @@ public class InventoryService {
 
         return resultList;
     }
+
 }

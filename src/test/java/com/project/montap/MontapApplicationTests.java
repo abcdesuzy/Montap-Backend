@@ -3,7 +3,6 @@ package com.project.montap;
 import com.project.montap.domain.entity.Item;
 import com.project.montap.domain.entity.Stage;
 import com.project.montap.domain.repository.ItemRepository;
-import com.project.montap.domain.repository.StageLogRepository;
 import com.project.montap.domain.repository.StageRepository;
 import com.project.montap.enums.IsBoss;
 import com.project.montap.enums.ItemType;
@@ -27,7 +26,6 @@ class MontapApplicationTests {
     public void createDummyItem() {
 
         List<Item> newItemList = new ArrayList<>();
-
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
                 Item item = new Item();
@@ -61,9 +59,7 @@ class MontapApplicationTests {
                 newItemList.add(item);
             }
         }
-
         itemRepository.saveAll(newItemList);
-
     }
 
     @Test
@@ -85,6 +81,5 @@ class MontapApplicationTests {
             newStageList.add(newStage);
         }
         stageRepository.saveAll(newStageList);
-
     }
 }

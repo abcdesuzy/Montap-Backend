@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <testsuite name="com.project.montap.MontapApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-11-03T01:58:19" hostname="LEEMURU" time="0.584">
   <properties/>
   <testcase name="createDummyStage()" classname="com.project.montap.MontapApplicationTests" time="0.584"/>
@@ -22,6 +23,10 @@
 =======
 <testsuite name="com.project.montap.MontapApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-11-01T12:27:20" hostname="LEEMURU" time="0.44">
   <properties/>
+=======
+<testsuite name="com.project.montap.MontapApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-11-01T12:27:20" hostname="LEEMURU" time="0.44">
+  <properties/>
+>>>>>>> Stashed changes
   <testcase name="createDummyItem()" classname="com.project.montap.MontapApplicationTests" time="0.44"/>
   <system-out><![CDATA[21:26:59.255 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
 21:26:59.273 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
@@ -39,6 +44,9 @@
 21:26:59.820 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@2e27d72f, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@c0b41d6, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@4837595f, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@2bffa76d, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@3b718392, org.springframework.test.context.support.DirtiesContextTestExecutionListener@6d2260db, org.springframework.test.context.transaction.TransactionalTestExecutionListener@1f2d2181, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@49bf29c6, org.springframework.test.context.event.EventPublishingTestExecutionListener@7ee55e70, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@3fcdcf, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@7668d560, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@46292372, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@126be319, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@6c44052e, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@5c371e13]
 21:26:59.825 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@5a6d5a8f testClass = MontapApplicationTests, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@4a67318f testClass = MontapApplicationTests, locations = '{}', classes = '{class com.project.montap.MontapApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@18230356, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@12bcd0c0, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@4678a2eb, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@58ebfd03, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@27953a83, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@456d6c1e], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true]], class annotated with @DirtiesContext [false] with mode [null].
 21:26:59.871 [Test worker] DEBUG org.springframework.test.context.support.TestPropertySourceUtils - Adding inlined properties to environment: {spring.jmx.enabled=false, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
   .   ____          _            __ _ _
@@ -50,17 +58,23 @@
  :: Spring Boot ::                (v2.5.6)
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 2021-11-03 10:57:59.495  INFO 2096 --- [    Test worker] c.project.montap.MontapApplicationTests  : Starting MontapApplicationTests using Java 11.0.12 on leemuru with PID 2096 (started by leemu in C:\Workspace\IJ-workspace\montap)
 2021-11-03 10:57:59.511  INFO 2096 --- [    Test worker] c.project.montap.MontapApplicationTests  : No active profile set, falling back to default profiles: default
 2021-11-03 10:58:00.885  INFO 2096 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
 2021-11-03 10:58:01.042  INFO 2096 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 137 ms. Found 6 JPA repository interfaces.
 2021-11-03 10:58:09.946  WARN 2096 --- [    Test worker] com.amazonaws.util.EC2MetadataUtils      : Unable to retrieve the requested metadata (/latest/meta-data/instance-id). Failed to connect to service endpoint: 
 =======
+=======
+>>>>>>> Stashed changes
 2021-11-01 21:27:00.333  INFO 10688 --- [    Test worker] c.project.montap.MontapApplicationTests  : Starting MontapApplicationTests using Java 11.0.12 on leemuru with PID 10688 (started by leemu in C:\Workspace\IJ-workspace\montap)
 2021-11-01 21:27:00.337  INFO 10688 --- [    Test worker] c.project.montap.MontapApplicationTests  : No active profile set, falling back to default profiles: default
 2021-11-01 21:27:02.093  INFO 10688 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
 2021-11-01 21:27:02.382  INFO 10688 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 270 ms. Found 6 JPA repository interfaces.
 2021-11-01 21:27:11.829  WARN 10688 --- [    Test worker] com.amazonaws.util.EC2MetadataUtils      : Unable to retrieve the requested metadata (/latest/meta-data/instance-id). Failed to connect to service endpoint: 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 com.amazonaws.SdkClientException: Failed to connect to service endpoint: 
@@ -195,6 +209,7 @@ Caused by: java.net.SocketTimeoutException: connect timed out
 	... 108 common frames omitted
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 2021-11-03 10:58:11.195  INFO 2096 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
 2021-11-03 10:58:11.445  INFO 2096 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
 2021-11-03 10:58:12.180  INFO 2096 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
@@ -202,12 +217,17 @@ Caused by: java.net.SocketTimeoutException: connect timed out
 2021-11-03 10:58:13.445  INFO 2096 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
 2021-11-03 10:58:13.570  INFO 2096 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
 =======
+=======
+>>>>>>> Stashed changes
 2021-11-01 21:27:12.794  INFO 10688 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
 2021-11-01 21:27:12.891  INFO 10688 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
 2021-11-01 21:27:13.132  INFO 10688 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
 2021-11-01 21:27:13.336  INFO 10688 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
 2021-11-01 21:27:13.625  INFO 10688 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
 2021-11-01 21:27:13.677  INFO 10688 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 Hibernate: 
     
@@ -345,6 +365,7 @@ Hibernate:
        foreign key (user_idx) 
        references users (user_idx)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 2021-11-03 10:58:15.663  INFO 2096 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
 2021-11-03 10:58:15.694  INFO 2096 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
 2021-11-03 10:58:16.757  WARN 2096 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
@@ -429,11 +450,42 @@ Hibernate:
     where
         next_val=?
 =======
+=======
+>>>>>>> Stashed changes
 2021-11-01 21:27:15.631  INFO 10688 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
 2021-11-01 21:27:15.659  INFO 10688 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
 2021-11-01 21:27:18.304  WARN 10688 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
 2021-11-01 21:27:18.921  INFO 10688 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3ba8fbc8, org.springframework.security.web.context.SecurityContextPersistenceFilter@6e140753, org.springframework.security.web.header.HeaderWriterFilter@37f75ebf, org.springframework.security.web.authentication.logout.LogoutFilter@18ed8b75, com.project.montap.security.filter.AjaxLoginProcessingFilter@5fdcc63f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7fda84cf, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4ed90b04, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@113a89c5, org.springframework.security.web.session.SessionManagementFilter@48cebb78, org.springframework.security.web.access.ExceptionTranslationFilter@56728f48, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3bbb3c84]
 2021-11-01 21:27:20.503  INFO 10688 --- [    Test worker] c.project.montap.MontapApplicationTests  : Started MontapApplicationTests in 20.625 seconds (JVM running for 23.225)
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+=======
 >>>>>>> Stashed changes
 Hibernate: 
     select
@@ -592,67 +644,6 @@ Hibernate:
     where
         next_val=?
 Hibernate: 
-    select
-        next_val as id_val 
-    from
-        hibernate_sequence for update
-            
-Hibernate: 
-    update
-        hibernate_sequence 
-    set
-        next_val= ? 
-    where
-        next_val=?
-Hibernate: 
-    select
-        next_val as id_val 
-    from
-        hibernate_sequence for update
-            
-Hibernate: 
-    update
-        hibernate_sequence 
-    set
-        next_val= ? 
-    where
-        next_val=?
-Hibernate: 
-    insert 
-    into
-        stage
-        (drop_money, is_boss, monster_damage, monster_hp, monster_name, monster_url, stage_count, stage_idx) 
-    values
-        (?, ?, ?, ?, ?, ?, ?, ?)
-Hibernate: 
-    insert 
-    into
-        stage
-        (drop_money, is_boss, monster_damage, monster_hp, monster_name, monster_url, stage_count, stage_idx) 
-    values
-        (?, ?, ?, ?, ?, ?, ?, ?)
-Hibernate: 
-    insert 
-    into
-        stage
-        (drop_money, is_boss, monster_damage, monster_hp, monster_name, monster_url, stage_count, stage_idx) 
-    values
-        (?, ?, ?, ?, ?, ?, ?, ?)
-Hibernate: 
-    insert 
-    into
-        stage
-        (drop_money, is_boss, monster_damage, monster_hp, monster_name, monster_url, stage_count, stage_idx) 
-    values
-        (?, ?, ?, ?, ?, ?, ?, ?)
-Hibernate: 
-    insert 
-    into
-        stage
-        (drop_money, is_boss, monster_damage, monster_hp, monster_name, monster_url, stage_count, stage_idx) 
-    values
-        (?, ?, ?, ?, ?, ?, ?, ?)
-Hibernate: 
     insert 
     into
         stage
@@ -758,6 +749,45 @@ Hibernate:
         (drop_money, is_boss, monster_damage, monster_hp, monster_name, monster_url, stage_count, stage_idx) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        stage
+        (drop_money, is_boss, monster_damage, monster_hp, monster_name, monster_url, stage_count, stage_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        stage
+        (drop_money, is_boss, monster_damage, monster_hp, monster_name, monster_url, stage_count, stage_idx) 
+    values
+<<<<<<< Updated upstream
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        stage
+        (drop_money, is_boss, monster_damage, monster_hp, monster_name, monster_url, stage_count, stage_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        stage
+        (drop_money, is_boss, monster_damage, monster_hp, monster_name, monster_url, stage_count, stage_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        stage
+        (drop_money, is_boss, monster_damage, monster_hp, monster_name, monster_url, stage_count, stage_idx) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+=======
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+>>>>>>> Stashed changes
 =======
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 >>>>>>> Stashed changes

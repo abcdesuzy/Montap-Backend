@@ -1,23 +1,23 @@
 package com.project.montap.controller;
 
-import com.project.montap.domain.entity.User;
-import com.project.montap.dto.AuthUserDto;
 import com.project.montap.dto.UserDto;
 import com.project.montap.exception.Error;
+
 import com.project.montap.service.S3Service;
 import com.project.montap.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
+
 
 @RestController
 public class UserController {
@@ -104,8 +104,8 @@ public class UserController {
     }
 
     // 프로필 사진 변경
-    @PostMapping( "/user/profile" ) // 이미지는 param // key 값은 upload 로
-    public ResponseEntity uploadProfile(@RequestParam( "upload" ) MultipartFile file) {
+    @PostMapping("/user/profile") // 이미지는 param // key 값은 upload 로
+    public ResponseEntity uploadProfile(@RequestParam("upload") MultipartFile file) {
         try {
             String url = s3Service.upload(file);
             return ResponseEntity.status(HttpStatus.OK).body(url);
