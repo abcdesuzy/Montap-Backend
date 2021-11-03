@@ -133,10 +133,29 @@ public class UserService {
         return newUser;
     }
 
-
     // 아이디 중복 확인
+    @Transactional
+    public boolean getIdCheck(String userId) throws Exception{
+        User findUserId = userRepository.findByUserId(userId);
+        boolean checkId = false;
+
+        if(findUserId == null) {
+            checkId = true;
+        }
+        return checkId;
+    }
 
     // 닉네임 중복 확인
+    @Transactional
+    public boolean getNickCheck(String nickname) throws Exception{
+        User findUserId = userRepository.findByNickname(nickname);
+        boolean checkId = false;
+
+        if(findUserId == null) {
+            checkId = true;
+        }
+        return checkId;
+    }
 
     // 이메일 중복 확인
 
