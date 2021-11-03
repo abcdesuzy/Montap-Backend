@@ -32,31 +32,31 @@ class MontapApplicationTests {
             for (int j = 0; j < 4; j++) {
                 Item item = new Item();
                 if (i == 0) {
-                    item.setName("helmet" + (i + 1));
-                    item.setDescription("This is helmet" + (i + 1));
+                    item.setName("helmet" + (j + 1));
+                    item.setDescription("This is helmet" + (j + 1));
                     item.setItemType(ItemType.HELMET);
                     item.setItemRank(j % 4);
-                    item.setHp(i + 1);
+                    item.setHp((j + 1) * 10);
                     item.setItemUrl(null);
-                    item.setPrice((i + 1) * 1000);
+                    item.setPrice((j + 1) * 1000);
                 }
                 if (i == 1) {
-                    item.setName("armor" + (i + 1));
-                    item.setDescription("This is armor" + (i + 1));
+                    item.setName("armor" + (j + 1));
+                    item.setDescription("This is armor" + (j + 1));
                     item.setItemType(ItemType.ARMOR);
                     item.setItemRank(j % 4);
-                    item.setDefense(i + 1);
+                    item.setDefense((j + 1) * 10);
                     item.setItemUrl(null);
-                    item.setPrice((i + 1) * 1000);
+                    item.setPrice((j + 1) * 1000);
                 }
                 if (i == 2) {
-                    item.setName("weapon" + (i + 1));
-                    item.setDescription("This is weapon" + (i + 1));
+                    item.setName("weapon" + (j + 1));
+                    item.setDescription("This is weapon" + (j + 1));
                     item.setItemType(ItemType.WEAPON);
                     item.setItemRank(j % 4);
-                    item.setDamage(i + 1);
+                    item.setDamage((j + 1) * 10);
                     item.setItemUrl(null);
-                    item.setPrice((i + 1) * 1000);
+                    item.setPrice((j + 1) * 1000);
                 }
                 newItemList.add(item);
             }
