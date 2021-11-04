@@ -62,12 +62,12 @@ public class UserController {
     }
 
     // 아이디 중복확인
-    @PostMapping( "/user/valid/userid" )
-    public ResponseEntity isValidUserId(@RequestBody Map<String, String> param) {
+    @GetMapping( "/user/valid/{userId}" )
+    public ResponseEntity userIdCheck(@PathVariable String userId) {
         try {
-            String userId = param.get("userId");
-            System.out.println("userId = " + userId);
-            boolean result = userService.isValidUserId(userId);
+/*            String userId = param.get("userId");
+            System.out.println("userId = " + userId);*/
+            boolean result = userService.isValidId(userId);
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();

@@ -99,10 +99,10 @@ public class UserService {
 
     // 아이디 중복 확인 isValidUserId
     @Transactional
-    public boolean isValidUserId(String userId) {
+    public boolean isValidId(String userId) throws Exception {
         User user = userRepository.findByUserId(userId);
-        String result = user.getUserId();
-        if (result.isEmpty()) {
+        System.out.println("user"+user);
+        if (user == null) {
             return true;
         } else {
             return false;
