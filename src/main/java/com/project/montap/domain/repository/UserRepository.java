@@ -9,10 +9,12 @@ import java.util.Optional;
 // query method
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    //  @Query(value = "select u from User u left join u.inventoryItemList i where u.userId = :userId")
+    // @Query(value = "select u from User u left join u.inventoryItemList i where u.userId = :userId")
     public User findByUserId(String userId);
-    //public Optional<User> findByUserId(String userId);
+
+    // public Optional<User> findByUserId(String userId);
     public Optional<User> findByNickname(String nickname);
+
     public Optional<User> findByEmail(String email);
 
     // select * from users where user_id = {user_id} and user_pwd = {user_pwd};

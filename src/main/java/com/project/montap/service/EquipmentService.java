@@ -52,7 +52,7 @@ public class EquipmentService {
             // - 장착하려는 유저의 인벤토리 아이템 목록
             Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findByUserIdx(userIdx);
             List<InventoryItem> inventoryItemList = optionalInventoryItemList.get();
-            //List<InventoryItem> inventoryItemList = findUser.getInventoryItemList();
+            // List<InventoryItem> inventoryItemList = findUser.getInventoryItemList();
 
             InventoryItem findInventoryItem = null;
             Item findItem = null;

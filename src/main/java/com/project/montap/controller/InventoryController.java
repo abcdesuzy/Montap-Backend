@@ -83,8 +83,8 @@ public class InventoryController {
     public ResponseEntity drawItem(@RequestBody Map<String, Integer> param) {
         try {
             Integer count = param.get("count");
-            //List<Item> resultList = inventoryService.drawItem(count);
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            List<Item> resultList = inventoryService.drawItem(count);
+            return ResponseEntity.status(HttpStatus.OK).body(resultList);
         } catch (Exception e) {
 
             e.printStackTrace();

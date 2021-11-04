@@ -99,9 +99,9 @@ public class UserService {
 
     // 아이디 중복 확인 isValidUserId
     @Transactional
-    public boolean isValidId(String userId) throws Exception {
+    public boolean isValidUserId(String userId) throws Exception {
         User user = userRepository.findByUserId(userId);
-        System.out.println("user"+user);
+        System.out.println("Test user : " + user);
         if (user == null) {
             return true;
         } else {
@@ -111,7 +111,7 @@ public class UserService {
 
     // 닉네임 중복 확인 isValidNick
     @Transactional
-    public boolean isValidNick(String nickname) {
+    public boolean isValidNickname(String nickname) {
         Optional<User> optionalUser = userRepository.findByNickname(nickname);
         if (optionalUser.isEmpty()) {
             return true;

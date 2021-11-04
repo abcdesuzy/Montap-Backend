@@ -21,5 +21,4 @@ public class AuthUserDto {
     int defense;
     int damage;
     String userProfileUrl;
-    String role;
 }

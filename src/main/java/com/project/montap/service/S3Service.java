@@ -39,7 +39,7 @@ public class S3Service {
         StringBuilder sb = new StringBuilder("");
         sb.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
         sb.append("-");
-        //sb.append(file.getOriginalFilename());
+        // sb.append(file.getOriginalFilename());
         String fileName = sb.toString();
 
         s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)

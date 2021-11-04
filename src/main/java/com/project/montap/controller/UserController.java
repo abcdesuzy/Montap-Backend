@@ -62,12 +62,12 @@ public class UserController {
     }
 
     // 아이디 중복확인
-    @GetMapping( "/user/valid/{userId}" )
-    public ResponseEntity userIdCheck(@PathVariable String userId) {
+    @GetMapping( "/user/valid/userId/{userId}" )
+    public ResponseEntity isValidUserId (@PathVariable String userId) {
         try {
-/*            String userId = param.get("userId");
+/*          String userId = param.get("userId");
             System.out.println("userId = " + userId);*/
-            boolean result = userService.isValidId(userId);
+            boolean result = userService.isValidUserId(userId);
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,11 +77,11 @@ public class UserController {
 
     // 닉네임 중복확인
     @PostMapping( "/user/valid/nickname" )
-    public ResponseEntity isValidNick(@RequestBody Map<String, String> param) {
+    public ResponseEntity isValidNickname(@RequestBody Map<String, String> param) {
         try {
             String nickname = param.get("nickname");
             System.out.println("nickname = " + nickname);
-            boolean result = userService.isValidNick(nickname);
+            boolean result = userService.isValidNickname(nickname);
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();

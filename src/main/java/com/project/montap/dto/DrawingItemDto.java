@@ -8,6 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class DrawingItemDto {
-    Long userIdx;
+    // Long userIdx;
     int count;
 }

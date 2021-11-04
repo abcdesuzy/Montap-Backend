@@ -14,7 +14,7 @@ import java.util.List;
 @ToString
 public class InitialInfoDto {
 
-    // 1. 로그인 성공시 프론트에 내려줄 정보 정의
+    // 1. 로그인 성공시 프론트에 내려줄 정보 정의 (시큐리티 X )
     Long userIdx;
     String userId;
     String nickname;

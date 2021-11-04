@@ -172,24 +172,21 @@ public class InventoryService {
 
     // 아이템 뽑기
     @Transactional
-    public List<Item> drawItem(DrawingItemDto drawingItemDto) throws Exception {
+    public List<Item> drawItem(int count) throws Exception {
 
-        Long userIdx = drawingItemDto.getUserIdx();
-        int count = drawingItemDto.getCount();
+        // Long userIdx = drawingItemDto.getUserIdx();
+        // int count = drawingItemDto.getCount();
 
         List<Item> resultList = new ArrayList<>();
         if (count != 1 && count != 10) {
             throw new Exception("1회 또는 10회만 가능합니다.");
         }
 
-        // 유저 찾기
         // 현재 로그인 한 유저의 정보 찾기
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
         Optional<User> optionalUser = userRepository.findById(authUserDto.getUserIdx());
-
         // Optional<User> optionalUser = userRepository.findById(userIdx);
-
         if (optionalUser.isEmpty()) {
             throw new Exception("해당하는 유저가 없습니다.");
         }
