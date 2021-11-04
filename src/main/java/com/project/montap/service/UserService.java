@@ -4,8 +4,10 @@ import com.project.montap.domain.entity.User;
 import com.project.montap.domain.repository.InventoryItemRepository;
 import com.project.montap.domain.repository.UserRepository;
 import com.project.montap.dto.AuthUserDto;
+import com.project.montap.dto.ModifyUserDto;
 import com.project.montap.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -57,45 +59,69 @@ public class UserService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
 
+        Long userIdx = authUserDto.getUserIdx();
+        Optional<User> optionalUser = userRepository.findById(userIdx);
+        if (optionalUser.isEmpty()) {
+            throw new Exception("해당 유저가 없습니다.");
+        }
+        User user = optionalUser.get();
 
         UserDto result = new UserDto();
-        result.setIdx(authUserDto.getUserIdx());
-        result.setUserId(authUserDto.getUserId());
-        result.setNickname(authUserDto.getNickname());
-        result.setEmail(authUserDto.getEmail());
-        result.setMoney(authUserDto.getMoney());
-        result.setStage(authUserDto.getStage());
-        result.setHp(authUserDto.getHp());
-        result.setDefense(authUserDto.getDefense());
-        result.setDamage(authUserDto.getDamage());
-        result.setUserProfileUrl(authUserDto.getUserProfileUrl());
+        result.setIdx(user.getIdx());
+        result.setUserId(user.getUserId());
+        result.setNickname(user.getNickname());
+        result.setEmail(user.getEmail());
+        result.setMoney(user.getMoney());
+        result.setStage(user.getStage());
+        result.setHp(user.getHp());
+        result.setDefense(user.getDefense());
+        result.setDamage(user.getDamage());
+        result.setUserProfileUrl(user.getUserProfileUrl());
 
         return result;
     }
 
     // 회원정보수정
     @Transactional
-    public UserDto modifyUser(UserDto userDto) {
+    public Long modifyUser(ModifyUserDto modifyUserDto) throws Exception {
 
         // 1. 사용자를 찾는다.
-        // 현재 로그인 한 유저의 정보 찾기
-        User findUser = userRepository.findByUserId(userDto.getUserId());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
+        Optional<User> optionalUser = userRepository.findById(authUserDto.getUserIdx());
+        if (optionalUser.isEmpty()) {
+            throw new Exception("해당 유저가 없습니다.");
+        }
+        User user = optionalUser.get();
+        System.out.println("authUserDto = " + authUserDto);
+        
+        // 2. 기존 비밀번호 확인
+        String existPwd = modifyUserDto.getExistPwd();
+        if (!passwordEncoder.matches(existPwd, authUserDto.getUserPwd())) {
+            throw new BadCredentialsException("Invalid password 비밀번호가 일치하지 않습니다.");
+        }
 
-        // 2. 찾은 Entity 에 사용자로부터 받은 닉네임, 패스워드로 변경한다.
-        String newNickname = userDto.getNickname();
-        findUser.setNickname(newNickname);
+        // 3. 비밀번호 변경인지 확인한다 + 비밀번호 확인
+        String newPwd = modifyUserDto.getNewPwd();
+        String confPwd = modifyUserDto.getConfPwd();
+        if (newPwd != null && confPwd != null) {
+            if (newPwd.equals(confPwd)) {
+                user.setUserPwd(passwordEncoder.encode(existPwd));
+             } else {
+                throw new Exception("입력한 비밀번호가 일치하지 않습니다.");
+            }
+        }
 
-        String newPassword = passwordEncoder.encode(userDto.getUserPwd());
-        findUser.setUserPwd(newPassword);
+        // 4. 닉네임 변경인지 확인 한다.
+        String nickname = modifyUserDto.getNickname();
+        if (nickname == null) {
+            throw new Exception("닉네임을 작성해주세요.");
+        }
+        user.setNickname(nickname);
+        userRepository.save(user); // DB에 반영
 
-        // 3. DB 에 수정된 유저 정보를 저장한다. (update)
-        // 4. 수정된 유저 Entity 를 받아온다.
-        User user = userRepository.save(findUser);
+        return user.getIdx();
 
-        // 5. Entity >>> Dto 변환 작업을 수행한다.
-        UserDto newUser = user.toUserDto();
-
-        return newUser;
     }
 
     // 아이디 중복 확인 isValidUserId
@@ -136,7 +162,7 @@ public class UserService {
     @Transactional
     public void deleteUser (Long userIdx) throws Exception{
 
-        System.out.println("확인" + userIdx);
+        System.out.println("확인 : " + userIdx);
         Optional<User> optionalUser = userRepository.findById(userIdx);
 
         if(optionalUser.isEmpty()){

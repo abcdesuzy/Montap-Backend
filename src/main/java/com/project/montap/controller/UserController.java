@@ -1,6 +1,7 @@
 package com.project.montap.controller;
 
 import com.project.montap.dto.AuthUserDto;
+import com.project.montap.dto.ModifyUserDto;
 import com.project.montap.dto.UserDto;
 import com.project.montap.exception.Error;
 
@@ -51,11 +52,11 @@ public class UserController {
 
     // 회원정보수정
     @PutMapping( "/user" )
-    public ResponseEntity modifyUser(@RequestBody @Valid UserDto userDto) {
+    public ResponseEntity modifyUser(@RequestBody @Valid ModifyUserDto modifyUserDto) {
         try {
-            UserDto newUser = userService.modifyUser(userDto);
-            System.out.println("newUser = " + newUser);
-            return ResponseEntity.status(HttpStatus.OK).body(newUser);
+            Long result = userService.modifyUser(modifyUserDto);
+            System.out.println("newUser = " + result);
+            return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));

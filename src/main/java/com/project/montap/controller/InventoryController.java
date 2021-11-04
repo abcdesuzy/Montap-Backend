@@ -40,7 +40,7 @@ public class InventoryController {
     @GetMapping( "/inventory/item/all" )
     public ResponseEntity getItemInventoryAllList(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
         // 서비스를 호출해서 내 인벤토리 목록을 받아온다.
-        List<Item> result = inventoryService.getItemInventoryList(authUserDto.getUserIdx());//
+        List<Item> result = inventoryService.getItemInventoryAllList(authUserDto.getUserIdx());//
         // 클라이언트에게 내 인벤토리 목록을 반환한다.
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
