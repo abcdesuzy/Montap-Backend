@@ -3,6 +3,7 @@ package com.project.montap.domain.repository;
 import com.project.montap.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 // JPA -> SQL 자동 생성
