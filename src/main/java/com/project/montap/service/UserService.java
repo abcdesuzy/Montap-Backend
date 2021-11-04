@@ -57,6 +57,7 @@ public class UserService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
 
+
         UserDto result = new UserDto();
         result.setIdx(authUserDto.getUserIdx());
         result.setUserId(authUserDto.getUserId());
