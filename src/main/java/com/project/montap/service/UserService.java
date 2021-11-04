@@ -132,6 +132,17 @@ public class UserService {
         }
     }
 
-
     // 회원 탈퇴
+    @Transactional
+    public void deleteUser (Long userIdx) throws Exception{
+
+        System.out.println("확인" + userIdx);
+        Optional<User> optionalUser = userRepository.findById(userIdx);
+
+        if(optionalUser.isEmpty()){
+            throw new Exception("현재 존재하지 않는 유저입니다.");
+        }
+            User findUser = optionalUser.get();
+            userRepository.deleteById(findUser.getIdx());
+    }
 }
