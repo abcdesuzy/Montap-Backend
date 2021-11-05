@@ -68,18 +68,21 @@ public class StageService {
             }
         }
 
-
         return clearStageDto;
     }
 
     @Transactional
     public List<MyStageDto> getMyStage(Long userIdx) throws Exception {
 
-        Optional<User> optionalUser = userRepository.findById(userIdx);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
+
+        Optional<User> optionalUser = userRepository.findById(authUserDto.getUserIdx());
 
         if (optionalUser.isEmpty()) {
             throw new Exception("해당하는 유저가 없습니다.");
         }
+
         User user = optionalUser.get();
         List<MyStageDto> myStage = stageRepository.findByMyStage(user.getIdx());
 
@@ -88,21 +91,39 @@ public class StageService {
 
     @Transactional
     public StageDto getStage(Long stageIdx) throws Exception {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
+        Long userIdx = authUserDto.getUserIdx();
+
         Optional<Stage> optionalStage = stageRepository.findById(stageIdx);
-        if (optionalStage.isEmpty()) {
-            throw new Exception("해당 스테이지가 없습니다.");
+
+        Optional<User> optionalUser = userRepository.findById(userIdx);
+        User user = optionalUser.get();
+
+        System.out.println(optionalUser.get().getStage() +"와" + optionalStage.get().getStageCount());
+
+        if(user.getStage()+1 < optionalStage.get().getStageCount()) {
+            throw new Exception("해당 스테이지는 클리어 안됩니다");
+
+        }else {
+            if (optionalStage.isEmpty()) {
+                throw new Exception("해당 스테이지가 없습니다.");
+            }
+            Stage stage = optionalStage.get();
+            StageDto stageDto = new StageDto();
+            stageDto.setIdx(stage.getIdx());
+            stageDto.setStageCount(stage.getStageCount());
+            stageDto.setMonsterName(stage.getMonsterName());
+            stageDto.setMonsterDamage(stage.getMonsterDamage());
+            stageDto.setMonsterHp(stage.getMonsterHp());
+            stageDto.setIsBoss(stage.getIsBoss());
+            stageDto.setDropMoney(stage.getDropMoney());
+            stageDto.setMonsterUrl(stage.getMonsterUrl());
+
+            return stageDto;
         }
-        Stage stage = optionalStage.get();
-        StageDto stageDto = new StageDto();
-        stageDto.setIdx(stage.getIdx());
-        stageDto.setStageCount(stage.getStageCount());
-        stageDto.setMonsterName(stage.getMonsterName());
-        stageDto.setMonsterDamage(stage.getMonsterDamage());
-        stageDto.setMonsterHp(stage.getMonsterHp());
-        stageDto.setIsBoss(stage.getIsBoss());
-        stageDto.setDropMoney(stage.getDropMoney());
-        stageDto.setMonsterUrl(stage.getMonsterUrl());
-        return stageDto;
+
     }
 
 }
