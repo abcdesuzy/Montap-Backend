@@ -80,6 +80,7 @@ public class UserService {
         result.setUserId(user.getUserId());
         result.setNickname(user.getNickname());
         result.setEmail(user.getEmail());
+        result.setEmailYn(user.getEmailYn());
         result.setMoney(user.getMoney());
         result.setStage(user.getStage());
         result.setHp(user.getHp());
@@ -103,7 +104,7 @@ public class UserService {
         }
         User user = optionalUser.get();
         System.out.println("authUserDto = " + authUserDto);
-        
+
         // 2. 기존 비밀번호 확인
         String existPwd = modifyUserDto.getExistPwd();
         if (!passwordEncoder.matches(existPwd, authUserDto.getUserPwd())) {
@@ -116,7 +117,7 @@ public class UserService {
         if (newPwd != null && confPwd != null) {
             if (newPwd.equals(confPwd)) {
                 user.setUserPwd(passwordEncoder.encode(newPwd));
-             } else {
+            } else {
                 throw new Exception("입력한 비밀번호가 일치하지 않습니다.");
             }
         }
@@ -169,19 +170,19 @@ public class UserService {
 
     // 회원 탈퇴
     @Transactional
-    public void deleteUser (Long userIdx) throws Exception{
+    public void deleteUser(Long userIdx) throws Exception {
 
         System.out.println("확인 : " + userIdx);
         Optional<User> optionalUser = userRepository.findById(userIdx);
 
-        if(optionalUser.isEmpty()){
+        if (optionalUser.isEmpty()) {
             throw new Exception("현재 존재하지 않는 유저입니다.");
         }
-            User findUser = optionalUser.get();
-            userRepository.deleteById(findUser.getIdx());
+        User findUser = optionalUser.get();
+        userRepository.deleteById(findUser.getIdx());
     }
 
-    //
+    // 이메일 인증
     @Transactional
     public void confirmEmail(Long token) throws Exception {
 
@@ -190,6 +191,6 @@ public class UserService {
         if (user == null) throw new Exception("해당 유저가 없습니다.");
         user.setEmailYn(1);
         userRepository.save(user);
-        findConfirmationToken.useToken();	// 토큰 만료 로직을 구현해주면 된다. ex) expired 값을 true 로 변경
+        findConfirmationToken.useToken();    // 토큰 만료 로직을 구현해주면 된다. ex) expired 값을 true 로 변경
     }
 }

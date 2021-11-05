@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InventoryItemListDto {
+    // inventoryItemIdx 포함한 Dto
     Long inventoryItemIdx;
     Long itemIdx;
     String name;

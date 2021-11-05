@@ -26,6 +26,7 @@ public class UserDto {
     @Pattern( regexp = "[a-zA-z0-9]+@[a-zA-z]+[.]+[a-zA-z.]+", message = "이메일을 형식에 맞게 입력해주세요." )
     String email;
 
+    int emailYn;
     int money;
     int stage;
     int hp;

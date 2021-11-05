@@ -29,7 +29,8 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
 
         AccountContext accountContext = (AccountContext) customUserDetailsService.loadUserByUsername(userId);
 
-        if (accountContext.getUser().getEmailYn() == 0) throw new BadCredentialsException("이메일 인증 실패");
+        // 이메일 인증을 받지 않으면 로그인 제한
+        // if (accountContext.getUser().getEmailYn() == 0) throw new BadCredentialsException("이메일 인증 실패");
 
         // passwordEncoder.matchers 메소드 사용해서 처리
         if (!passwordEncoder.matches(userPwd, accountContext.getPassword())) {
