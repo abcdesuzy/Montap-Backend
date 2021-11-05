@@ -6,8 +6,12 @@ import com.project.montap.domain.repository.UserRepository;
 import com.project.montap.dto.AuthUserDto;
 import com.project.montap.dto.ModifyUserDto;
 import com.project.montap.dto.UserDto;
+import com.project.montap.security.token.AjaxAuthenticationToken;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +23,7 @@ import java.util.Optional;
 // 회원관리 서비스
 @Service
 @Transactional( readOnly = true )
+@RequiredArgsConstructor
 public class UserService {
 
     @Autowired
@@ -106,7 +111,7 @@ public class UserService {
         String confPwd = modifyUserDto.getConfPwd();
         if (newPwd != null && confPwd != null) {
             if (newPwd.equals(confPwd)) {
-                user.setUserPwd(passwordEncoder.encode(existPwd));
+                user.setUserPwd(passwordEncoder.encode(newPwd));
              } else {
                 throw new Exception("입력한 비밀번호가 일치하지 않습니다.");
             }
@@ -118,7 +123,7 @@ public class UserService {
             throw new Exception("닉네임을 작성해주세요.");
         }
         user.setNickname(nickname);
-        userRepository.save(user); // DB에 반영
+        User newUser = userRepository.save(user);// DB에 반영
 
         return user.getIdx();
 

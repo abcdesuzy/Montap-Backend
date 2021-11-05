@@ -42,8 +42,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         authUserDto.setDamage(user.getDamage());
         authUserDto.setUserProfileUrl(user.getUserProfileUrl());
 
-        System.out.println("authUserDto = " + authUserDto);
-
         List<GrantedAuthority> roles = new ArrayList<>();
         // TODO 나중에 권한 추가해야함
         roles.add(new SimpleGrantedAuthority("ROLE_USER"));

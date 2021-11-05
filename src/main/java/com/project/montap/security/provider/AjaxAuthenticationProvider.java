@@ -26,7 +26,6 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
         // 토큰에서 ID PW 를 꺼낸다.
         String userId = authentication.getName(); // userId
         String userPwd = (String) authentication.getCredentials(); // userPwd
-        // System.out.println("userId, userPwd = " + userId + ", " + userPwd);
 
         AccountContext accountContext = (AccountContext) customUserDetailsService.loadUserByUsername(userId);
 

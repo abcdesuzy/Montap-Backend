@@ -38,7 +38,6 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
             }
             // 인증토큰 생성 > 인증관리자에게 토큰을 넘겨주면서 인증을 요청함
             AjaxAuthenticationToken ajaxAuthenticationToken = new AjaxAuthenticationToken(userDto.getUserId(), userDto.getUserPwd());
-            System.out.println(getAuthenticationManager());
             return getAuthenticationManager().authenticate(ajaxAuthenticationToken);
 
         }

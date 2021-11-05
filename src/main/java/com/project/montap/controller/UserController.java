@@ -5,12 +5,16 @@ import com.project.montap.dto.ModifyUserDto;
 import com.project.montap.dto.UserDto;
 import com.project.montap.exception.Error;
 
+import com.project.montap.security.token.AjaxAuthenticationToken;
 import com.project.montap.service.S3Service;
 import com.project.montap.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +28,9 @@ import java.util.Map;
 
 @RestController
 public class UserController {
+
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     @Autowired
     UserService userService;
@@ -55,7 +62,10 @@ public class UserController {
     public ResponseEntity modifyUser(@RequestBody @Valid ModifyUserDto modifyUserDto) {
         try {
             Long result = userService.modifyUser(modifyUserDto);
-            System.out.println("newUser = " + result);
+//            if (modifyUserDto.getNewPwd() != null && modifyUserDto.getConfPwd() != null) {
+//                Authentication authentication = authenticationManager.authenticate(new AjaxAuthenticationToken(result, modifyUserDto.getNewPwd()));
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
+//            }
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();
