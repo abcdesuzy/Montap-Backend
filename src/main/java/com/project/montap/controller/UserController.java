@@ -6,6 +6,7 @@ import com.project.montap.dto.UserDto;
 import com.project.montap.exception.Error;
 
 import com.project.montap.security.token.AjaxAuthenticationToken;
+import com.project.montap.service.ConfirmationTokenService;
 import com.project.montap.service.S3Service;
 import com.project.montap.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,9 @@ public class UserController {
 
     @Autowired
     S3Service s3Service;
+
+    @Autowired
+    ConfirmationTokenService confirmationTokenService;
 
     // 회원가입
     @PostMapping( "/user" )
@@ -76,7 +80,7 @@ public class UserController {
 
     // 아이디 중복확인
     @GetMapping( "/user/valid/userId/{userId}" )
-    public ResponseEntity isValidUserId (@PathVariable String userId) {
+    public ResponseEntity isValidUserId(@PathVariable String userId) {
         try {
 /*          String userId = param.get("userId");
             System.out.println("userId = " + userId);*/
@@ -117,8 +121,8 @@ public class UserController {
     }
 
     // 프로필 사진 변경
-    @PostMapping("/user/profile") // 이미지는 param // key 값은 upload 로
-    public ResponseEntity uploadProfile(@RequestParam("upload") MultipartFile file) {
+    @PostMapping( "/user/profile" ) // 이미지는 param // key 값은 upload 로
+    public ResponseEntity uploadProfile(@RequestParam( "upload" ) MultipartFile file) {
         try {
             String url = s3Service.upload(file);
             return ResponseEntity.status(HttpStatus.OK).body(url);
@@ -129,7 +133,7 @@ public class UserController {
     }
 
     // 회원 탈퇴
-    @DeleteMapping("/user")
+    @DeleteMapping( "/user" )
     public ResponseEntity uploadProfile(@AuthenticationPrincipal AuthUserDto authUserDto) {
         try {
             userService.deleteUser(authUserDto.getUserIdx());
@@ -152,5 +156,32 @@ public class UserController {
             errors.put(fieldName, errorMessage);
         });
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    // E-mail 을 보내는 API
+    @PostMapping( "/email" )
+    public ResponseEntity sendEmail(@RequestBody Map<String, String> param) {
+        try {
+            String email = param.get("email");
+            String userId = param.get("userId");
+            confirmationTokenService.createEmailConfirmationToken(email, userId);
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
+        }
+    }
+
+    // 링크 클릭 시 호출되는 API
+    @GetMapping( "/confirm/email/{token}" )
+    public ResponseEntity viewConfirmEmail(@PathVariable Long token) {
+        try {
+            System.out.println("token = " + token);
+            userService.confirmEmail(token);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error(e.getMessage()));
+        }
     }
 }

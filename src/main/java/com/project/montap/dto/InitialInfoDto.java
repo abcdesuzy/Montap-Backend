@@ -19,6 +19,7 @@ public class InitialInfoDto {
     String userId;
     String nickname;
     String email;
+    int emailYn;
     int money;
     int stage;
     int hp;

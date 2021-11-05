@@ -30,6 +30,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
         initialInfoDto.setUserId(user.getUserId());
         initialInfoDto.setNickname(user.getNickname());
         initialInfoDto.setEmail(user.getEmail());
+        initialInfoDto.setEmailYn(user.getEmailYn());
         initialInfoDto.setMoney(user.getMoney());
         initialInfoDto.setStage(user.getStage());
         initialInfoDto.setHp(user.getHp());

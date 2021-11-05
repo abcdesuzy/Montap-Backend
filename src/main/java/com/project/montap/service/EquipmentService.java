@@ -9,6 +9,7 @@ import com.project.montap.domain.repository.UserRepository;
 import com.project.montap.dto.AfterEquipDto;
 import com.project.montap.dto.AuthUserDto;
 import com.project.montap.dto.EquipItemDto;
+import com.project.montap.dto.InventoryItemListDto;
 import com.project.montap.enums.ItemType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -71,7 +72,7 @@ public class EquipmentService {
 
     // 장착한 아이템 리스트
     @Transactional
-    public List<Item> getEquipment() throws Exception {
+    public List<InventoryItemListDto> getEquipment() throws Exception {
 
         // 인증된 사용자
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -84,10 +85,26 @@ public class EquipmentService {
             throw new Exception("인벤토리에 아이템이 없습니다.");
         }
         List<InventoryItem> inventoryItemList = optionalInventoryItemList.get();
-        List<Item> resultList = new ArrayList<>();
+        List<InventoryItemListDto> resultList = new ArrayList<>();
         for (int i = 0; i < inventoryItemList.size(); i++) {
             if (inventoryItemList.get(i).getEquipYn() == 1) {
-                resultList.add(inventoryItemList.get(i).getItem());
+                Item item = inventoryItemList.get(i).getItem();
+
+                // InventoryItemListDto 만들기
+                InventoryItemListDto inventoryItemListDto = new InventoryItemListDto();
+                inventoryItemListDto.setInventoryItemIdx(inventoryItemList.get(i).getIdx());
+                inventoryItemListDto.setItemIdx(item.getIdx());
+                inventoryItemListDto.setName(item.getName());
+                inventoryItemListDto.setPrice(item.getPrice());
+                inventoryItemListDto.setDescription(item.getDescription());
+                inventoryItemListDto.setHp(item.getHp());
+                inventoryItemListDto.setDamage(item.getDamage());
+                inventoryItemListDto.setDefense(item.getDefense());
+                inventoryItemListDto.setItemType(item.getItemType());
+                inventoryItemListDto.setItemRank(item.getItemRank());
+                inventoryItemListDto.setItemUrl(item.getItemUrl());
+
+                resultList.add(inventoryItemListDto);
             }
         }
         return resultList;

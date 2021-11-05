@@ -38,6 +38,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-aws
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.5.RELEASE'
 
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.5.5'
+
     // lombok - https://projectlombok.org/setup/gradle
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'

@@ -30,6 +30,8 @@ public class User {
     String userPwd;
     String nickname;
     String email;
+    @Column(columnDefinition = "INTEGER NOT NULL DEFAULT 0") // 0(미인증), 1(인증완료)
+    int emailYn = 0;
     int money;
     int stage;
     @Column( columnDefinition = "INTEGER NOT NULL DEFAULT 100" )

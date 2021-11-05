@@ -35,6 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         authUserDto.setUserPwd(user.getUserPwd());
         authUserDto.setNickname(user.getNickname());
         authUserDto.setEmail(user.getEmail());
+        authUserDto.setEmailYn(user.getEmailYn());
         authUserDto.setMoney(user.getMoney());
         authUserDto.setStage(user.getStage());
         authUserDto.setHp(user.getHp());

@@ -1,8 +1,8 @@
 package com.project.montap.controller;
 
-import com.project.montap.domain.entity.Item;
 import com.project.montap.dto.AfterEquipDto;
 import com.project.montap.dto.EquipItemDto;
+import com.project.montap.dto.InventoryItemListDto;
 import com.project.montap.exception.Error;
 import com.project.montap.service.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class EquipmentController {
     public ResponseEntity getEquipment() throws Exception {
         try {
             // 서비스를 호출해서 장착한 장비 목록을 받아온다.
-            List<Item> result = equipmentService.getEquipment();
+            List<InventoryItemListDto> result = equipmentService.getEquipment();
             // 클라이언트에게 장착한 장비 목록을 반환한다.
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {

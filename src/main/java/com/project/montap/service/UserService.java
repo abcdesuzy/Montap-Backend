@@ -1,5 +1,6 @@
 package com.project.montap.service;
 
+import com.project.montap.domain.entity.ConfirmationToken;
 import com.project.montap.domain.entity.User;
 import com.project.montap.domain.repository.InventoryItemRepository;
 import com.project.montap.domain.repository.UserRepository;
@@ -34,6 +35,9 @@ public class UserService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    ConfirmationTokenService confirmationTokenService;
 
     // 회원가입
     @Transactional
@@ -175,5 +179,17 @@ public class UserService {
         }
             User findUser = optionalUser.get();
             userRepository.deleteById(findUser.getIdx());
+    }
+
+    //
+    @Transactional
+    public void confirmEmail(Long token) throws Exception {
+
+        ConfirmationToken findConfirmationToken = confirmationTokenService.findByIdAndExpirationDateAfterAndExpired(token);
+        User user = userRepository.findByUserId(findConfirmationToken.getUserId());
+        if (user == null) throw new Exception("해당 유저가 없습니다.");
+        user.setEmailYn(1);
+        userRepository.save(user);
+        findConfirmationToken.useToken();	// 토큰 만료 로직을 구현해주면 된다. ex) expired 값을 true 로 변경
     }
 }
