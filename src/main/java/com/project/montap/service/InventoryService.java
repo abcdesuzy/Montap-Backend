@@ -49,6 +49,7 @@ public class InventoryService {
             User findUser = optionalFindUser.get();
             Item findItem = optionalFindItem.get();
 
+            // 인벤토리 300칸 제한 체크
             if (findUser.getInventoryItemList().size() >= 300) {
                 throw new Exception("인벤토리가 꽉찼습니다.");
             }
@@ -81,7 +82,7 @@ public class InventoryService {
         return resultList;
     }
 
-    // 내 인벤토리 미장착 아이템 리스트
+    // 내 인벤토리 아이템 미장착 리스트
     @Transactional
     public List<Item> getItemInventoryList(Long userIdx) throws Exception {
 
@@ -105,37 +106,42 @@ public class InventoryService {
     // 아이템 판매
     @Transactional
     public Integer sellItem(SellingItemDto sellingItemDto) throws Exception {
+
         Long userIdx = sellingItemDto.getUserIdx();
         List<Long> inventoryItemIdxList = sellingItemDto.getInventoryItemIdxList();
 
         User user = null;
 
+        // 1. 사용자를 찾는다.
         Optional<User> optionalUser = userRepository.findById(userIdx);
         if (optionalUser.isEmpty()) {
             throw new Exception("해당 유저가 없습니다.");
         }
+        // 해당하는 사용자가 있으면 꺼냄
         user = optionalUser.get();
 
+        // 2. 내 인벤토리에서 해당 아이템리스트의 Idx 를 찾는다.
         Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findByIdxInAndEquipYn(inventoryItemIdxList, 0);
         if (optionalInventoryItemList.isEmpty()) {
             throw new Exception("인벤토리에 해당 아이템이 없습니다.");
         }
+        // 해당하는 아이템이 있으면 꺼냄
         List<InventoryItem> inventoryItemList = optionalInventoryItemList.get();
 
-        // 1-1 인벤토리에서 가져온 아이템의 개수와 판매하려는 아이템의 개수가 일치하지 않는다면 에러
+        // 3. 인벤토리에서 가져온 아이템의 개수와 판매하려는 아이템의 개수가 일치하지 않는다면 에러
         if (inventoryItemIdxList.size() != inventoryItemList.size()) {
             throw new Exception("인벤토리에 해당 아이템이 없습니다.");
         }
 
-        // 3. 판매 금액을 계산하고, 해당 유저의 소지금액을 증가시킨다.
+        // 4. 판매 금액을 계산하고, 해당 유저의 소지금액을 증가시킨다.
         int money = 0;
-        for (int i = 0; i < inventoryItemList.size(); i ++) {
+        for (int i = 0; i < inventoryItemList.size(); i++) {
             money += inventoryItemList.get(i).getItem().getPrice();
         }
         user.setMoney(user.getMoney() + money);
         userRepository.save(user);
 
-        // 4. 인벤토리에서 판매한 아이템을 삭제한다.
+        // 5. 인벤토리아이템에서 판매한 아이템을 삭제한다.
         inventoryItemRepository.deleteByUserIdxAndIdxIn(sellingItemDto.getUserIdx(), sellingItemDto.getInventoryItemIdxList());
 
         return user.getMoney();
@@ -170,6 +176,7 @@ public class InventoryService {
         // Long userIdx = drawingItemDto.getUserIdx();
         // int count = drawingItemDto.getCount();
 
+        // 뽑기 횟수 제한 1 or 10
         List<Item> resultList = new ArrayList<>();
         if (count != 1 && count != 10) {
             throw new Exception("1회 또는 10회만 가능합니다.");
@@ -214,12 +221,12 @@ public class InventoryService {
             if (number == 0) itemType = ItemType.HELMET;
             if (number == 1) itemType = ItemType.ARMOR;
             if (number == 2) itemType = ItemType.WEAPON;
-            // 아이템 등급 0,1,2,3
+            // 아이템 등급 0(S),1(A),2(B),3(C)
             number = (int) (Math.random() * 100);
-            if (0 <= number && number < 5) itemRank = 0;
-            if (5 <= number && number < 21) itemRank = 1;
-            if (21 <= number && number < 51) itemRank = 2;
-            if (51 <= number && number < 100) itemRank = 3;
+            if (0 <= number && number < 2) itemRank = 0; // 0~1
+            if (2 <= number && number < 16) itemRank = 1; // 2~15
+            if (16 <= number && number < 51) itemRank = 2; // 16~50
+            if (51 <= number && number < 100) itemRank = 3; // 51~99
 
             Optional<Item> optionalItem = itemRepository.findByItemTypeAndItemRank(itemType, itemRank);
             if (optionalItem.isEmpty()) {
@@ -227,14 +234,17 @@ public class InventoryService {
             }
             Item item = optionalItem.get();
 
+            // 인벤토리 아이템 임시박스에 넣어주기
             InventoryItem inventoryItem = new InventoryItem();
             inventoryItem.setUser(user);
             inventoryItem.setItem(item);
+            // 그리고 저장
             inventoryItemRepository.save(inventoryItem);
 
             resultList.add(item);
         }
-
+        
+        // 재화 차감 - 저장
         user.setMoney(user.getMoney() - drawMoney);
         userRepository.save(user);
 

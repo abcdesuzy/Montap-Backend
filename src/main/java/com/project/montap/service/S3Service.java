@@ -21,6 +21,8 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 public class S3Service {
 
+    // 프로필 이미지 추가 - S3
+
     private AmazonS3 s3Client;
     private final Environment env;
 

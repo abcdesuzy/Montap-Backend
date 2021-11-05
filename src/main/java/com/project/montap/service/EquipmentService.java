@@ -115,8 +115,8 @@ public class EquipmentService {
                 throw new Exception("인벤토리가 가득 찼습니다.");
             }
 
-            // 2. 그 유저의 인벤토리에 있는 아이템 중에서 장착해제 하려는 아이템을 찾는다.
-            Optional<InventoryItem> optionalInventoryItem = inventoryItemRepository.findById(equipItemDto.getInventoryItemIdx());
+            // 2. 전달받은 inventoryItemIdx, equipYn = 1 인 인벤토리 아이템을 찾아서 장착해제 한다.
+            Optional<InventoryItem> optionalInventoryItem = inventoryItemRepository.findByIdxAndEquipYn(equipItemDto.getInventoryItemIdx(), 1);
             if (optionalInventoryItem.isEmpty()) throw new Exception("해당 아이템이 없습니다.");
             InventoryItem inventoryItem = optionalInventoryItem.get();
             inventoryItem.setEquipYn(0);
