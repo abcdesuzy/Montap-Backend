@@ -98,6 +98,7 @@ public class StageService {
         stageDto.setStageCount(stage.getStageCount());
         stageDto.setMonsterName(stage.getMonsterName());
         stageDto.setMonsterDamage(stage.getMonsterDamage());
+        stageDto.setMonsterHp(stage.getMonsterHp());
         stageDto.setIsBoss(stage.getIsBoss());
         stageDto.setDropMoney(stage.getDropMoney());
         stageDto.setMonsterUrl(stage.getMonsterUrl());
