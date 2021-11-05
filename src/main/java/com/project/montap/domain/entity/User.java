@@ -6,9 +6,6 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,15 +20,15 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue( strategy = GenerationType.IDENTITY )
     @Column( name = "USER_IDX" )
     Long idx;
     String userId;
     String userPwd;
     String nickname;
     String email;
-    @Column(columnDefinition = "INTEGER NOT NULL DEFAULT 0") // 0(미인증), 1(인증완료)
-    int emailYn = 0;
+    @Column( columnDefinition = "INTEGER NOT NULL DEFAULT 0" )
+    int emailYn = 0; // 이메일 인증여부 0(미인증), 1(인증완료)
     int money;
     int stage;
     @Column( columnDefinition = "INTEGER NOT NULL DEFAULT 100" )
@@ -40,7 +37,7 @@ public class User {
     int defense = 0;
     @Column( columnDefinition = "INTEGER NOT NULL DEFAULT 10" )
     int damage = 10;
-    String userProfileUrl;
+    String userProfileUrl; // 프로필 사진 주소
 
     @OneToMany( mappedBy = "user" )
     @JsonManagedReference
@@ -51,7 +48,10 @@ public class User {
     List<StageLog> stageLogList = new ArrayList<>();
 
     // 회원가입 
-    public User(String userId, String userPwd, String nickname, String email) {
+    public User(String userId,
+                String userPwd,
+                String nickname,
+                String email) {
         this.userId = userId;
         this.userPwd = userPwd;
         this.nickname = nickname;
@@ -66,6 +66,7 @@ public class User {
                 .userId(userId)
                 .nickname(nickname)
                 .email(email)
+                .emailYn(emailYn)
                 .money(money)
                 .stage(stage)
                 .hp(hp)
@@ -74,4 +75,5 @@ public class User {
                 .userProfileUrl(userProfileUrl)
                 .build();
     }
+
 }

@@ -25,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable() // 리액트, rest api 이므로 기본설정 사용 안함. 기본설정 비인증시 로그인폼 화면으로 redirect 된다.
                 .csrf().disable() // 불필요하므로 사용 안함
                 .authorizeRequests()
+                .antMatchers("/").permitAll()// 초기화면 모두 허용
                 .antMatchers(HttpMethod.POST, "/user").permitAll() // 회원가입 모두 허용
                 .antMatchers(HttpMethod.GET, "/user/valid/userId/{userId}").permitAll() // 아이디 중복 체크 모두 허용
                 .antMatchers(HttpMethod.POST, "/user/valid/nickname").permitAll() // 닉네임 중복 체크 모두 허용
@@ -32,8 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/email").permitAll() // 이메일 보내는거 모두 허용
                 .antMatchers(HttpMethod.GET, "/confirm/email/{token}").permitAll() // 이메일 인증 모두 허용
                 .antMatchers(HttpMethod.POST, "/login").permitAll() // 로그인 모두 허용
-                .antMatchers("/").permitAll()// 초기화면 모두 허용
-                .anyRequest().authenticated() // 위에  3개 외에 모든 요청들은 인증이 필요하다.
+                .anyRequest().authenticated() // 위의 목록 외 모든 요청들은 인증이 필요하다.
                 .and()
                 .addFilterBefore(ajaxLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class); // 필터 추가
     }

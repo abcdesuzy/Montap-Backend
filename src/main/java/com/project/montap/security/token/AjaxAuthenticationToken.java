@@ -8,6 +8,7 @@ import org.springframework.util.Assert;
 import java.util.Collection;
 
 public class AjaxAuthenticationToken extends AbstractAuthenticationToken {
+
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
     private final Object principal;
@@ -53,4 +54,5 @@ public class AjaxAuthenticationToken extends AbstractAuthenticationToken {
         super.eraseCredentials();
         this.credentials = null;
     }
+
 }

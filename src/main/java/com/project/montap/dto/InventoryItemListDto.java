@@ -8,16 +8,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InventoryItemListDto {
-    // inventoryItemIdx 포함한 Dto
+    // inventoryItemIdx 포함한 인벤토리 리스트 Dto
     Long inventoryItemIdx;
     Long itemIdx;
     String name;
-    String description;
     ItemType itemType;
     int itemRank;
+    int price;
     int hp;
     int defense;
     int damage;
-    int price;
+    String description;
     String itemUrl;
 }

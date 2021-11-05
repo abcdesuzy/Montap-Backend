@@ -1,7 +1,6 @@
 package com.project.montap.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.project.montap.enums.ItemType;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -31,13 +30,14 @@ public class InventoryItem {
     Item item;
 
     @Column(columnDefinition = "INTEGER NOT NULL DEFAULT 0")
-    int equipYn = 0;
+    int equipYn = 0; // 아이템 장착 여부 : 0(미장착), 1(장착)
 
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    LocalDateTime dropDate;
+    LocalDateTime dropDate; // 아이템 획득 Log
 
     public InventoryItem(User user, Item item) {
         this.user = user;
         this.item = item;
     }
+
 }

@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 @ToString
 public class EquipItemDto {
-    Long userIdx;
+    // 아이템 장착하기 Dto
+    // Long userIdx;
     Long inventoryItemIdx;
 }

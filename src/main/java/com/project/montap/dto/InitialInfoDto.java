@@ -13,8 +13,7 @@ import java.util.List;
 @Builder
 @ToString
 public class InitialInfoDto {
-
-    // 1. 로그인 성공시 프론트에 내려줄 정보 정의 (시큐리티 X )
+    // 로그인 성공시 프론트에 내려줄 유저 정보 리스트 (시큐리티 미적용)
     Long userIdx;
     String userId;
     String nickname;
@@ -26,7 +25,6 @@ public class InitialInfoDto {
     int defense;
     int damage;
     String userProfileUrl;
-    // List<InventoryItem> inventoryItemList = new ArrayList<>();
 
-    // 2. 프론트개발자랑 이야기한 후에, 필요할 때마다 추가
+    // + 프론트개발자랑 이야기한 후에, 필요할 때마다 추가
 }

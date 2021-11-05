@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @ToString
 public class AuthUserDto {
-    // 시큐리티 인증용 Dto
+    // 시큐리티 인증된 유저 정보 Dto
     Long userIdx;
     String userId;
     String userPwd;

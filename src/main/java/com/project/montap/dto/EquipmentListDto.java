@@ -12,5 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class EquipmentListDto {
+    // 장착한 아이템 리스트 Dto
     List<Item> equipmentItemList = new ArrayList<>();
 }

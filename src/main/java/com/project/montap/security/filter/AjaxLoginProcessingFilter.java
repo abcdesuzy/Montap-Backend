@@ -28,18 +28,15 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
 
         if (!isAjax(request)) {
-            throw new IllegalStateException("Ajax요청이 아닙니다.");
-
-        } else {  // 사용자로부터 받은 값을 직접 Dto로 변환해줘야 하는데 이 역할을 objectMapper 가 수행한다.
+            throw new IllegalStateException("Ajax 요청이 아닙니다.");
+        } else {  // 사용자로부터 받은 값을 직접 Dto 로 변환해줘야 하는데 이 역할을 objectMapper 가 수행한다.
             UserDto userDto = objectMapper.readValue(request.getReader(), UserDto.class);
-
             if (StringUtils.isEmpty(userDto.getUserId()) || StringUtils.isEmpty(userDto.getUserPwd())) {
                 throw new IllegalArgumentException("아이디나 비밀번호가 틀렸습니다.");
             }
-            // 인증토큰 생성 > 인증관리자에게 토큰을 넘겨주면서 인증을 요청함
+            // 인증 토큰 생성 >> 인증 관리자에게 토큰을 넘겨주면서 인증을 요청함
             AjaxAuthenticationToken ajaxAuthenticationToken = new AjaxAuthenticationToken(userDto.getUserId(), userDto.getUserPwd());
             return getAuthenticationManager().authenticate(ajaxAuthenticationToken);
-
         }
     }
 
@@ -50,7 +47,6 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
      * X-Requested-With: XMLHttpRequest
      */
     private boolean isAjax(HttpServletRequest request) {
-
         if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
             return true;
         }

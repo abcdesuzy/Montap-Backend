@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class SellingItemDto {
-    List<Long> inventoryItemIdxList = new ArrayList<>();
-    Long userIdx;
+    // 아이템 판매 Dto
+    Long userIdx; // userIdx
+    List<Long> inventoryItemIdxList = new ArrayList<>(); // 판매하려는 아이템 리스트 : inventoryItemIdx 로 입력
 }

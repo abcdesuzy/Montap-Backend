@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 @ToString
 public class ClearStageDto {
+    // 스테이지 클리어 Dto
     Long userIdx;
     Long stageIdx;
 }

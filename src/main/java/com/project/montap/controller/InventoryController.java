@@ -2,10 +2,10 @@ package com.project.montap.controller;
 
 import com.project.montap.domain.entity.Item;
 import com.project.montap.dto.*;
-import com.project.montap.dto.DrawingItemDto;
 import com.project.montap.dto.GetItemDto;
 import com.project.montap.dto.ItemDto;
 import com.project.montap.dto.SellingItemDto;
+import com.project.montap.dto.InventoryItemListDto;
 
 import com.project.montap.exception.Error;
 import com.project.montap.service.InventoryService;
@@ -38,20 +38,25 @@ public class InventoryController {
 
     // 내 인벤토리 전체 아이템 리스트
     @GetMapping( "/inventory/item/all" )
-    public ResponseEntity getItemInventoryAllList(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
+    public ResponseEntity inventoryItemAllList(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
         // 서비스를 호출해서 내 인벤토리 목록을 받아온다.
-        List<Item> result = inventoryService.getItemInventoryAllList(authUserDto.getUserIdx());//
+        List<Item> result = inventoryService.inventoryItemAllList(authUserDto.getUserIdx());//
         // 클라이언트에게 내 인벤토리 목록을 반환한다.
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     // 인벤토리 미장착 아이템 리스트
     @GetMapping( "/inventory/item" )
-    public ResponseEntity getItemInventoryList(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
-        // 서비스를 호출해서 내 인벤토리 목록을 받아온다.
-        List<Item> result = inventoryService.getItemInventoryList(authUserDto.getUserIdx());//
-        // 클라이언트에게 내 인벤토리 목록을 반환한다.
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+    public ResponseEntity inventoryItemList() throws Exception {
+        try {
+            // 서비스를 호출해서 미장착한 아이템 목록을 받아온다.
+            List<InventoryItemListDto> result = inventoryService.inventoryItemList();
+            // 클라이언트에게 내 인벤토리 목록을 반환한다.
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
+        }
     }
 
     // 아이템 판매

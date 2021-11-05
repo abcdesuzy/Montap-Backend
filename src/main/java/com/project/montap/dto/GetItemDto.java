@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 @ToString
 public class GetItemDto {
+    // 아이템 획득 Dto
     Long userIdx;
     Long itemIdx;
 }

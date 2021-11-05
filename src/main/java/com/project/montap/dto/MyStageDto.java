@@ -10,9 +10,10 @@ import lombok.*;
 @Builder
 @ToString
 public class MyStageDto {
+    // 내 스테이지 정보 Dto
     Long stageIdx;
-    String monsterName;
     int stageCount;
+    String monsterName;
     String isBoss;
     String isCleared;
 }

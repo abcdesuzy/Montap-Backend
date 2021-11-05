@@ -20,11 +20,13 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 
     @Override
     @Transactional
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        response.setCharacterEncoding("utf8"); // 한글꺠짐방지
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+            throws IOException, ServletException {
+
+        response.setCharacterEncoding("utf8"); // 한국어
         AuthUserDto user = (AuthUserDto) authentication.getPrincipal();
 
-        // 로그인시 프론트에 내려줄 유저 정보 설정 (비밀번호를 안내려주기 위함)
+        // 로그인 시 프론트에 내려줄 유저 정보 설정 (비밀번호를 안내려주기 위함)
         InitialInfoDto initialInfoDto = new InitialInfoDto();
         initialInfoDto.setUserIdx(user.getUserIdx());
         initialInfoDto.setUserId(user.getUserId());
@@ -43,4 +45,5 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 
         objectMapper.writeValue(response.getWriter(), initialInfoDto);
     }
+
 }

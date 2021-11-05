@@ -51,6 +51,4 @@ public class ConfirmationTokenService {
         return optionalConfirmationToken.get();
     }
 
-    ;
-
 }

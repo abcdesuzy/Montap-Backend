@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class DrawingItemDto {
+    // 상점 뽑기 Dto
     // Long userIdx;
-    int count;
+    int count; // 1 or 10
 }

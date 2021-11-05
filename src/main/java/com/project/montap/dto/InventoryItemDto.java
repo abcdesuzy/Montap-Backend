@@ -9,6 +9,8 @@ import lombok.*;
 @Builder
 @ToString
 public class InventoryItemDto {
+    // InventoryItem Entity Dto
     private Long idx;
+    private Long userIdx;
     private Long itemIdx;
 }

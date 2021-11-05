@@ -23,7 +23,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        // 토큰에서 ID PW 를 꺼낸다.
+        // 토큰에서 ID, PW 를 꺼낸다.
         String userId = authentication.getName(); // userId
         String userPwd = (String) authentication.getCredentials(); // userPwd
 
@@ -34,7 +34,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
 
         // passwordEncoder.matchers 메소드 사용해서 처리
         if (!passwordEncoder.matches(userPwd, accountContext.getPassword())) {
-            throw new BadCredentialsException("Invalid password 비밀번호가 일치하지 않습니다.");
+            throw new BadCredentialsException("Invalid password : 비밀번호가 일치하지 않습니다.");
         }
         return new AjaxAuthenticationToken(accountContext.getUser(), null, accountContext.getAuthorities());
     }
@@ -43,4 +43,5 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return authentication.equals(AjaxAuthenticationToken.class);
     }
+    
 }

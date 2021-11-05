@@ -36,23 +36,27 @@ public class EquipmentService {
     // 아이템 장착하기
     @Transactional
     public AfterEquipDto equipItem(EquipItemDto equipItemDto) throws Exception {
-        // 장착하려는 User 를 찾는다.
-        Optional<User> optionalFindUser = userRepository.findById(equipItemDto.getUserIdx());
 
-        // 장착하려는 User 가 없는 경우 에러
+        // 1. 장착 해제하려는 유저 찾기
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
+        Optional<User> optionalFindUser = userRepository.findById(authUserDto.getUserIdx());
+
+        // - 유저가 없는 경우
         if (optionalFindUser.isEmpty()) {
-            throw new Exception("장착하려는 User 가 없습니다.");
-        } else {
-            // 장착하려는 User 가 데이터베이스에 있는 경우
+            throw new Exception("장착해제 하려는 유저가 없습니다.");
+        } else { // - 유저가 DB에 있는 경우
+
+            // 유저 꺼내기
             User findUser = optionalFindUser.get();
 
-            // 전달받은 inventoryItemIdx, equipYn = 0 인 인벤토리 아이템을 찾아서 장착한다.
+            // 전달 받은 inventoryItemIdx, equipYn = 0 인 인벤토리 아이템을 찾아서 장착한다.
             Optional<InventoryItem> optionalInventoryItem = inventoryItemRepository.findByIdxAndEquipYn(equipItemDto.getInventoryItemIdx(), 0);
-            if (optionalInventoryItem.isEmpty()) throw new Exception("해당 아이템이 없습니다.");
+            if (optionalInventoryItem.isEmpty()) throw new Exception("장착할 수 있는 아이템이 없습니다.");
             InventoryItem inventoryItem = optionalInventoryItem.get();
-            inventoryItem.setEquipYn(1);
+            inventoryItem.setEquipYn(1); // 0 >> 1 로 변경
 
-            // 장착한 아이템의 스텟만큼 유저의 스텟을 올린다.
+            // 장착한 아이템의 능력치만큼 유저의 능력치을 올린다.
             Item item = inventoryItem.getItem();
             ItemType itemType = item.getItemType();
             if (itemType == ItemType.HELMET) findUser.setHp(findUser.getHp() + item.getHp());
@@ -66,6 +70,7 @@ public class EquipmentService {
             result.setHp(findUser.getHp());
             result.setDefense(findUser.getDefense());
             result.setDamage(findUser.getDamage());
+
             return result;
         }
     }
@@ -80,9 +85,8 @@ public class EquipmentService {
         Long userIdx = authUserDto.getUserIdx();
         // inventoryItemRepository 의 List
         Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findByUserIdx(userIdx);
-
         if (optionalInventoryItemList.isEmpty()) {
-            throw new Exception("인벤토리에 아이템이 없습니다.");
+            throw new Exception("내 인벤토리에 해당 아이템이 없습니다.");
         }
         List<InventoryItem> inventoryItemList = optionalInventoryItemList.get();
         List<InventoryItemListDto> resultList = new ArrayList<>();
@@ -105,63 +109,63 @@ public class EquipmentService {
                 inventoryItemListDto.setItemUrl(item.getItemUrl());
 
                 resultList.add(inventoryItemListDto);
+                System.out.println("resultList = " + resultList);
             }
+
         }
         return resultList;
+
     }
 
     // 아이템 장착 해제
     @Transactional
     public AfterEquipDto deleteEquipment(EquipItemDto equipItemDto) throws Exception {
 
-        // 1. 장착 해제하려는 유저 찾기
+        // 현재 로그인 한 유저의 정보 찾기
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
-        Optional<User> optionalFindUser = userRepository.findById(authUserDto.getUserIdx());
-        // - 유저가 없는 경우
-        if (optionalFindUser.isEmpty()) {
-            throw new Exception("장착해제 하려는 유저가 없습니다.");
-        } else { // - 유저가 DB에 있는 경우
-
-            // 유저 꺼내기
-            User findUser = optionalFindUser.get();
-
-            // 인벤토리 한도 체크
-            List<InventoryItem> inventoryItemList = findUser.getInventoryItemList();
-            if (inventoryItemList.size() >= 300) {
-                throw new Exception("인벤토리가 가득 찼습니다.");
-            }
-
-            // 2. 전달받은 inventoryItemIdx, equipYn = 1 인 인벤토리 아이템을 찾아서 장착해제 한다.
-            Optional<InventoryItem> optionalInventoryItem = inventoryItemRepository.findByIdxAndEquipYn(equipItemDto.getInventoryItemIdx(), 1);
-            if (optionalInventoryItem.isEmpty()) throw new Exception("해당 아이템이 없습니다.");
-            InventoryItem inventoryItem = optionalInventoryItem.get();
-            inventoryItem.setEquipYn(0);
-
-            Item currentItem = inventoryItem.getItem();
-            ItemType itemType = currentItem.getItemType();
-            if (itemType == ItemType.HELMET) {
-                int hp = currentItem.getHp();
-                findUser.setHp(findUser.getHp() - hp);
-                userRepository.save(findUser);
-            } else if (itemType == ItemType.ARMOR) {
-                int defense = currentItem.getDefense();
-                findUser.setDefense(findUser.getDefense() - defense);
-                userRepository.save(findUser);
-            } else {
-                int damage = currentItem.getDamage();
-                findUser.setDamage(findUser.getDamage() - damage);
-                userRepository.save(findUser);
-            }
-
-            // 유저의 상태만 보내주는 DTO
-            AfterEquipDto result = new AfterEquipDto();
-            result.setItemIdx(inventoryItem.getIdx());
-            result.setHp(findUser.getHp());
-            result.setDefense(findUser.getDefense());
-            result.setDamage(findUser.getDamage());
-
-            return result;
+        Optional<User> optionalUser = userRepository.findById(authUserDto.getUserIdx());
+        if (optionalUser.isEmpty()) {
+            throw new Exception("해당하는 유저가 없습니다.");
         }
+        User user = optionalUser.get();
+
+        // 인벤토리 한도 체크
+        List<InventoryItem> inventoryItemList = user.getInventoryItemList();
+        if (inventoryItemList.size() >= 300) {
+            throw new Exception("인벤토리가 가득 찼습니다.");
+        }
+
+        // 2. 전달받은 inventoryItemIdx, equipYn = 1 인 인벤토리 아이템을 찾아서 장착해제 한다.
+        Optional<InventoryItem> optionalInventoryItem = inventoryItemRepository.findByIdxAndEquipYn(equipItemDto.getInventoryItemIdx(), 1);
+        if (optionalInventoryItem.isEmpty()) throw new Exception("해당 아이템이 없습니다.");
+        InventoryItem inventoryItem = optionalInventoryItem.get();
+        inventoryItem.setEquipYn(0);
+
+        Item currentItem = inventoryItem.getItem();
+        ItemType itemType = currentItem.getItemType();
+        if (itemType == ItemType.HELMET) {
+            int hp = currentItem.getHp();
+            user.setHp(user.getHp() - hp);
+            userRepository.save(user);
+        } else if (itemType == ItemType.ARMOR) {
+            int defense = currentItem.getDefense();
+            user.setDefense(user.getDefense() - defense);
+            userRepository.save(user);
+        } else {
+            int damage = currentItem.getDamage();
+            user.setDamage(user.getDamage() - damage);
+            userRepository.save(user);
+        }
+
+        // 유저의 상태만 보내주는 DTO
+        AfterEquipDto result = new AfterEquipDto();
+        result.setItemIdx(inventoryItem.getIdx());
+        result.setHp(user.getHp());
+        result.setDefense(user.getDefense());
+        result.setDamage(user.getDamage());
+
+        return result;
     }
+
 }

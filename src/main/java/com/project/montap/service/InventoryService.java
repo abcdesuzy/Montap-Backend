@@ -66,7 +66,7 @@ public class InventoryService {
 
     // 내 인벤토리 아이템 전체 리스트
     @Transactional
-    public List<Item> getItemInventoryAllList(Long userIdx) throws Exception {
+    public List<Item> inventoryItemAllList(Long userIdx) throws Exception {
 
         // 1. 사용자를 가져온다.
         Optional<User> optionalUser = userRepository.findById(userIdx);
@@ -84,23 +84,46 @@ public class InventoryService {
 
     // 내 인벤토리 아이템 미장착 리스트
     @Transactional
-    public List<Item> getItemInventoryList(Long userIdx) throws Exception {
+    public List<InventoryItemListDto> inventoryItemList() throws Exception {
 
-        // 1. 사용자를 가져온다.
-        Optional<User> optionalUser = userRepository.findById(userIdx);
-        if (optionalUser.isEmpty()) {
-            throw new Exception("해당하는 유저가 없습니다.");
+        // 인증된 사용자
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
+        Long userIdx = authUserDto.getUserIdx();
+        System.out.println("userIdx = " + userIdx);
+        // inventoryItemRepository 의 List
+        Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findByUserIdx(userIdx);
+        if (optionalInventoryItemList.isEmpty()) {
+            throw new Exception("내 인벤토리에 해당 아이템이 없습니다.");
         }
-
-        User user = optionalUser.get();
-        List<InventoryItem> inventoryItemList = user.getInventoryItemList();
-        List<Item> resultList = new ArrayList<>();
+        List<InventoryItem> inventoryItemList = optionalInventoryItemList.get();
+        System.out.println("inventoryItemList = " + inventoryItemList);
+        List<InventoryItemListDto> resultList = new ArrayList<>();
         for (int i = 0; i < inventoryItemList.size(); i++) {
             if (inventoryItemList.get(i).getEquipYn() == 0) {
-                resultList.add(inventoryItemList.get(i).getItem());
+                Item item = inventoryItemList.get(i).getItem();
+
+                // InventoryItemListDto 만들기
+                InventoryItemListDto inventoryItemListDto = new InventoryItemListDto();
+                inventoryItemListDto.setInventoryItemIdx(inventoryItemList.get(i).getIdx());
+                inventoryItemListDto.setItemIdx(item.getIdx());
+                inventoryItemListDto.setName(item.getName());
+                inventoryItemListDto.setPrice(item.getPrice());
+                inventoryItemListDto.setDescription(item.getDescription());
+                inventoryItemListDto.setHp(item.getHp());
+                inventoryItemListDto.setDamage(item.getDamage());
+                inventoryItemListDto.setDefense(item.getDefense());
+                inventoryItemListDto.setItemType(item.getItemType());
+                inventoryItemListDto.setItemRank(item.getItemRank());
+                inventoryItemListDto.setItemUrl(item.getItemUrl());
+
+                resultList.add(inventoryItemListDto);
+                System.out.println("resultList = " + resultList);
             }
+
         }
         return resultList;
+
     }
 
     // 아이템 판매
@@ -243,7 +266,7 @@ public class InventoryService {
 
             resultList.add(item);
         }
-        
+
         // 재화 차감 - 저장
         user.setMoney(user.getMoney() - drawMoney);
         userRepository.save(user);
