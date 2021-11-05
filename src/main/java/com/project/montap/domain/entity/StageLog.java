@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class StageLog {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "STAGELOG_IDX")
     Long idx;
 

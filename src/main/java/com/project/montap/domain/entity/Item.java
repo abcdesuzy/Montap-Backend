@@ -3,10 +3,7 @@ package com.project.montap.domain.entity;
 import com.project.montap.enums.ItemType;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -16,7 +13,7 @@ import javax.persistence.Id;
 @Builder
 public class Item {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ITEM_IDX")
     Long idx;
     String name;

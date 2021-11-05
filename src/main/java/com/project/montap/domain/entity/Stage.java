@@ -17,7 +17,7 @@ import javax.persistence.*;
 @ToString
 @NamedNativeQuery(
         name = "Stage.findByMyStage",
-        query = "select s.stage_idx, s.monster_name, s.stage_count,s.is_boss, case when sl.clear_date IS NOT NULL then TRUE else FALSE end as isCleared from stage s left join stage_Log sl ON s.stage_idx = sl.stage_idx WHERE sl.user_idx = :userIdx or sl.user_idx IS NULL GROUP BY s.stage_idx"
+        query = "select s.stage_idx, s.monster_name, s.stage_count,s.is_boss, case when sl.clear_date IS NOT NULL then TRUE else FALSE end as isCleared from stage s left join stage_log sl ON s.stage_idx = sl.stage_idx WHERE sl.user_idx = :userIdx or sl.user_idx IS NULL GROUP BY s.stage_idx"
                 ,resultSetMapping = "Stage.findByMyStage"
                 )
 
@@ -33,7 +33,7 @@ import javax.persistence.*;
 public class Stage {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "STAGE_IDX")
     Long idx;
     int stageCount;
