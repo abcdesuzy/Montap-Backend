@@ -105,45 +105,38 @@ public class InventoryService {
     // 아이템 판매
     @Transactional
     public Integer sellItem(SellingItemDto sellingItemDto) throws Exception {
-
-
-        // 1. 전달받은 userIdx 에 해당하는 user 를 찾는다.
-        List<Long> itemIdxList = sellingItemDto.getItemIdxList();
         Long userIdx = sellingItemDto.getUserIdx();
+        List<Long> inventoryItemIdxList = sellingItemDto.getInventoryItemIdxList();
 
-        // 현재 로그인 한 유저의 정보 찾기
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
-        Optional<User> optionalUser = userRepository.findById(authUserDto.getUserIdx());
+        User user = null;
+
+        Optional<User> optionalUser = userRepository.findById(userIdx);
         if (optionalUser.isEmpty()) {
-            throw new Exception("해당하는 유저가 없습니다.");
+            throw new Exception("해당 유저가 없습니다.");
         }
-        User user = optionalUser.get();
+        user = optionalUser.get();
 
-        // 2. 배열로 받은 아이템들이 이 유저의 인벤토리에 있는지 확인한다.
-        Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findByItemIdxInAndUserIdx(itemIdxList, userIdx);
+        Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findByIdxInAndEquipYn(inventoryItemIdxList, 0);
         if (optionalInventoryItemList.isEmpty()) {
-            throw new Exception("해당하는 아이템이 없습니다.");
+            throw new Exception("인벤토리에 해당 아이템이 없습니다.");
+        }
+        List<InventoryItem> inventoryItemList = optionalInventoryItemList.get();
+
+        // 1-1 인벤토리에서 가져온 아이템의 개수와 판매하려는 아이템의 개수가 일치하지 않는다면 에러
+        if (inventoryItemIdxList.size() != inventoryItemList.size()) {
+            throw new Exception("인벤토리에 해당 아이템이 없습니다.");
         }
 
-        List<InventoryItem> resultInventoryItemList = optionalInventoryItemList.get();
-        if (itemIdxList.size() != resultInventoryItemList.size()) {
-            throw new Exception("판매하려는 아이템이 없습니다.");
+        // 3. 판매 금액을 계산하고, 해당 유저의 소지금액을 증가시킨다.
+        int money = 0;
+        for (int i = 0; i < inventoryItemList.size(); i ++) {
+            money += inventoryItemList.get(i).getItem().getPrice();
         }
-        for (int i = 0; i < resultInventoryItemList.size(); i++) {
-            if (resultInventoryItemList.get(i).getEquipYn() == 1) {
-                throw new Exception("장착된 아이템은 판매할 수 없습니다.");
-            }
-        }
-
-        int total = 0;
-        for (int i = 0; i < resultInventoryItemList.size(); i++) {
-            int money = resultInventoryItemList.get(i).getItem().getPrice();
-            total = total + money;
-        }
-        user.setMoney(user.getMoney() + total);
+        user.setMoney(user.getMoney() + money);
         userRepository.save(user);
-        inventoryItemRepository.deleteByItemIdxInAndUserIdx(itemIdxList, userIdx);
+
+        // 4. 인벤토리에서 판매한 아이템을 삭제한다.
+        inventoryItemRepository.deleteByUserIdxAndIdxIn(sellingItemDto.getUserIdx(), sellingItemDto.getInventoryItemIdxList());
 
         return user.getMoney();
     }

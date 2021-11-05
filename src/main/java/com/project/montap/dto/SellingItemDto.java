@@ -2,6 +2,7 @@ package com.project.montap.dto;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -10,6 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class SellingItemDto {
+    List<Long> inventoryItemIdxList = new ArrayList<>();
     Long userIdx;
-    List<Long> itemIdxList;
 }
