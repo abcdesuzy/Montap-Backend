@@ -16,12 +16,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -145,6 +149,16 @@ public class UserController {
         }
     }
 
+    //로그아웃
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession httpSession,HttpServletRequest request, HttpServletResponse response){
+        httpSession.invalidate();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        new SecurityContextLogoutHandler().logout(request,response,auth);
+        String str = "로그아웃 되었습니다.";
+        return ResponseEntity.status(HttpStatus.OK).body(str);
+    }
+
     // [공통] 유효성 검사 Error 처리
     @ExceptionHandler( MethodArgumentNotValidException.class )
     public ResponseEntity<Map<String, String>> handleValidationExceptions(
@@ -184,4 +198,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error(e.getMessage()));
         }
     }
+
+
 }

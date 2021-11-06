@@ -33,6 +33,7 @@ public class StageService {
     StageLogRepository stageLogRepository;
 
 
+    // 스테이지 로그 찍기
     @Transactional
     public ClearStageDto clearStage(ClearStageDto clearStageDto) throws Exception {
 
@@ -42,35 +43,40 @@ public class StageService {
 
         Optional<User> optionalFindUser = userRepository.findById(userIdx);
         Optional<Stage> optionalFindStage = stageRepository.findById(clearStageDto.getStageIdx());
+        User findUser = optionalFindUser.get();
 
-        if (optionalFindUser.isEmpty() || optionalFindStage.isEmpty()) {
-            throw new Exception("클리어한 스테이지가 없습니다.");
-        } else {
-            if (optionalFindStage.get().getMonsterHp() != 0 && optionalFindUser.get().getHp() == 0) {
-                throw new Exception("게임에서 졌습니다");
+        if(findUser.getStage()+1 < optionalFindStage.get().getStageCount()) {
+            throw new Exception("해당 스테이지는 클리어 안됩니다");
+        }else {
+            if (optionalFindUser.isEmpty() || optionalFindStage.isEmpty()) {
+                throw new Exception("클리어한 스테이지가 없습니다.");
             } else {
-                User findUser = optionalFindUser.get();
-                Stage findStage = optionalFindStage.get();
+                if (optionalFindStage.get().getMonsterHp() != 0 && optionalFindUser.get().getHp() == 0) {
+                    throw new Exception("게임에서 졌습니다");
+                } else {
 
-                StageLog newStageLog = new StageLog();
-                newStageLog.setUser(findUser);
-                newStageLog.setStage(findStage);
-                newStageLog.setClearDate(LocalDateTime.now());
-                newStageLog.setIsClear(1);
-                stageLogRepository.save(newStageLog);
+                    Stage findStage = optionalFindStage.get();
 
-                int clearMoney = optionalFindUser.get().getMoney() + optionalFindStage.get().getDropMoney();
-                optionalFindUser.get().setMoney(clearMoney);
+                    StageLog newStageLog = new StageLog();
+                    newStageLog.setUser(findUser);
+                    newStageLog.setStage(findStage);
+                    newStageLog.setClearDate(LocalDateTime.now());
+                    newStageLog.setIsClear(1);
+                    stageLogRepository.save(newStageLog);
 
-                if (optionalFindUser.get().getStage() < optionalFindStage.get().getStageCount()) {
-                    optionalFindUser.get().setStage(optionalFindStage.get().getStageCount());
+                    int clearMoney = optionalFindUser.get().getMoney() + optionalFindStage.get().getDropMoney();
+                    optionalFindUser.get().setMoney(clearMoney);
+
+                    if (optionalFindUser.get().getStage() < optionalFindStage.get().getStageCount()) {
+                        optionalFindUser.get().setStage(optionalFindStage.get().getStageCount());
+                    }
                 }
             }
+            return clearStageDto;
         }
-
-        return clearStageDto;
     }
 
+    // 전체 리스트 불러오기
     @Transactional
     public List<MyStageDto> getMyStage(Long userIdx) throws Exception {
 
@@ -89,6 +95,7 @@ public class StageService {
         return myStage;
     }
 
+    // 스테이지 정보 불러오기
     @Transactional
     public StageDto getStage(Long stageIdx) throws Exception {
 

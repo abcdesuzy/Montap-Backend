@@ -22,6 +22,7 @@ public class StageController {
     @Autowired
     StageLogRepository stageLogRepository;
 
+    // 전체 스테이지 확인
     @GetMapping("/mystage")
     public ResponseEntity getMyStage(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception{
         List<MyStageDto> result = stageService.getMyStage(authUserDto.getUserIdx());
@@ -30,6 +31,7 @@ public class StageController {
 
     }
 
+    // 스테이지 클리어
     @GetMapping("/stage/{stageIdx}")
     public ResponseEntity getStage(@PathVariable Long stageIdx){
         try {
@@ -41,6 +43,7 @@ public class StageController {
         }
     }
 
+    // 스테이지 로그 찍기
     @PostMapping("/mystage/clear")
     public ResponseEntity clearStage(@RequestBody ClearStageDto clearStageDto){
         try {

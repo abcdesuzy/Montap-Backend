@@ -35,6 +35,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/login").permitAll() // 로그인 모두 허용
                 .anyRequest().authenticated() // 위의 목록 외 모든 요청들은 인증이 필요하다.
                 .and()
+                .logout()
+                .logoutUrl("/perform_logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .and()
                 .addFilterBefore(ajaxLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class); // 필터 추가
     }
 
