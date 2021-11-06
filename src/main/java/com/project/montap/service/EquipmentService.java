@@ -83,6 +83,7 @@ public class EquipmentService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
         Long userIdx = authUserDto.getUserIdx();
+
         // inventoryItemRepository 의 List
         Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findByUserIdx(userIdx);
         if (optionalInventoryItemList.isEmpty()) {
@@ -99,22 +100,20 @@ public class EquipmentService {
                 inventoryItemListDto.setInventoryItemIdx(inventoryItemList.get(i).getIdx());
                 inventoryItemListDto.setItemIdx(item.getIdx());
                 inventoryItemListDto.setName(item.getName());
-                inventoryItemListDto.setPrice(item.getPrice());
-                inventoryItemListDto.setDescription(item.getDescription());
-                inventoryItemListDto.setHp(item.getHp());
-                inventoryItemListDto.setDamage(item.getDamage());
-                inventoryItemListDto.setDefense(item.getDefense());
                 inventoryItemListDto.setItemType(item.getItemType());
                 inventoryItemListDto.setItemRank(item.getItemRank());
+                inventoryItemListDto.setHp(item.getHp());
+                inventoryItemListDto.setDefense(item.getDefense());
+                inventoryItemListDto.setDamage(item.getDamage());
+                inventoryItemListDto.setPrice(item.getPrice());
+                inventoryItemListDto.setEquipYn(inventoryItemList.get(i).getEquipYn());
+                inventoryItemListDto.setDescription(item.getDescription());
                 inventoryItemListDto.setItemUrl(item.getItemUrl());
 
                 resultList.add(inventoryItemListDto);
-                System.out.println("resultList = " + resultList);
             }
-
         }
         return resultList;
-
     }
 
     // 아이템 장착 해제

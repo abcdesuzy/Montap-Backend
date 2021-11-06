@@ -5,7 +5,6 @@ import com.project.montap.dto.ModifyUserDto;
 import com.project.montap.dto.UserDto;
 import com.project.montap.exception.Error;
 
-import com.project.montap.security.token.AjaxAuthenticationToken;
 import com.project.montap.service.ConfirmationTokenService;
 import com.project.montap.service.S3Service;
 import com.project.montap.service.UserService;
@@ -29,7 +28,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
-
 
 @RestController
 public class UserController {
@@ -136,6 +134,17 @@ public class UserController {
         }
     }
 
+
+    //로그아웃
+    @PostMapping( "/logout" )
+    public ResponseEntity<String> logout(HttpSession httpSession, HttpServletRequest request, HttpServletResponse response) {
+        httpSession.invalidate();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        new SecurityContextLogoutHandler().logout(request, response, auth);
+        String str = "로그아웃 되었습니다.";
+        return ResponseEntity.status(HttpStatus.OK).body(str);
+    }
+
     // 회원 탈퇴
     @DeleteMapping( "/user" )
     public ResponseEntity uploadProfile(@AuthenticationPrincipal AuthUserDto authUserDto) {
@@ -149,15 +158,6 @@ public class UserController {
         }
     }
 
-    //로그아웃
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpSession httpSession,HttpServletRequest request, HttpServletResponse response){
-        httpSession.invalidate();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        new SecurityContextLogoutHandler().logout(request,response,auth);
-        String str = "로그아웃 되었습니다.";
-        return ResponseEntity.status(HttpStatus.OK).body(str);
-    }
 
     // [공통] 유효성 검사 Error 처리
     @ExceptionHandler( MethodArgumentNotValidException.class )
@@ -198,6 +198,5 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error(e.getMessage()));
         }
     }
-
 
 }

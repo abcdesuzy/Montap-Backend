@@ -18,6 +18,7 @@ public class InventoryItemListDto {
     int hp;
     int defense;
     int damage;
+    int equipYn;
     String description;
     String itemUrl;
 }

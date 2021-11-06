@@ -173,8 +173,8 @@ public class UserService {
     public void deleteUser(Long userIdx) throws Exception {
 
         System.out.println("확인 : " + userIdx);
-        Optional<User> optionalUser = userRepository.findById(userIdx);
 
+        Optional<User> optionalUser = userRepository.findById(userIdx);
         if (optionalUser.isEmpty()) {
             throw new Exception("현재 존재하지 않는 유저입니다.");
         }
@@ -191,6 +191,6 @@ public class UserService {
         if (user == null) throw new Exception("해당 유저가 없습니다.");
         user.setEmailYn(1);
         userRepository.save(user);
-        findConfirmationToken.useToken();    // 토큰 만료 로직을 구현해주면 된다. ex) expired 값을 true 로 변경
+        findConfirmationToken.useToken(); // 토큰 만료 로직을 구현해주면 된다. ex) expired 값을 true 로 변경
     }
 }

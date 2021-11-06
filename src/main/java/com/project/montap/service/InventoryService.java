@@ -36,18 +36,18 @@ public class InventoryService {
         // 1. 현재 유저를 찾는다.
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
-        Optional<User> optionalFindUser = userRepository.findById(authUserDto.getUserIdx());
+        Optional<User> optionalUser = userRepository.findById(authUserDto.getUserIdx());
         // 2. 획득할 아이템을 찾는다.
-        Optional<Item> optionalFindItem = itemRepository.findById(getItemDto.getItemIdx());
+        Optional<Item> optionalItem = itemRepository.findById(getItemDto.getItemIdx());
 
         // 2-1
 
         // - 유저나 얻을 아이템이 없는 경우 >>> 에러
-        if (optionalFindItem.isEmpty() || optionalFindUser.isEmpty()) {
+        if (optionalItem.isEmpty() || optionalUser.isEmpty()) {
             throw new Exception("사용자 혹은 해당하는 아이템이 없습니다.");
         } else {
-            User findUser = optionalFindUser.get();
-            Item findItem = optionalFindItem.get();
+            User findUser = optionalUser.get();
+            Item findItem = optionalItem.get();
 
             // 인벤토리 300칸 제한 체크
             if (findUser.getInventoryItemList().size() >= 300) {
@@ -66,18 +66,40 @@ public class InventoryService {
 
     // 내 인벤토리 아이템 전체 리스트
     @Transactional
-    public List<Item> inventoryItemAllList(Long userIdx) throws Exception {
+    public List<InventoryItemListDto> inventoryItemAllList() throws Exception {
 
-        // 1. 사용자를 가져온다.
-        Optional<User> optionalUser = userRepository.findById(userIdx);
-        if (optionalUser.isEmpty()) {
-            throw new Exception("해당하는 유저가 없습니다.");
+        // 인증된 사용자
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
+        Long userIdx = authUserDto.getUserIdx();
+
+        // inventoryItemRepository 의 List
+        Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findByUserIdx(userIdx);
+        if (optionalInventoryItemList.isEmpty()) {
+            throw new Exception("내 인벤토리에 해당 아이템이 없습니다.");
         }
-        User user = optionalUser.get();
-        List<InventoryItem> inventoryItemList = user.getInventoryItemList();
-        List<Item> resultList = new ArrayList<>();
+
+        List<InventoryItem> inventoryItemList = optionalInventoryItemList.get();
+        List<InventoryItemListDto> resultList = new ArrayList<>();
         for (int i = 0; i < inventoryItemList.size(); i++) {
-            resultList.add(inventoryItemList.get(i).getItem());
+            Item item = inventoryItemList.get(i).getItem();
+
+            // InventoryItemListDto 만들기
+            InventoryItemListDto inventoryItemListDto = new InventoryItemListDto();
+            inventoryItemListDto.setInventoryItemIdx(inventoryItemList.get(i).getIdx());
+            inventoryItemListDto.setItemIdx(item.getIdx());
+            inventoryItemListDto.setName(item.getName());
+            inventoryItemListDto.setItemType(item.getItemType());
+            inventoryItemListDto.setItemRank(item.getItemRank());
+            inventoryItemListDto.setHp(item.getHp());
+            inventoryItemListDto.setDefense(item.getDefense());
+            inventoryItemListDto.setDamage(item.getDamage());
+            inventoryItemListDto.setPrice(item.getPrice());
+            inventoryItemListDto.setEquipYn(inventoryItemList.get(i).getEquipYn());
+            inventoryItemListDto.setDescription(item.getDescription());
+            inventoryItemListDto.setItemUrl(item.getItemUrl());
+
+            resultList.add(inventoryItemListDto);
         }
         return resultList;
     }
@@ -90,14 +112,14 @@ public class InventoryService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
         Long userIdx = authUserDto.getUserIdx();
-        System.out.println("userIdx = " + userIdx);
+
         // inventoryItemRepository 의 List
         Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findByUserIdx(userIdx);
         if (optionalInventoryItemList.isEmpty()) {
             throw new Exception("내 인벤토리에 해당 아이템이 없습니다.");
         }
+
         List<InventoryItem> inventoryItemList = optionalInventoryItemList.get();
-        System.out.println("inventoryItemList = " + inventoryItemList);
         List<InventoryItemListDto> resultList = new ArrayList<>();
         for (int i = 0; i < inventoryItemList.size(); i++) {
             if (inventoryItemList.get(i).getEquipYn() == 0) {
@@ -108,22 +130,58 @@ public class InventoryService {
                 inventoryItemListDto.setInventoryItemIdx(inventoryItemList.get(i).getIdx());
                 inventoryItemListDto.setItemIdx(item.getIdx());
                 inventoryItemListDto.setName(item.getName());
-                inventoryItemListDto.setPrice(item.getPrice());
-                inventoryItemListDto.setDescription(item.getDescription());
-                inventoryItemListDto.setHp(item.getHp());
-                inventoryItemListDto.setDamage(item.getDamage());
-                inventoryItemListDto.setDefense(item.getDefense());
                 inventoryItemListDto.setItemType(item.getItemType());
                 inventoryItemListDto.setItemRank(item.getItemRank());
+                inventoryItemListDto.setHp(item.getHp());
+                inventoryItemListDto.setDefense(item.getDefense());
+                inventoryItemListDto.setDamage(item.getDamage());
+                inventoryItemListDto.setPrice(item.getPrice());
+                inventoryItemListDto.setEquipYn(inventoryItemList.get(i).getEquipYn());
+                inventoryItemListDto.setDescription(item.getDescription());
                 inventoryItemListDto.setItemUrl(item.getItemUrl());
 
                 resultList.add(inventoryItemListDto);
-                System.out.println("resultList = " + resultList);
             }
-
         }
         return resultList;
+    }
 
+    // 최근 획득장비 10개 가져오기
+    public List<InventoryItemListDto> inventoryItemTopList() throws Exception {
+
+        // 인증된 사용자
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
+        Optional<User> optionalUser = userRepository.findById(authUserDto.getUserIdx());
+        if (optionalUser.isEmpty()) {
+            throw new Exception("해당하는 유저가 없습니다.");
+        }
+        User user = optionalUser.get();
+
+        Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findTop10ByUserIdxOrderByDropDateDesc(user.getIdx());
+        List<InventoryItem> inventoryItemList = optionalInventoryItemList.get();
+        List<InventoryItemListDto> resultList = new ArrayList<>();
+        for (int i = 0; i < inventoryItemList.size(); i++) {
+            Item item = inventoryItemList.get(i).getItem();
+
+            // InventoryItemListDto 만들기
+            InventoryItemListDto inventoryItemListDto = new InventoryItemListDto();
+            inventoryItemListDto.setInventoryItemIdx(inventoryItemList.get(i).getIdx());
+            inventoryItemListDto.setItemIdx(item.getIdx());
+            inventoryItemListDto.setName(item.getName());
+            inventoryItemListDto.setItemType(item.getItemType());
+            inventoryItemListDto.setItemRank(item.getItemRank());
+            inventoryItemListDto.setHp(item.getHp());
+            inventoryItemListDto.setDefense(item.getDefense());
+            inventoryItemListDto.setDamage(item.getDamage());
+            inventoryItemListDto.setPrice(item.getPrice());
+            inventoryItemListDto.setEquipYn(inventoryItemList.get(i).getEquipYn());
+            inventoryItemListDto.setDescription(item.getDescription());
+            inventoryItemListDto.setItemUrl(item.getItemUrl());
+
+            resultList.add(inventoryItemListDto);
+        }
+        return resultList;
     }
 
     // 아이템 판매
@@ -179,7 +237,7 @@ public class InventoryService {
         }
         Item item = optionalItem.get();
         ItemDto itemDto = new ItemDto();
-        itemDto.setIdx(item.getIdx());
+        itemDto.setItemIdx(item.getIdx());
         itemDto.setName(item.getName());
         itemDto.setItemRank(item.getItemRank());
         itemDto.setItemType(item.getItemType());
@@ -194,11 +252,9 @@ public class InventoryService {
 
     // 아이템 뽑기
     @Transactional
-    public List<Item> drawItem(int count) throws Exception {
+    public List<Item> drawItem(DrawingItemDto drawingItemDto) throws Exception {
 
-        // Long userIdx = drawingItemDto.getUserIdx();
-        // int count = drawingItemDto.getCount();
-
+        int count = drawingItemDto.getCount();
         // 뽑기 횟수 제한 1 or 10
         List<Item> resultList = new ArrayList<>();
         if (count != 1 && count != 10) {
@@ -209,12 +265,9 @@ public class InventoryService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
         Optional<User> optionalUser = userRepository.findById(authUserDto.getUserIdx());
-        // Optional<User> optionalUser = userRepository.findById(userIdx);
         if (optionalUser.isEmpty()) {
             throw new Exception("해당하는 유저가 없습니다.");
         }
-
-        // 유저와 유저의 재화 꺼내기
         User user = optionalUser.get();
 
         // 인벤토리 한도 체크
@@ -273,26 +326,4 @@ public class InventoryService {
 
         return resultList;
     }
-
-    // 최근 획득장비 10개 가져오기
-    public List<Item> inventoryItemTopList(Long userIdx) throws Exception {
-
-
-        Optional<User> optionalUser = userRepository.findById(userIdx);
-        User user = optionalUser.get();
-
-        Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findTop10ByUserIdxOrderByDropDateDesc(user.getIdx());
-
-        if (optionalUser.isEmpty()) {
-            throw new Exception("해당하는 유저가 없습니다.");
-        }
-        List<InventoryItem> inventoryItemList = optionalInventoryItemList.get();
-
-        List<Item> resultList = new ArrayList<>();
-        for (int i = 0; i < inventoryItemList.size(); i++) {
-            resultList.add(inventoryItemList.get(i).getItem());
-        }
-        return resultList;
-    }
-
 }

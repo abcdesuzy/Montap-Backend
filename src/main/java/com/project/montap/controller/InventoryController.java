@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 @RestController
 public class InventoryController {
@@ -26,7 +27,7 @@ public class InventoryController {
 
     // 아이템 획득하기
     @PostMapping( "/inventory/item" )
-    public ResponseEntity getItemToMyInventory(@RequestBody GetItemDto getItemDto) throws Exception {
+    public ResponseEntity getItemToMyInventory(@RequestBody GetItemDto getItemDto) {
         try {
             GetItemDto result = inventoryService.getItemToInventory(getItemDto);
             return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -38,20 +39,9 @@ public class InventoryController {
 
     // 내 인벤토리 전체 아이템 리스트
     @GetMapping( "/inventory/item/all" )
-    public ResponseEntity inventoryItemAllList(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
-        // 서비스를 호출해서 내 인벤토리 목록을 받아온다.
-        List<Item> result = inventoryService.inventoryItemAllList(authUserDto.getUserIdx());//
-        // 클라이언트에게 내 인벤토리 목록을 반환한다.
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
-
-    // 인벤토리 미장착 아이템 리스트
-    @GetMapping( "/inventory/item" )
-    public ResponseEntity inventoryItemList() throws Exception {
+    public ResponseEntity inventoryItemAllList() {
         try {
-            // 서비스를 호출해서 미장착한 아이템 목록을 받아온다.
-            List<InventoryItemListDto> result = inventoryService.inventoryItemList();
-            // 클라이언트에게 내 인벤토리 목록을 반환한다.
+            List<InventoryItemListDto> result = inventoryService.inventoryItemAllList();
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,15 +49,27 @@ public class InventoryController {
         }
     }
 
-    // 아이템 판매
-    @PostMapping( "/item/sell" )
-    public ResponseEntity sellItem(@RequestBody SellingItemDto sellingItemDto) {
+    // 인벤토리 미장착 아이템 리스트
+    @GetMapping( "/inventory/item" )
+    public ResponseEntity inventoryItemList() {
         try {
-            int result = inventoryService.sellItem(sellingItemDto);
+            List<InventoryItemListDto> result = inventoryService.inventoryItemList();
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error(e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
+        }
+    }
+
+    // 내 인벤토리 top 10 아이템 리스트
+    @GetMapping( "/inventory/item/get" )
+    public ResponseEntity inventoryItemTopList() {
+        try {
+            List<InventoryItemListDto> result = inventoryService.inventoryItemTopList();
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
         }
     }
 
@@ -83,13 +85,24 @@ public class InventoryController {
         }
     }
 
+    // 아이템 판매
+    @PostMapping( "/item/sell" )
+    public ResponseEntity sellItem(@RequestBody SellingItemDto sellingItemDto) {
+        try {
+            int result = inventoryService.sellItem(sellingItemDto);
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error(e.getMessage()));
+        }
+    }
+
     // 아이템 뽑기
     @PostMapping( "/draw" )
-    public ResponseEntity drawItem(@RequestBody Map<String, Integer> param) {
+    public ResponseEntity drawItem(@RequestBody DrawingItemDto drawingItemDto) {
         try {
-            Integer count = param.get("count");
-            List<Item> resultList = inventoryService.drawItem(count);
-            return ResponseEntity.status(HttpStatus.OK).body(resultList);
+            List<Item> count = inventoryService.drawItem(drawingItemDto);
+            return ResponseEntity.status(HttpStatus.OK).body(count);
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -97,12 +110,5 @@ public class InventoryController {
         }
     }
 
-    // 내 인벤토리 top 10 아이템 리스트
-    @GetMapping( "/inventory/item/get" )
-    public ResponseEntity inventoryItemTopList(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
-        // 서비스를 호출해서 내 인벤토리 목록을 받아온다.
-        List<Item> result = inventoryService.inventoryItemTopList(authUserDto.getUserIdx());//
-        // 클라이언트에게 내 인벤토리 목록을 반환한다.
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
+
 }

@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class ItemDto {
     // Item Entity Dto
-    Long idx;
+    Long itemIdx;
     String name;
     ItemType itemType;
     int itemRank;
