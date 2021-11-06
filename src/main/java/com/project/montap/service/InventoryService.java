@@ -274,4 +274,25 @@ public class InventoryService {
         return resultList;
     }
 
+    // 최근 획득장비 10개 가져오기
+    public List<Item> inventoryItemTopList(Long userIdx) throws Exception {
+
+
+        Optional<User> optionalUser = userRepository.findById(userIdx);
+        User user = optionalUser.get();
+
+        Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findTop10ByUserIdxOrderByDropDateDesc(user.getIdx());
+
+        if (optionalUser.isEmpty()) {
+            throw new Exception("해당하는 유저가 없습니다.");
+        }
+        List<InventoryItem> inventoryItemList = optionalInventoryItemList.get();
+
+        List<Item> resultList = new ArrayList<>();
+        for (int i = 0; i < inventoryItemList.size(); i++) {
+            resultList.add(inventoryItemList.get(i).getItem());
+        }
+        return resultList;
+    }
+
 }

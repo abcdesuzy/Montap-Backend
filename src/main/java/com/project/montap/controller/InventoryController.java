@@ -96,4 +96,13 @@ public class InventoryController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error(e.getMessage()));
         }
     }
+
+    // 내 인벤토리 top 10 아이템 리스트
+    @GetMapping( "/inventory/item/get" )
+    public ResponseEntity inventoryItemTopList(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
+        // 서비스를 호출해서 내 인벤토리 목록을 받아온다.
+        List<Item> result = inventoryService.inventoryItemTopList(authUserDto.getUserIdx());//
+        // 클라이언트에게 내 인벤토리 목록을 반환한다.
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 }
