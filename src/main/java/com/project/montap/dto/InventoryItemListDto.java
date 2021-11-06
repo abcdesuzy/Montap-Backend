@@ -1,5 +1,6 @@
 package com.project.montap.dto;
 
+import com.project.montap.enums.ItemRank;
 import com.project.montap.enums.ItemType;
 import lombok.*;
 
@@ -13,7 +14,7 @@ public class InventoryItemListDto {
     Long itemIdx;
     String name;
     ItemType itemType;
-    int itemRank;
+    ItemRank itemRank;
     int price;
     int hp;
     int defense;

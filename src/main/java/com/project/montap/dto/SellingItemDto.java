@@ -12,6 +12,6 @@ import java.util.List;
 @ToString
 public class SellingItemDto {
     // 아이템 판매 Dto
-    Long userIdx; // userIdx
+    // Long userIdx;
     List<Long> inventoryItemIdxList = new ArrayList<>(); // 판매하려는 아이템 리스트 : inventoryItemIdx 로 입력
 }

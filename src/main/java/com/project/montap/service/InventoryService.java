@@ -7,6 +7,7 @@ import com.project.montap.domain.repository.InventoryItemRepository;
 import com.project.montap.domain.repository.ItemRepository;
 import com.project.montap.domain.repository.UserRepository;
 import com.project.montap.dto.*;
+import com.project.montap.enums.ItemRank;
 import com.project.montap.enums.ItemType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -31,36 +32,35 @@ public class InventoryService {
     UserRepository userRepository;
 
     // 아이템 획득
-    public GetItemDto getItemToInventory(GetItemDto getItemDto) throws Exception {
+    public Item getItemToInventory(GetItemDto getItemDto) throws Exception {
 
         // 1. 현재 유저를 찾는다.
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
         Optional<User> optionalUser = userRepository.findById(authUserDto.getUserIdx());
+
         // 2. 획득할 아이템을 찾는다.
         Optional<Item> optionalItem = itemRepository.findById(getItemDto.getItemIdx());
 
-        // 2-1
-
-        // - 유저나 얻을 아이템이 없는 경우 >>> 에러
         if (optionalItem.isEmpty() || optionalUser.isEmpty()) {
             throw new Exception("사용자 혹은 해당하는 아이템이 없습니다.");
         } else {
-            User findUser = optionalUser.get();
-            Item findItem = optionalItem.get();
+            User user = optionalUser.get();
+            Item item = optionalItem.get();
 
             // 인벤토리 300칸 제한 체크
-            if (findUser.getInventoryItemList().size() >= 300) {
+            if (user.getInventoryItemList().size() >= 300) {
                 throw new Exception("인벤토리가 꽉찼습니다.");
             }
 
             // 3. 찾은 아이템을 [inventory_item] 테이블에 넣는다.
             InventoryItem newInventoryItem = new InventoryItem();
-            newInventoryItem.setUser(findUser);
-            newInventoryItem.setItem(findItem);
+            newInventoryItem.setUser(user);
+            newInventoryItem.setItem(item);
             newInventoryItem.setEquipYn(0);
             inventoryItemRepository.save(newInventoryItem);
-            return getItemDto;
+
+            return newInventoryItem.getItem();
         }
     }
 
@@ -91,10 +91,10 @@ public class InventoryService {
             inventoryItemListDto.setName(item.getName());
             inventoryItemListDto.setItemType(item.getItemType());
             inventoryItemListDto.setItemRank(item.getItemRank());
+            inventoryItemListDto.setPrice(item.getPrice());
             inventoryItemListDto.setHp(item.getHp());
             inventoryItemListDto.setDefense(item.getDefense());
             inventoryItemListDto.setDamage(item.getDamage());
-            inventoryItemListDto.setPrice(item.getPrice());
             inventoryItemListDto.setEquipYn(inventoryItemList.get(i).getEquipYn());
             inventoryItemListDto.setDescription(item.getDescription());
             inventoryItemListDto.setItemUrl(item.getItemUrl());
@@ -132,10 +132,10 @@ public class InventoryService {
                 inventoryItemListDto.setName(item.getName());
                 inventoryItemListDto.setItemType(item.getItemType());
                 inventoryItemListDto.setItemRank(item.getItemRank());
+                inventoryItemListDto.setPrice(item.getPrice());
                 inventoryItemListDto.setHp(item.getHp());
                 inventoryItemListDto.setDefense(item.getDefense());
                 inventoryItemListDto.setDamage(item.getDamage());
-                inventoryItemListDto.setPrice(item.getPrice());
                 inventoryItemListDto.setEquipYn(inventoryItemList.get(i).getEquipYn());
                 inventoryItemListDto.setDescription(item.getDescription());
                 inventoryItemListDto.setItemUrl(item.getItemUrl());
@@ -171,10 +171,10 @@ public class InventoryService {
             inventoryItemListDto.setName(item.getName());
             inventoryItemListDto.setItemType(item.getItemType());
             inventoryItemListDto.setItemRank(item.getItemRank());
+            inventoryItemListDto.setPrice(item.getPrice());
             inventoryItemListDto.setHp(item.getHp());
             inventoryItemListDto.setDefense(item.getDefense());
             inventoryItemListDto.setDamage(item.getDamage());
-            inventoryItemListDto.setPrice(item.getPrice());
             inventoryItemListDto.setEquipYn(inventoryItemList.get(i).getEquipYn());
             inventoryItemListDto.setDescription(item.getDescription());
             inventoryItemListDto.setItemUrl(item.getItemUrl());
@@ -188,26 +188,24 @@ public class InventoryService {
     @Transactional
     public Integer sellItem(SellingItemDto sellingItemDto) throws Exception {
 
-        Long userIdx = sellingItemDto.getUserIdx();
-        List<Long> inventoryItemIdxList = sellingItemDto.getInventoryItemIdxList();
-
-        User user = null;
-
-        // 1. 사용자를 찾는다.
-        Optional<User> optionalUser = userRepository.findById(userIdx);
+        // 판매하려는 사용자 찾기
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
+        Optional<User> optionalUser = userRepository.findById(authUserDto.getUserIdx());
         if (optionalUser.isEmpty()) {
             throw new Exception("해당 유저가 없습니다.");
         }
-        // 해당하는 사용자가 있으면 꺼냄
-        user = optionalUser.get();
+        User user = optionalUser.get();
 
-        // 2. 내 인벤토리에서 해당 아이템리스트의 Idx 를 찾는다.
+
+        List<Long> inventoryItemIdxList = sellingItemDto.getInventoryItemIdxList();
+        // 내 인벤토리 리스트
         Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findByIdxInAndEquipYn(inventoryItemIdxList, 0);
         if (optionalInventoryItemList.isEmpty()) {
             throw new Exception("인벤토리에 해당 아이템이 없습니다.");
         }
-        // 해당하는 아이템이 있으면 꺼냄
         List<InventoryItem> inventoryItemList = optionalInventoryItemList.get();
+
 
         // 3. 인벤토리에서 가져온 아이템의 개수와 판매하려는 아이템의 개수가 일치하지 않는다면 에러
         if (inventoryItemIdxList.size() != inventoryItemList.size()) {
@@ -223,7 +221,7 @@ public class InventoryService {
         userRepository.save(user);
 
         // 5. 인벤토리아이템에서 판매한 아이템을 삭제한다.
-        inventoryItemRepository.deleteByUserIdxAndIdxIn(sellingItemDto.getUserIdx(), sellingItemDto.getInventoryItemIdxList());
+        inventoryItemRepository.deleteByUserIdxAndIdxIn(user.getIdx(), sellingItemDto.getInventoryItemIdxList());
 
         return user.getMoney();
     }
@@ -239,13 +237,13 @@ public class InventoryService {
         ItemDto itemDto = new ItemDto();
         itemDto.setItemIdx(item.getIdx());
         itemDto.setName(item.getName());
-        itemDto.setItemRank(item.getItemRank());
         itemDto.setItemType(item.getItemType());
-        itemDto.setDamage(item.getDamage());
-        itemDto.setDefense(item.getDefense());
-        itemDto.setDescription(item.getDescription());
-        itemDto.setHp(item.getHp());
+        itemDto.setItemRank(item.getItemRank());
         itemDto.setPrice(item.getPrice());
+        itemDto.setHp(item.getHp());
+        itemDto.setDefense(item.getDefense());
+        itemDto.setDamage(item.getDamage());
+        itemDto.setDescription(item.getDescription());
         itemDto.setItemUrl(item.getItemUrl());
         return itemDto;
     }
@@ -263,7 +261,7 @@ public class InventoryService {
 
         // 현재 로그인 한 유저의 정보 찾기
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
         Optional<User> optionalUser = userRepository.findById(authUserDto.getUserIdx());
         if (optionalUser.isEmpty()) {
             throw new Exception("해당하는 유저가 없습니다.");
@@ -291,18 +289,20 @@ public class InventoryService {
         // 뽑기 확률
         for (int i = 0; i < count; i++) {
             ItemType itemType = null;
-            int itemRank = 0;
+            ItemRank itemRank = null;
+
             // 아이템 타입 33% 0,1,2
             int number = (int) (Math.random() * 10) % 3;
             if (number == 0) itemType = ItemType.HELMET;
             if (number == 1) itemType = ItemType.ARMOR;
             if (number == 2) itemType = ItemType.WEAPON;
+
             // 아이템 등급 0(S),1(A),2(B),3(C)
             number = (int) (Math.random() * 100);
-            if (0 <= number && number < 2) itemRank = 0; // 0~1
-            if (2 <= number && number < 16) itemRank = 1; // 2~15
-            if (16 <= number && number < 51) itemRank = 2; // 16~50
-            if (51 <= number && number < 100) itemRank = 3; // 51~99
+            if (0 <= number && number < 2) itemRank = ItemRank.S;
+            if (2 <= number && number < 16) itemRank = ItemRank.A;;
+            if (16 <= number && number < 51) itemRank = ItemRank.B;;
+            if (51 <= number && number < 100) itemRank = ItemRank.C;;
 
             Optional<Item> optionalItem = itemRepository.findByItemTypeAndItemRank(itemType, itemRank);
             if (optionalItem.isEmpty()) {

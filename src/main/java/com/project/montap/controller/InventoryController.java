@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 
 @RestController
@@ -29,7 +30,7 @@ public class InventoryController {
     @PostMapping( "/inventory/item" )
     public ResponseEntity getItemToMyInventory(@RequestBody GetItemDto getItemDto) {
         try {
-            GetItemDto result = inventoryService.getItemToInventory(getItemDto);
+            Item result = inventoryService.getItemToInventory(getItemDto);
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             e.printStackTrace();

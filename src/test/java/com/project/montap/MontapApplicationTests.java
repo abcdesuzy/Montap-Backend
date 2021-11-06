@@ -5,6 +5,7 @@ import com.project.montap.domain.entity.Stage;
 import com.project.montap.domain.repository.ItemRepository;
 import com.project.montap.domain.repository.StageRepository;
 import com.project.montap.enums.IsBoss;
+import com.project.montap.enums.ItemRank;
 import com.project.montap.enums.ItemType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @SpringBootTest
 class MontapApplicationTests {
@@ -33,7 +35,7 @@ class MontapApplicationTests {
                     item.setName("helmet" + (j + 1));
                     item.setDescription("This is helmet" + (j + 1));
                     item.setItemType(ItemType.HELMET);
-                    item.setItemRank(j % 4);
+                    item.setItemRank(ItemRank.B);
                     item.setHp((j + 1) * 10);
                     item.setItemUrl(null);
                     item.setPrice((j + 1) * 1000);
@@ -42,7 +44,7 @@ class MontapApplicationTests {
                     item.setName("armor" + (j + 1));
                     item.setDescription("This is armor" + (j + 1));
                     item.setItemType(ItemType.ARMOR);
-                    item.setItemRank(j % 4);
+                    item.setItemRank(ItemRank.A);
                     item.setDefense((j + 1) * 10);
                     item.setItemUrl(null);
                     item.setPrice((j + 1) * 1000);
@@ -51,7 +53,7 @@ class MontapApplicationTests {
                     item.setName("weapon" + (j + 1));
                     item.setDescription("This is weapon" + (j + 1));
                     item.setItemType(ItemType.WEAPON);
-                    item.setItemRank(j % 4);
+                    item.setItemRank(ItemRank.S);
                     item.setDamage((j + 1) * 10);
                     item.setItemUrl(null);
                     item.setPrice((j + 1) * 1000);

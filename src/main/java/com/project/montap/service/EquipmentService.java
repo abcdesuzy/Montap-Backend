@@ -37,39 +37,64 @@ public class EquipmentService {
     @Transactional
     public AfterEquipDto equipItem(EquipItemDto equipItemDto) throws Exception {
 
-        // 1. 장착 해제하려는 유저 찾기
+        // 1. 장착하는 사용자 찾기
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
         Optional<User> optionalFindUser = userRepository.findById(authUserDto.getUserIdx());
-
-        // - 유저가 없는 경우
+        // - 없는 경우
         if (optionalFindUser.isEmpty()) {
             throw new Exception("장착해제 하려는 유저가 없습니다.");
-        } else { // - 유저가 DB에 있는 경우
+        } else {
+            // - 있는 경우 >> 꺼내기
+            User user = optionalFindUser.get();
 
-            // 유저 꺼내기
-            User findUser = optionalFindUser.get();
-
-            // 전달 받은 inventoryItemIdx, equipYn = 0 인 인벤토리 아이템을 찾아서 장착한다.
+            // 사용자의 인벤토리
             Optional<InventoryItem> optionalInventoryItem = inventoryItemRepository.findByIdxAndEquipYn(equipItemDto.getInventoryItemIdx(), 0);
-            if (optionalInventoryItem.isEmpty()) throw new Exception("장착할 수 있는 아이템이 없습니다.");
+            List<InventoryItem> inventoryItemList = user.getInventoryItemList();
+            if (optionalInventoryItem.isEmpty()) {
+                throw new Exception("장착할 수 있는 아이템이 없습니다.");
+            }
             InventoryItem inventoryItem = optionalInventoryItem.get();
-            inventoryItem.setEquipYn(1); // 0 >> 1 로 변경
+            Item findItem = inventoryItem.getItem();
+            for (int i = 0; i < inventoryItemList.size(); i++) {
+                InventoryItem current = inventoryItemList.get(i);
+                Item currentItem = current.getItem();
+                if (current.getEquipYn() == 1 && currentItem.getItemType() == findItem.getItemType()) {
+                    current.setEquipYn(0);
+                    ItemType itemType = currentItem.getItemType();
+                    if (itemType == ItemType.HELMET) {
+                        int hp = currentItem.getHp();
+                        user.setHp(user.getHp() - hp);
+                    } else if (itemType == ItemType.ARMOR) {
+                        int defense = currentItem.getDefense();
+                        user.setDefense(user.getDefense() - defense);
+                    } else {
+                        int damage = currentItem.getDamage();
+                        user.setDamage(user.getDamage() - damage);
+                    }
+                }
+            }
+
+            // 찾은 아이템을 장착 처리 하고,
+            inventoryItem.setEquipYn(1);
 
             // 장착한 아이템의 능력치만큼 유저의 능력치을 올린다.
             Item item = inventoryItem.getItem();
             ItemType itemType = item.getItemType();
-            if (itemType == ItemType.HELMET) findUser.setHp(findUser.getHp() + item.getHp());
-            if (itemType == ItemType.WEAPON) findUser.setDamage(findUser.getDamage() + item.getDamage());
-            if (itemType == ItemType.ARMOR) findUser.setDefense(findUser.getDefense() + item.getDefense());
-            userRepository.save(findUser);
+            if (itemType == ItemType.HELMET) user.setHp(user.getHp() + item.getHp());
+            if (itemType == ItemType.WEAPON) user.setDamage(user.getDamage() + item.getDamage());
+            if (itemType == ItemType.ARMOR) user.setDefense(user.getDefense() + item.getDefense());
+            userRepository.save(user);
 
             // 아이템 장착 후 유저의 상태만 보내주는 DTO
             AfterEquipDto result = new AfterEquipDto();
-            result.setItemIdx(item.getIdx());
-            result.setHp(findUser.getHp());
-            result.setDefense(findUser.getDefense());
-            result.setDamage(findUser.getDamage());
+            result.setInventoryItemListIdx(equipItemDto.getInventoryItemIdx());
+            result.setItemIdx(inventoryItem.getIdx());
+            result.setItemType(item.getItemType());
+            result.setItemRank(item.getItemRank());
+            result.setHp(user.getHp());
+            result.setDefense(user.getDefense());
+            result.setDamage(user.getDamage());
 
             return result;
         }
@@ -102,10 +127,10 @@ public class EquipmentService {
                 inventoryItemListDto.setName(item.getName());
                 inventoryItemListDto.setItemType(item.getItemType());
                 inventoryItemListDto.setItemRank(item.getItemRank());
+                inventoryItemListDto.setPrice(item.getPrice());
                 inventoryItemListDto.setHp(item.getHp());
                 inventoryItemListDto.setDefense(item.getDefense());
                 inventoryItemListDto.setDamage(item.getDamage());
-                inventoryItemListDto.setPrice(item.getPrice());
                 inventoryItemListDto.setEquipYn(inventoryItemList.get(i).getEquipYn());
                 inventoryItemListDto.setDescription(item.getDescription());
                 inventoryItemListDto.setItemUrl(item.getItemUrl());
@@ -122,10 +147,10 @@ public class EquipmentService {
 
         // 현재 로그인 한 유저의 정보 찾기
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal(); // 강제 형변환
+        AuthUserDto authUserDto = (AuthUserDto) auth.getPrincipal();
         Optional<User> optionalUser = userRepository.findById(authUserDto.getUserIdx());
         if (optionalUser.isEmpty()) {
-            throw new Exception("해당하는 유저가 없습니다.");
+            throw new Exception("해당 유저가 없습니다.");
         }
         User user = optionalUser.get();
 
@@ -157,9 +182,12 @@ public class EquipmentService {
             userRepository.save(user);
         }
 
-        // 유저의 상태만 보내주는 DTO
+        // 장착 해제 후 유저의 상태만 보내주는 DTO
         AfterEquipDto result = new AfterEquipDto();
+        result.setInventoryItemListIdx(equipItemDto.getInventoryItemIdx());
         result.setItemIdx(inventoryItem.getIdx());
+        result.setItemType(currentItem.getItemType());
+        result.setItemRank(currentItem.getItemRank());
         result.setHp(user.getHp());
         result.setDefense(user.getDefense());
         result.setDamage(user.getDamage());
