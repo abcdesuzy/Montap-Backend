@@ -16,4 +16,5 @@ public class MyStageDto {
     String monsterName;
     String isBoss;
     String isCleared;
+    String monsterUrl;
 }
