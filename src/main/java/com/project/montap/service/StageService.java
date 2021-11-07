@@ -45,9 +45,9 @@ public class StageService {
         Optional<Stage> optionalFindStage = stageRepository.findById(clearStageDto.getStageIdx());
         User findUser = optionalFindUser.get();
 
-        if(findUser.getStage()+1 < optionalFindStage.get().getStageCount()) {
+        if (findUser.getStage() + 1 < optionalFindStage.get().getStageCount()) {
             throw new Exception("해당 스테이지는 클리어 안됩니다");
-        }else {
+        } else {
             if (optionalFindUser.isEmpty() || optionalFindStage.isEmpty()) {
                 throw new Exception("클리어한 스테이지가 없습니다.");
             } else {
@@ -108,12 +108,12 @@ public class StageService {
         Optional<User> optionalUser = userRepository.findById(userIdx);
         User user = optionalUser.get();
 
-        System.out.println(optionalUser.get().getStage() +"와" + optionalStage.get().getStageCount());
+        System.out.println(optionalUser.get().getStage() + "와" + optionalStage.get().getStageCount());
 
-        if(user.getStage()+1 < optionalStage.get().getStageCount()) {
+        if (user.getStage() + 1 < optionalStage.get().getStageCount()) {
             throw new Exception("해당 스테이지는 클리어 안됩니다");
 
-        }else {
+        } else {
             if (optionalStage.isEmpty()) {
                 throw new Exception("해당 스테이지가 없습니다.");
             }

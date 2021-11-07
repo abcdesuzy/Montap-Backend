@@ -48,9 +48,16 @@ public class InventoryService {
             User user = optionalUser.get();
             Item item = optionalItem.get();
 
-            // 인벤토리 300칸 제한 체크
-            if (user.getInventoryItemList().size() >= 300) {
-                throw new Exception("인벤토리가 꽉찼습니다.");
+            // 인벤토리 한도 체크
+            List<InventoryItem> inventoryItemList = user.getInventoryItemList();
+            int myBag = 0;
+            for (int i = 0; i < inventoryItemList.size(); i++) {
+                if (inventoryItemList.get(i).getEquipYn() == 0) {
+                    if (myBag == 299) {
+                        throw new Exception("내 인벤토리가 꽉 찼습니다.");
+                    }
+                    myBag += 1;
+                }
             }
 
             // 3. 찾은 아이템을 [inventory_item] 테이블에 넣는다.
@@ -270,8 +277,14 @@ public class InventoryService {
 
         // 인벤토리 한도 체크
         List<InventoryItem> inventoryItemList = user.getInventoryItemList();
-        if (inventoryItemList.size() + count > 300) {
-            throw new Exception("인벤토리가 가득 찼습니다.");
+        int myBag = 0;
+        for (int i = 0; i < inventoryItemList.size(); i++) {
+            if (inventoryItemList.get(i).getEquipYn() == 0) {
+                if (myBag == 299) {
+                    throw new Exception("내 인벤토리가 꽉 찼습니다.");
+                }
+                myBag += 1;
+            }
         }
 
         // 뽑기 금액 계산
