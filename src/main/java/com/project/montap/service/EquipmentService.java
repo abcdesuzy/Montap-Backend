@@ -156,9 +156,16 @@ public class EquipmentService {
 
         // 인벤토리 한도 체크
         List<InventoryItem> inventoryItemList = user.getInventoryItemList();
-        if (inventoryItemList.size() >= 300) {
-            throw new Exception("인벤토리가 가득 찼습니다.");
+
+        for (int i = 0; i < inventoryItemList.size(); i++) {
+            if (inventoryItemList.get(i).getEquipYn() == 0) {
+
+            }
         }
+
+       // if (inventoryItemList.size() >= 300) {
+        //    throw new Exception("인벤토리가 가득 찼습니다.");
+        //}
 
         // 2. 전달받은 inventoryItemIdx, equipYn = 1 인 인벤토리 아이템을 찾아서 장착해제 한다.
         Optional<InventoryItem> optionalInventoryItem = inventoryItemRepository.findByIdxAndEquipYn(equipItemDto.getInventoryItemIdx(), 1);

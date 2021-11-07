@@ -282,7 +282,7 @@ public class InventoryService {
         if (count == 1) drawMoney = 1000;
         else drawMoney = 9000;
 
-        System.out.println("count"+count);
+        System.out.println("count" + count);
 
         if (money < drawMoney) {
             throw new Exception("재화가 부족합니다.");
@@ -300,17 +300,22 @@ public class InventoryService {
             if (number == 2) itemType = ItemType.WEAPON;
 
             // 아이템 등급 0(S),1(A),2(B),3(C)
-            number = (int) (Math.random() * 100);
-            if (0 <= number && number < 2) itemRank = ItemRank.S;
-            if (2 <= number && number < 16) itemRank = ItemRank.A;;
-            if (16 <= number && number < 51) itemRank = ItemRank.B;;
-            if (51 <= number && number < 100) itemRank = ItemRank.C;;
+            number = (int) (Math.random() * 10000); // 0 ~ 9999
+            if (0 <= number && number <= 1) itemRank = ItemRank.S; // 0.01
+            if (2 <= number && number <= 500) itemRank = ItemRank.A; // 4.99%
+            if (501 <= number && number <= 2499) itemRank = ItemRank.B; // 20%
+            if (2500 <= number && number <= 9999) itemRank = ItemRank.C; // 75%
 
-            Optional<Item> optionalItem = itemRepository.findByItemTypeAndItemRank(itemType, itemRank);
-            if (optionalItem.isEmpty()) {
+            Optional<List<Item>> optionalItemList = itemRepository.findByItemTypeAndItemRank(itemType, itemRank);
+            if (optionalItemList.isEmpty()) {
                 throw new Exception("해당하는 아이템이 없습니다.");
             }
-            Item item = optionalItem.get();
+            List<Item> itemList = optionalItemList.get();
+            if (itemList.size() == 0) {
+                throw new Exception("해당하는 아이템이 없습니다.");
+            }
+            number = (int) (Math.random() * itemList.size());
+            Item item = itemList.get(number);
 
             // 인벤토리 아이템 임시박스에 넣어주기
             InventoryItem inventoryItem = new InventoryItem();
