@@ -18,6 +18,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration // 설정파일
@@ -90,7 +92,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOrigin("*");
+        String[] arrays = {
+            "220.78.202.122", // 수빈수빈땅땅님 IP
+            "http://montap-react.s3-website.ap-northeast-2.amazonaws.com/" // 리엑트S3
+        };
+
+        configuration.setAllowedOrigins(Arrays.asList(arrays));
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);

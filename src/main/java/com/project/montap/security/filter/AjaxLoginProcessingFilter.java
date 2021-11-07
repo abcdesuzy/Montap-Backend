@@ -27,9 +27,9 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
 
-/*        if (!isAjax(request)) {
+        if (!isAjax(request)) {
             throw new IllegalStateException("Ajax 요청이 아닙니다.");
-        }else {*/  // 사용자로부터 받은 값을 직접 Dto 로 변환해줘야 하는데 이 역할을 objectMapper 가 수행한다.
+        }else {  // 사용자로부터 받은 값을 직접 Dto 로 변환해줘야 하는데 이 역할을 objectMapper 가 수행한다.
             UserDto userDto = objectMapper.readValue(request.getReader(), UserDto.class);
             if (StringUtils.isEmpty(userDto.getUserId()) || StringUtils.isEmpty(userDto.getUserPwd())) {
                 throw new IllegalArgumentException("아이디나 비밀번호가 틀렸습니다.");
@@ -37,7 +37,7 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
             // 인증 토큰 생성 >> 인증 관리자에게 토큰을 넘겨주면서 인증을 요청함
             AjaxAuthenticationToken ajaxAuthenticationToken = new AjaxAuthenticationToken(userDto.getUserId(), userDto.getUserPwd());
             return getAuthenticationManager().authenticate(ajaxAuthenticationToken);
-        //}
+        }
     }
 
     // requset 가 Ajax 요청인지 아닌지를 판단하는 메소드
