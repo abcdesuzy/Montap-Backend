@@ -19,7 +19,9 @@ public class Item {
     @Column(name = "ITEM_IDX")
     Long idx; // 아이템 Id
     String name; // 아이템 이름
+    @Enumerated(EnumType.STRING)
     ItemType itemType; // 아이템 타입 : 0(Helmet), 1(Armor), 2(Weapon)
+    @Enumerated(EnumType.STRING)
     ItemRank itemRank; // 아이템 등급 : 0(S), 1(A), 2(B), 3(C)
     int price; // 아이템 가격
     int hp; // 아이템 체력
