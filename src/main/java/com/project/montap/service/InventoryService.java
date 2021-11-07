@@ -282,6 +282,8 @@ public class InventoryService {
         if (count == 1) drawMoney = 1000;
         else drawMoney = 9000;
 
+        System.out.println("count"+count);
+
         if (money < drawMoney) {
             throw new Exception("재화가 부족합니다.");
         }
