@@ -156,10 +156,13 @@ public class EquipmentService {
 
         // 인벤토리 한도 체크
         List<InventoryItem> inventoryItemList = user.getInventoryItemList();
-
+        int myBag = 0;
         for (int i = 0; i < inventoryItemList.size(); i++) {
             if (inventoryItemList.get(i).getEquipYn() == 0) {
-
+                if(myBag==300){
+                    throw new Exception("저장 가능한 공간이 없습니다");
+                }
+                myBag += 1;
             }
         }
 
