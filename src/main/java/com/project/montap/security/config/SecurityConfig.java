@@ -14,6 +14,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Collections;
 
 @Configuration // 설정파일
 @EnableWebSecurity // 스프링 시큐리티
@@ -23,6 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable() // 리액트, rest api 이므로 기본설정 사용 안함. 기본설정 비인증시 로그인폼 화면으로 redirect 된다.
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
                 .csrf().disable() // 불필요하므로 사용 안함
                 .authorizeRequests()
                 .antMatchers("/").permitAll()// 초기화면 모두 허용
@@ -77,5 +84,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AjaxAuthenticationProvider ajaxAuthenticationProvider() {
         return new AjaxAuthenticationProvider();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
