@@ -1,10 +1,6 @@
 package com.project.montap.dto;
 
-import com.project.montap.domain.entity.InventoryItem;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter

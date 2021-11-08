@@ -3,14 +3,13 @@ package com.project.montap.service;
 import com.project.montap.domain.entity.Stage;
 import com.project.montap.domain.entity.StageLog;
 import com.project.montap.domain.entity.User;
-import com.project.montap.domain.repository.StageRepository;
 import com.project.montap.domain.repository.StageLogRepository;
+import com.project.montap.domain.repository.StageRepository;
 import com.project.montap.domain.repository.UserRepository;
 import com.project.montap.dto.AuthUserDto;
 import com.project.montap.dto.ClearStageDto;
 import com.project.montap.dto.MyStageDto;
 import com.project.montap.dto.StageDto;
-import com.project.montap.security.service.AccountContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StageService {

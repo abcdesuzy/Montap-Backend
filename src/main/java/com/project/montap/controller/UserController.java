@@ -4,7 +4,6 @@ import com.project.montap.dto.AuthUserDto;
 import com.project.montap.dto.ModifyUserDto;
 import com.project.montap.dto.UserDto;
 import com.project.montap.exception.Error;
-
 import com.project.montap.service.ConfirmationTokenService;
 import com.project.montap.service.S3Service;
 import com.project.montap.service.UserService;
@@ -20,7 +19,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
