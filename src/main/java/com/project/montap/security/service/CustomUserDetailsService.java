@@ -25,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByUserId(userId);
 
         if (user == null) {
-            throw new UsernameNotFoundException("UsernameNotFoundException");
+            throw new UsernameNotFoundException("아이디가 틀렸습니다.");
         }
 
         // 인증된 유저 정보 만들기

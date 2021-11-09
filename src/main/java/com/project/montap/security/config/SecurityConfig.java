@@ -1,6 +1,7 @@
 package com.project.montap.security.config;
 
 import com.project.montap.security.filter.AjaxLoginProcessingFilter;
+import com.project.montap.security.handler.AjaxAuthenticationFailureHandler;
 import com.project.montap.security.handler.AjaxAuthenticationSuccessHandler;
 import com.project.montap.security.provider.AjaxAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
@@ -75,10 +76,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    public AjaxAuthenticationFailureHandler ajaxAuthenticationFailureHandler() {
+        return new AjaxAuthenticationFailureHandler();
+    }
+
+    @Bean
     public AjaxLoginProcessingFilter ajaxLoginProcessingFilter() throws Exception {
         AjaxLoginProcessingFilter ajaxLoginProcessingFilter = new AjaxLoginProcessingFilter();
         ajaxLoginProcessingFilter.setAuthenticationManager(authenticationManagerBean());
-        ajaxLoginProcessingFilter.setAuthenticationSuccessHandler(ajaxAuthenticationSuccessHandler());
+        ajaxLoginProcessingFilter.setAuthenticationSuccessHandler(ajaxAuthenticationSuccessHandler()); // 성공
+        ajaxLoginProcessingFilter.setAuthenticationFailureHandler(ajaxAuthenticationFailureHandler()); // 실패
         return ajaxLoginProcessingFilter;
     }
 
