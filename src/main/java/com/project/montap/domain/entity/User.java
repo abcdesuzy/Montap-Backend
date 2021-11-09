@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,8 @@ public class User {
     @JsonManagedReference
     List<StageLog> stageLogList = new ArrayList<>();
 
-    // 회원가입 
+    // 회원가입
+    @Valid
     public User(String userId,
                 String userPwd,
                 String nickname,
@@ -59,6 +61,7 @@ public class User {
     }
 
     // UserDto 창고
+    @Valid
     public UserDto toUserDto() {
         return UserDto
                 .builder()

@@ -28,7 +28,7 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
 
         if (!isAjax(request)) {
             throw new IllegalStateException("Ajax 요청이 아닙니다.");
-        }else {  // 사용자로부터 받은 값을 직접 Dto 로 변환해줘야 하는데 이 역할을 objectMapper 가 수행한다.
+        } else {  // 사용자로부터 받은 값을 직접 Dto 로 변환해줘야 하는데 이 역할을 objectMapper 가 수행한다.
             UserDto userDto = objectMapper.readValue(request.getReader(), UserDto.class);
             if (StringUtils.isEmpty(userDto.getUserId()) || StringUtils.isEmpty(userDto.getUserPwd())) {
                 throw new IllegalArgumentException("아이디나 비밀번호가 틀렸습니다.");

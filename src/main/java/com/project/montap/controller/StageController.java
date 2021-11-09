@@ -26,8 +26,8 @@ public class StageController {
     StageLogRepository stageLogRepository;
 
     // 전체 스테이지 확인
-    @GetMapping("/mystage")
-    public ResponseEntity getMyStage(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception{
+    @GetMapping( "/mystage" )
+    public ResponseEntity getMyStage(@AuthenticationPrincipal AuthUserDto authUserDto) throws Exception {
         List<MyStageDto> result = stageService.getMyStage(authUserDto.getUserIdx());
         System.out.println("확인" + authUserDto);
         return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -35,8 +35,8 @@ public class StageController {
     }
 
     // 스테이지 클리어
-    @GetMapping("/stage/{stageIdx}")
-    public ResponseEntity getStage(@PathVariable Long stageIdx){
+    @GetMapping( "/stage/{stageIdx}" )
+    public ResponseEntity getStage(@PathVariable Long stageIdx) {
         try {
             StageDto stageDto = stageService.getStage(stageIdx);
             return ResponseEntity.status(HttpStatus.OK).body(stageDto);
@@ -47,8 +47,8 @@ public class StageController {
     }
 
     // 스테이지 로그 찍기
-    @PostMapping("/mystage/clear")
-    public ResponseEntity clearStage(@RequestBody ClearStageDto clearStageDto){
+    @PostMapping( "/mystage/clear" )
+    public ResponseEntity clearStage(@RequestBody ClearStageDto clearStageDto) {
         try {
             ClearStageDto result = stageService.clearStage(clearStageDto);
             return ResponseEntity.status(HttpStatus.OK).body(result);

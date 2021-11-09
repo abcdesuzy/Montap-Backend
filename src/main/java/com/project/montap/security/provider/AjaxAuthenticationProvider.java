@@ -43,5 +43,5 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return authentication.equals(AjaxAuthenticationToken.class);
     }
-    
+
 }

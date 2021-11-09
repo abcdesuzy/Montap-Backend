@@ -92,8 +92,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration configuration = new CorsConfiguration();
 
         String[] arrays = {
-            "220.78.202.122", // 수빈수빈땅땅님 IP
-            "http://montap-react.s3-website.ap-northeast-2.amazonaws.com/" // 리엑트S3
+                "220.78.202.122", // 수빈수빈땅땅님 IP
+                "http://montap-react.s3-website.ap-northeast-2.amazonaws.com/" // 리엑트S3
         };
 
         configuration.setAllowedOrigins(Arrays.asList(arrays));

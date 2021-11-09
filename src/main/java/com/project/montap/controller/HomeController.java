@@ -3,7 +3,6 @@ package com.project.montap.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 // MVC 사이클
 // 1. 브라우저에서 요청을 날린다 (or postman)
 // 2. 스프링 웹서버에 요청이 들어온다.
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping( "/" )
     public String index() {
         return "hello MonTap [!]";
     }
