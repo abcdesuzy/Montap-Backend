@@ -27,7 +27,7 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
-@CrossOrigin(origins = "*",allowedHeaders = "*")
+@CrossOrigin( origins = "*", allowedHeaders = "*" )
 @RestController
 public class UserController {
 
@@ -83,8 +83,8 @@ public class UserController {
     @GetMapping( "/user/valid/userId/{userId}" )
     public ResponseEntity isValidUserId(@PathVariable String userId) {
         try {
-/*          String userId = param.get("userId");
-            System.out.println("userId = " + userId);*/
+            if (userId.length() < 5 || userId.length() > 15) throw new Exception("아이디는 5-15 글자로 입력해주세요.");
+
             boolean result = userService.isValidUserId(userId);
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
@@ -98,9 +98,12 @@ public class UserController {
     public ResponseEntity isValidNickname(@RequestBody Map<String, String> param) {
         try {
             String nickname = param.get("nickname");
-            System.out.println("nickname = " + nickname);
-            boolean result = userService.isValidNickname(nickname);
-            return ResponseEntity.status(HttpStatus.OK).body(result);
+            if (nickname.length() > 1 && nickname.length() < 9) {
+                boolean result = userService.isValidNickname(nickname);
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+            } else {
+                throw new Exception("닉네임은 2-8 글자로 입력해주세요.");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
