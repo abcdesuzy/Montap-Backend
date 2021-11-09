@@ -165,7 +165,7 @@ public class InventoryService {
         }
         User user = optionalUser.get();
 
-        Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findTop10ByUserIdxOrderByDropDateDesc(user.getIdx());
+        Optional<List<InventoryItem>> optionalInventoryItemList = inventoryItemRepository.findTop20ByUserIdxOrderByDropDateDesc(user.getIdx());
         List<InventoryItem> inventoryItemList = optionalInventoryItemList.get();
         List<InventoryItemListDto> resultList = new ArrayList<>();
         for (int i = 0; i < inventoryItemList.size(); i++) {
