@@ -16,7 +16,6 @@ public class UserDto {
     // User Entity Dto
     Long idx;
 
-    @Pattern( regexp = "[a-zA-z0-9]+", message = "아이디는 영문 + 숫자로만 가능합니다." )
     @Size( min = 5, max = 15, message = "아이디는 5-15 글자로 입력해주세요." )
     String userId;
 
