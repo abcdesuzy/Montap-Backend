@@ -30,7 +30,7 @@ public class ConfirmationTokenService {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(receiverEmail);
         mailMessage.setSubject("회원가입 이메일 인증");
-        mailMessage.setText("http://localhost:8090/confirm/email/" + emailConfirmationToken.getIdx());
+        mailMessage.setText("http://montap.kr/confirm/email/" + emailConfirmationToken.getIdx());
         emailSenderService.sendEmail(mailMessage);
 
         return emailConfirmationToken.getIdx();
