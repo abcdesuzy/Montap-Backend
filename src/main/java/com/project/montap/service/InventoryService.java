@@ -53,11 +53,11 @@ public class InventoryService {
             int myBag = 0;
             for (int i = 0; i < inventoryItemList.size(); i++) {
                 if (inventoryItemList.get(i).getEquipYn() == 0) {
-                    if (myBag == 299) {
-                        throw new Exception("내 인벤토리가 꽉 찼습니다.");
-                    }
                     myBag += 1;
                 }
+            }
+            if (myBag > 299) {
+                throw new Exception("내 인벤토리가 꽉 찼습니다.");
             }
 
             // 3. 찾은 아이템을 [inventory_item] 테이블에 넣는다.
@@ -280,11 +280,11 @@ public class InventoryService {
         int myBag = 0;
         for (int i = 0; i < inventoryItemList.size(); i++) {
             if (inventoryItemList.get(i).getEquipYn() == 0) {
-                if (myBag == 299) {
-                    throw new Exception("내 인벤토리가 꽉 찼습니다.");
-                }
                 myBag += 1;
             }
+        }
+        if (myBag > 300 - count) {
+            throw new Exception("내 인벤토리가 꽉 찼습니다.");
         }
 
         // 뽑기 금액 계산

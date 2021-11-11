@@ -159,11 +159,11 @@ public class EquipmentService {
         int myBag = 0;
         for (int i = 0; i < inventoryItemList.size(); i++) {
             if (inventoryItemList.get(i).getEquipYn() == 0) {
-                if (myBag == 299) {
-                    throw new Exception("내 인벤토리가 꽉 찼습니다.");
-                }
                 myBag += 1;
             }
+        }
+        if (myBag > 299) {
+            throw new Exception("내 인벤토리가 꽉 찼습니다.");
         }
 
         // if (inventoryItemList.size() >= 300) {
