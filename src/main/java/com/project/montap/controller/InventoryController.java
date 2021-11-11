@@ -53,7 +53,7 @@ public class InventoryController {
         }
     }
 
-    // 내 인벤토리 top 10 아이템 리스트
+    // 내 인벤토리 top 20 아이템 리스트
     @GetMapping( "/inventory/item/get" )
     public ResponseEntity inventoryItemTopList() {
         try {

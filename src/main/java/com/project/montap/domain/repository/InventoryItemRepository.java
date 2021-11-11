@@ -18,5 +18,5 @@ public interface InventoryItemRepository extends JpaRepository<InventoryItem, Lo
 
     public void deleteByUserIdxAndIdxIn(Long userIdx, List<Long> inventoryItemIdxList);
 
-    public Optional<List<InventoryItem>> findTop20ByUserIdxOrderByDropDateDesc(Long userIdx);
+    public Optional<List<InventoryItem>> findTop20ByUserIdxAndEquipYnOrderByDropDateDesc(Long userIdx,int num);
 }
