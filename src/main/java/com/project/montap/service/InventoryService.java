@@ -315,9 +315,9 @@ public class InventoryService {
             // 아이템 등급 0(S),1(A),2(B),3(C)
             number = (int) (Math.random() * 10000); // 0 ~ 9999
             if (0 <= number && number <= 1) itemRank = ItemRank.S; // 0.01
-            if (2 <= number && number <= 300) itemRank = ItemRank.A; // 2.99%
-            if (301 <= number && number <= 2299) itemRank = ItemRank.B; // 20%
-            if (2300 <= number && number <= 9999) itemRank = ItemRank.C; // 77%
+            if (2 <= number && number <= 100) itemRank = ItemRank.A; // 0.99%
+            if (101 <= number && number <= 2099) itemRank = ItemRank.B; // 20%
+            if (2100 <= number && number <= 9999) itemRank = ItemRank.C; // 79%
 
             Optional<List<Item>> optionalItemList = itemRepository.findByItemTypeAndItemRank(itemType, itemRank);
             if (optionalItemList.isEmpty()) {
